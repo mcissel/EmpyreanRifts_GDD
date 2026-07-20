@@ -432,7 +432,7 @@
         }
 
         .c11 {
-            background-color: #ffffff;
+            background-color: transparent;
             max-width: 468pt;
             padding: 72pt 72pt 72pt 72pt;
             margin: 0 auto;
@@ -608,10 +608,56 @@
             widows: 2;
             text-align: left;
         }
+
+        /* 
+         * TOGGLE THESE CLASSES ON THE BODY TAG BELOW:
+         * 1. 'subtitle-effect' : pure outline, no box
+         * 2. 'frosted-glass-effect' : blurry semi-transparent background
+         */
+        .subtitle-effect span,
+        .subtitle-effect p,
+        .subtitle-effect h1,
+        .subtitle-effect h2,
+        .subtitle-effect h3,
+        .subtitle-effect h4,
+        .subtitle-effect h5,
+        .subtitle-effect h6,
+        .subtitle-effect li,
+        .subtitle-effect td {
+            color: #ffffff !important;
+            text-shadow:
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                0 0 8px rgba(0, 0, 0, 0.8) !important;
+        }
+
+        .frosted-glass-effect span,
+        .frosted-glass-effect h1,
+        .frosted-glass-effect h2,
+        .frosted-glass-effect h3,
+        .frosted-glass-effect h4,
+        .frosted-glass-effect h5,
+        .frosted-glass-effect h6,
+        .frosted-glass-effect li,
+        .frosted-glass-effect td {
+            color: #ffffff !important;
+            background-color: rgba(0, 0, 0, 0.4) !important;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+            padding: 2px 4px;
+            border-radius: 4px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 
-<body class="c11 doc-content">
+<!-- <body class="c11 doc-content frosted-glass-effect"> -->
+
+<body class="c11 doc-content subtitle-effect">
     <img alt="" src="images/astral_plane.jpg" style="
             width: 100vw;
             position: fixed;
