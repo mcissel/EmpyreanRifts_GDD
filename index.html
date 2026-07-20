@@ -1,4 +1,4 @@
-<html>
+<html style="background-color: #3d4148;">
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
@@ -633,172 +633,219 @@
                 0 0 8px rgba(0, 0, 0, 0.8) !important;
         }
 
-        .frosted-glass-effect span,
-        .frosted-glass-effect h1,
-        .frosted-glass-effect h2,
-        .frosted-glass-effect h3,
-        .frosted-glass-effect h4,
-        .frosted-glass-effect h5,
-        .frosted-glass-effect h6,
-        .frosted-glass-effect li,
-        .frosted-glass-effect td {
-            color: #ffffff !important;
-            background-color: rgba(0, 0, 0, 0.4) !important;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            box-decoration-break: clone;
-            -webkit-box-decoration-break: clone;
-            padding: 2px 4px;
-            border-radius: 4px;
-            line-height: 1.6;
+        main>*:not(script),
+        body>*:not(#bg-layer):not(#top-video):not(script):not(main) {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        main>*.animate-in:not(script),
+        body>*.animate-in:not(#bg-layer):not(#top-video):not(script):not(main) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .frosted-glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
     </style>
 </head>
 
-<!-- <body class="c11 doc-content frosted-glass-effect"> -->
+<body class="subtitle-effect" style="position: relative;">
+    <div id="bg-layer" style="
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -2;
+        background-image: url('images/astral_plane.jpg');
+        background-position: top center;
+        background-repeat: repeat;
+        background-size: min(1800px, 100vw) auto;
+        transition: filter 1s ease-in-out;
+    "></div>
+    <video id="top-video" src="videos/astral_plane_traversal.mp4" autoplay loop muted playsinline style="
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: auto;
+        max-height: 540px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        pointer-events: none;
+    "></video>
+    <main class="c11 doc-content subtitle-effect" style="position: relative;">
+        <script>
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.getElementById('bg-layer').style.filter = 'blur(10px)';
+                    document.getElementById('top-video').style.opacity = '1';
 
-<body class="c11 doc-content subtitle-effect">
-    <img alt="" src="images/astral_plane.jpg" style="
-            width: 100vw;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            " title="" />
-    <p class="c32 title" id="h.swq67xs4hq4q">
-        <span class="c18 c20 c34">Empyrean Rifts</span>
-    </p>
-    <p class="c0">
-        <span class="c18">&nbsp; &nbsp; &nbsp; </span><span class="c18 c20">&quot;Where the heavens fracture, destiny
-            awakens.&quot;</span>
-    </p>
-    <p class="c0">
-        <span class="c6 c30"><br /></span><span class="c18 c20">Genre:</span><span
-            class="c6 c30">&nbsp;Action-Adventure<br /></span><span class="c18 c20">Platform:</span><span
-            class="c6 c30">&nbsp;PC (Unreal Engine 5.8)<br /></span><span class="c18 c20">Tone:</span><span
-            class="c6 c17">&nbsp;Dark fantasy, cosmic horror</span>
-    </p>
-    <p class="c0">
-        <span class="c18">Inspiration:</span><span class="c17 c6">&nbsp;Rifts Megaverse, JoJo&rsquo;s Bizarre Adventure,
-            Fallout series,
-            and Star Fox</span>
-    </p>
-    <p class="c1"><span class="c3"></span></p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <h1 class="c12" id="h.q3on4xhqstuw"><span class="c8 c6">Overview</span></h1>
-    <p class="c0">
-        <span class="c3">Empyrean Rifts Gameplay Demo is a third-person superhero-style flight
-            battle through the astral plane, alongside a mysterious and ancient
-            emissary. Developed for PC on Unreal Engine 5.8, the game fuses the
-            exhilarating freedom of superhero flight with gravity-based abilities.
-            It&rsquo;s a teaser of the full Empyrean Rifts game, allowing players to
-            demo a slice of the ultimate powerset. It introduces the game&rsquo;s
-            &ldquo;big bad&rdquo;, the Vampire King, while withholding the
-            protagonist&rsquo;s ultimate secret (their identity as the Galaxy Soul
-            incarnate) as a narrative hook for the full game.</span>
-    </p>
-    <p class="c1"><span class="c3"></span></p>
-    <hr />
-    <p class="c0 c9"><span class="c3"></span></p>
-    <h1 class="c12" id="h.xi2f03vknvsi"><span class="c8 c6">Story</span></h1>
-    <p class="c0">
-        <span class="c6">The </span><span class="c10">Soul Sphere</span><span class="c6">, an ancient cosmic artifact
-            binding all realms, sits in a crystalline
-            structure in the </span><span class="c10">Astral Plane</span><span class="c6">, guarded by astral beings.
-            The </span><span class="c10">Vampire King</span><span class="c6">, disguised as an emissary of the
-            desperate, warns the player of an
-            impending invasion, tricking the player into destroying the </span><span class="c10">Soul Sphere</span><span
-            class="c6">. This scatters fragments of the Sphere across realms, tearing open
-            rifts in the fabric between the realms. These rough-edged wounds act as
-            windows (and gateways) into other worlds. Through a rift in the desert,
-            the player will see the purple-sky mushroom realm; another rift bleeds
-            fiery light from Tartarus. The player must recover the fragments, repair
-            the sphere, and banish the </span><span class="c10">Vampire King</span><span class="c3">. Along the journey,
-            they discover the source of their power: They are
-            the soul of the galaxy incarnate.</span>
-    </p>
-    <p class="c1"><span class="c3"></span></p>
-    <p class="c0">
-        <span class="c6">The initial </span><span class="c10">Gameplay Demo</span><span class="c6">&nbsp;starts with the
-            player entering the </span><span class="c10">Astral Plane</span><span class="c6">&nbsp;and meeting an
-            emissary who warns of an impending invasion into
-            the </span><span class="c10">Earth Realm</span><span class="c6">. They must fly through the </span><span
-            class="c10">Astral Plane</span><span class="c6">, fight waves of astral beings (using their innate gravity
-            based
-            attacks/powers), and destroy the portal to the </span><span class="c10">Earth Realm</span><span class="c6">.
-            The </span><span class="c10">Gameplay Demo</span><span class="c6">&nbsp;concludes with the </span><span
-            class="c10">Vampire King</span><span class="c6">&nbsp;exposing his true plan: using you to destroy the
-        </span><span class="c10">Soul Sphere</span><span class="c6">, freeing him from Tartarus so he can spread his
-            dominion over the </span><span class="c10">Earth Realm</span><span class="c3">.</span>
-    </p>
-    <p class="c1"><span class="c3"></span></p>
-    <hr />
-    <p class="c0 c9"><span class="c3"></span></p>
-    <h1 class="c12" id="h.902di9edew02">
-        <span class="c8 c6">Player Mechanics</span>
-    </h1>
-    <table class="c21">
-        <thead>
+                    const animatedElements = document.querySelectorAll('main > *:not(script), body > *:not(#bg-layer):not(#top-video):not(script):not(main)');
+                    animatedElements.forEach((el, index) => {
+                        setTimeout(() => {
+                            el.classList.add('animate-in');
+                        }, index * 100);
+                    });
+                }, 1000);
+            });
+        </script>
+        <p class="c32 title" id="h.swq67xs4hq4q">
+            <span class="c18 c20 c34">Empyrean Rifts</span>
+        </p>
+        <p class="c0">
+            <span class="c18">&nbsp; &nbsp; &nbsp; </span><span class="c18 c20">&quot;Where the heavens fracture,
+                destiny
+                awakens.&quot;</span>
+        </p>
+        <p class="c0">
+            <span class="c6 c30"><br /></span><span class="c18 c20">Genre:</span><span
+                class="c6 c30">&nbsp;Action-Adventure<br /></span><span class="c18 c20">Platform:</span><span
+                class="c6 c30">&nbsp;PC (Unreal Engine 5.8)<br /></span><span class="c18 c20">Tone:</span><span
+                class="c6 c17">&nbsp;Dark fantasy, cosmic horror</span>
+        </p>
+        <p class="c0">
+            <span class="c18">Inspiration:</span><span class="c17 c6">&nbsp;Rifts Megaverse, JoJo&rsquo;s Bizarre
+                Adventure,
+                Fallout series,
+                and Star Fox</span>
+        </p>
+        <p class="c1"><span class="c3"></span></p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <div class="frosted-glass">
+            <h1 class="c12" id="h.q3on4xhqstuw" style="padding-top: 0;"><span class="c8 c6">Overview</span></h1>
+            <p class="c0">
+                <span class="c3">Empyrean Rifts Gameplay Demo is a third-person superhero-style flight
+                    battle through the astral plane, alongside a mysterious and ancient
+                    emissary. Developed for PC on Unreal Engine 5.8, the game fuses the
+                    exhilarating freedom of superhero flight with gravity-based abilities.
+                    It&rsquo;s a teaser of the full Empyrean Rifts game, allowing players to
+                    demo a slice of the ultimate powerset. It introduces the game&rsquo;s
+                    &ldquo;big bad&rdquo;, the Vampire King, while withholding the
+                    protagonist&rsquo;s ultimate secret (their identity as the Galaxy Soul
+                    incarnate) as a narrative hook for the full game.</span>
+            </p>
+        </div>
+        <p class="c1"><span class="c3"></span></p>
+        <hr />
+        <p class="c0 c9"><span class="c3"></span></p>
+        <h1 class="c12" id="h.xi2f03vknvsi"><span class="c8 c6">Story</span></h1>
+        <p class="c0">
+            <span class="c6">The </span><span class="c10">Soul Sphere</span><span class="c6">, an ancient cosmic
+                artifact
+                binding all realms, sits in a crystalline
+                structure in the </span><span class="c10">Astral Plane</span><span class="c6">, guarded by astral
+                beings.
+                The </span><span class="c10">Vampire King</span><span class="c6">, disguised as an emissary of the
+                desperate, warns the player of an
+                impending invasion, tricking the player into destroying the </span><span class="c10">Soul
+                Sphere</span><span class="c6">. This scatters fragments of the Sphere across realms, tearing open
+                rifts in the fabric between the realms. These rough-edged wounds act as
+                windows (and gateways) into other worlds. Through a rift in the desert,
+                the player will see the purple-sky mushroom realm; another rift bleeds
+                fiery light from Tartarus. The player must recover the fragments, repair
+                the sphere, and banish the </span><span class="c10">Vampire King</span><span class="c3">. Along the
+                journey,
+                they discover the source of their power: They are
+                the soul of the galaxy incarnate.</span>
+        </p>
+        <p class="c1"><span class="c3"></span></p>
+        <p class="c0">
+            <span class="c6">The initial </span><span class="c10">Gameplay Demo</span><span class="c6">&nbsp;starts with
+                the
+                player entering the </span><span class="c10">Astral Plane</span><span class="c6">&nbsp;and meeting an
+                emissary who warns of an impending invasion into
+                the </span><span class="c10">Earth Realm</span><span class="c6">. They must fly through the </span><span
+                class="c10">Astral Plane</span><span class="c6">, fight waves of astral beings (using their innate
+                gravity
+                based
+                attacks/powers), and destroy the portal to the </span><span class="c10">Earth Realm</span><span
+                class="c6">.
+                The </span><span class="c10">Gameplay Demo</span><span class="c6">&nbsp;concludes with the </span><span
+                class="c10">Vampire King</span><span class="c6">&nbsp;exposing his true plan: using you to destroy the
+            </span><span class="c10">Soul Sphere</span><span class="c6">, freeing him from Tartarus so he can spread his
+                dominion over the </span><span class="c10">Earth Realm</span><span class="c3">.</span>
+        </p>
+        <p class="c1"><span class="c3"></span></p>
+        <hr />
+        <p class="c0 c9"><span class="c3"></span></p>
+        <h1 class="c12" id="h.902di9edew02">
+            <span class="c8 c6">Player Mechanics</span>
+        </h1>
+        <table class="c21">
+            <thead>
+                <tr class="c7">
+                    <td class="c15" colspan="1" rowspan="1">
+                        <p class="c0"><span class="c25 c10">Mechanic</span></p>
+                    </td>
+                    <td class="c14" colspan="1" rowspan="1">
+                        <p class="c0"><span class="c10 c25">Category</span></p>
+                    </td>
+                    <td class="c28" colspan="1" rowspan="1">
+                        <p class="c0"><span class="c25 c10">Description</span></p>
+                    </td>
+            <tbody></tbody>
+            </tr>
             <tr class="c7">
                 <td class="c15" colspan="1" rowspan="1">
-                    <p class="c0"><span class="c25 c10">Mechanic</span></p>
+                    <p class="c0"><span class="c3">Flight</span></p>
                 </td>
                 <td class="c14" colspan="1" rowspan="1">
-                    <p class="c0"><span class="c10 c25">Category</span></p>
+                    <p class="c0"><span class="c3">Movement</span></p>
                 </td>
                 <td class="c28" colspan="1" rowspan="1">
-                    <p class="c0"><span class="c25 c10">Description</span></p>
+                    <p class="c0">
+                        <span class="c3">Superhero flight: left stick/WASD for horizontal movement,
+                            space/shift or bumper buttons for elevation control, and right
+                            stick/mouse for camera aiming.</span>
+                    </p>
                 </td>
-        <tbody></tbody>
-        </tr>
-        <tr class="c7">
-            <td class="c15" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Flight</span></p>
-            </td>
-            <td class="c14" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Movement</span></p>
-            </td>
-            <td class="c28" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Superhero flight: left stick/WASD for horizontal movement,
-                        space/shift or bumper buttons for elevation control, and right
-                        stick/mouse for camera aiming.</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c15" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Kinetic Punch</span></p>
-            </td>
-            <td class="c14" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Ranged Attack</span></p>
-            </td>
-            <td class="c28" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Fire a line trace with heavy physics impulse along the
-                        camera&rsquo;s directional vector.</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c15" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Singularity</span></p>
-            </td>
-            <td class="c14" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Area of Effect Attack</span></p>
-            </td>
-            <td class="c28" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Create a single point of gravity, pull objects/enemies into the
-                        center. Implode/destroy anything that reaches the center before
-                        the event ends.</span>
-                </p>
-            </td>
-        </tr>
-        </thead>
-    </table>
-    <p class="c31">
-        <span style="
+            </tr>
+            <tr class="c7">
+                <td class="c15" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Kinetic Punch</span></p>
+                </td>
+                <td class="c14" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Ranged Attack</span></p>
+                </td>
+                <td class="c28" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Fire a line trace with heavy physics impulse along the
+                            camera&rsquo;s directional vector.</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c15" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Singularity</span></p>
+                </td>
+                <td class="c14" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Area of Effect Attack</span></p>
+                </td>
+                <td class="c28" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Create a single point of gravity, pull objects/enemies into the
+                            center. Implode/destroy anything that reaches the center before
+                            the event ends.</span>
+                    </p>
+                </td>
+            </tr>
+            </thead>
+        </table>
+        <p class="c31">
+            <span style="
           overflow: hidden;
           display: inline-block;
           margin: 0px 0px;
@@ -815,846 +862,848 @@
             transform: rotate(0rad) translateZ(0px);
             -webkit-transform: rotate(0rad) translateZ(0px);
           " title="" /></span>
-    </p>
-    <hr />
-    <p class="c0 c9"><span class="c3"></span></p>
-    <h1 class="c12" id="h.7qefn3npql3c">
-        <span class="c8 c6">Core Gameplay Loop</span>
-    </h1>
-    <ol class="c26 lst-kix_y6fwb8b97hqg-0 start" start="1">
-        <li class="c0 c27 li-bullet-0">
-            <span class="c10">Fight</span><span class="c3">&nbsp;astral beings.</span>
-        </li>
-        <li class="c0 c27 li-bullet-0">
-            <span class="c10">Destroy</span><span class="c3">&nbsp;the portal to the Earth Realm.</span>
-        </li>
-        <li class="c0 c27 li-bullet-0">
-            <span class="c10">Win</span><span class="c3">&nbsp;or be knocked out of the astral plane.</span>
-        </li>
-    </ol>
-    <p class="c1"><span class="c3"></span></p>
-    <hr />
-    <p class="c0 c9"><span class="c3"></span></p>
-    <h1 class="c12" id="h.cmtwj8qfdc6j">
-        <span class="c8 c6">Level Design (Astral Plane)</span>
-    </h1>
-    <p class="c0">
-        <span class="c6">The Astral Plane is a galactic, flowy cosmic corridor thick with
-            drifting star-matter, luminous nebulae, and soul-currents. Movement here
-            feels weightless and fluid. There is a destructible crystalline
-            structure off in the distance. The player must destroy it to complete
-            the </span><span class="c10">Gameplay Demo</span><span class="c3">.</span>
-    </p>
-    <p class="c1"><span class="c3"></span></p>
-    <hr />
-    <p class="c0 c9"><span class="c3"></span></p>
-    <hr style="page-break-before: always; display: none" />
-    <h1 class="c12 c35" id="h.cy5p124nyvke"><span class="c8 c6"></span></h1>
-    <h1 class="c12" id="h.79u42trq1j8a">
-        <span>Development </span><span class="c6 c8">Agent Roles</span>
-    </h1>
-    <p class="c0">
-        <span class="c6 c19">The following are AI-assisted </span><span class="c10 c19">development and creation
-            agents</span><span class="c6 c19">&nbsp;used to build t</span><span class="c19">he Empyrean Rifts Gameplay
-            Demo.</span>
-    </p>
-    <p class="c1"><span class="c3"></span></p>
-    <table class="c33">
-        <thead>
+        </p>
+        <hr />
+        <p class="c0 c9"><span class="c3"></span></p>
+        <h1 class="c12" id="h.7qefn3npql3c">
+            <span class="c8 c6">Core Gameplay Loop</span>
+        </h1>
+        <ol class="c26 lst-kix_y6fwb8b97hqg-0 start" start="1">
+            <li class="c0 c27 li-bullet-0">
+                <span class="c10">Fight</span><span class="c3">&nbsp;astral beings.</span>
+            </li>
+            <li class="c0 c27 li-bullet-0">
+                <span class="c10">Destroy</span><span class="c3">&nbsp;the portal to the Earth Realm.</span>
+            </li>
+            <li class="c0 c27 li-bullet-0">
+                <span class="c10">Win</span><span class="c3">&nbsp;or be knocked out of the astral plane.</span>
+            </li>
+        </ol>
+        <p class="c1"><span class="c3"></span></p>
+        <hr />
+        <p class="c0 c9"><span class="c3"></span></p>
+        <h1 class="c12" id="h.cmtwj8qfdc6j">
+            <span class="c8 c6">Level Design (Astral Plane)</span>
+        </h1>
+        <p class="c0">
+            <span class="c6">The Astral Plane is a galactic, flowy cosmic corridor thick with
+                drifting star-matter, luminous nebulae, and soul-currents. Movement here
+                feels weightless and fluid. There is a destructible crystalline
+                structure off in the distance. The player must destroy it to complete
+                the </span><span class="c10">Gameplay Demo</span><span class="c3">.</span>
+        </p>
+        <p class="c1"><span class="c3"></span></p>
+        <hr />
+        <p class="c0 c9"><span class="c3"></span></p>
+        <hr style="page-break-before: always; display: none" />
+        <h1 class="c12 c35" id="h.cy5p124nyvke"><span class="c8 c6"></span></h1>
+        <h1 class="c12" id="h.79u42trq1j8a">
+            <span>Development </span><span class="c6 c8">Agent Roles</span>
+        </h1>
+        <p class="c0">
+            <span class="c6 c19">The following are AI-assisted </span><span class="c10 c19">development and creation
+                agents</span><span class="c6 c19">&nbsp;used to build t</span><span class="c19">he Empyrean Rifts
+                Gameplay
+                Demo.</span>
+        </p>
+        <p class="c1"><span class="c3"></span></p>
+        <table class="c33">
+            <thead>
+                <tr class="c7">
+                    <td class="c2" colspan="1" rowspan="1">
+                        <p class="c0"><span class="c25 c10">Agent</span></p>
+                    </td>
+                    <td class="c4" colspan="1" rowspan="1">
+                        <p class="c0"><span class="c25 c10">Role</span></p>
+                    </td>
+                    <td class="c23" colspan="1" rowspan="1">
+                        <p class="c0"><span class="c25 c10">Model</span></p>
+                    </td>
+            <tbody></tbody>
+            </tr>
             <tr class="c7">
                 <td class="c2" colspan="1" rowspan="1">
-                    <p class="c0"><span class="c25 c10">Agent</span></p>
+                    <p class="c0"><span class="c10">Architect</span></p>
                 </td>
                 <td class="c4" colspan="1" rowspan="1">
-                    <p class="c0"><span class="c25 c10">Role</span></p>
+                    <p class="c0">
+                        <span class="c3">Designs the overall technical and creative structure of the
+                            game, establishing systems, pipelines, and high-level design
+                            decisions before production begins.</span>
+                    </p>
                 </td>
                 <td class="c23" colspan="1" rowspan="1">
-                    <p class="c0"><span class="c25 c10">Model</span></p>
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Fable 5</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">1M output tokens</span></p>
                 </td>
-        <tbody></tbody>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">Architect</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Designs the overall technical and creative structure of the
-                        game, establishing systems, pipelines, and high-level design
-                        decisions before production begins.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Fable 5</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">1M output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">Level Designer</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Plans and documents the layout, pacing, encounter placement,
-                        and environmental storytelling for the Astral Plane level.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Opus 4.8</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">1M output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c10">Unreal Engine Level Builder</span>
-                </p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Implements the level layout as specified by the level
-                        designer.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Antigravity CLI</span></p>
-                <p class="c0"><span class="c3">Gemini 3.5 Flash</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">500K output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">Asset Designer</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Creates structured JSON asset specifications for the 3D Asset
-                        Builder, ensuring consistent and cohesive visual game
-                        style.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Opus 4.8</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">500K output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c10">Hunyuan 3D Model Asset Builder</span>
-                </p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Uses the Hunyuan 3D AI pipeline to generate game-ready 3D
-                        character and environment models from prompts and reference
-                        art.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Local Hunyan3D on RTX5070</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c10">Unreal Engine Player Mechanics Animator</span>
-                </p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Creates and applies animation sequences for characters,
-                        creatures, and environmental objects directly within Unreal
-                        Engine 5.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Sonnet 5</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">1.2M output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c10">Unreal Engine Gameplay Mechanic Expert</span>
-                </p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Implements core gameplay systems&mdash;movement, combat,
-                        health, and power&mdash;using UE5 Blueprints and C++.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Opus 4.8</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">2.5M output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">Sound Effect Expert</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Sources, generates, and integrates all in-game sound effects,
-                        including rift ambient sounds, combat impacts, and Astral Plane
-                        audio signatures.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Sonnet 5</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">500K output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">Soundtrack Expert</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Composes and produces the musical score for the Astral
-                        Plane.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Sonnet 5</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">500K output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">Menu Designer</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Designs and builds all UI menus&mdash;main menu, pause screen,
-                        and settings&mdash;with visuals consistent with the cosmic
-                        aesthetic, generating structured JSON output for the UMG
-                        Engineer.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Antigravity CLI</span></p>
-                <p class="c0"><span class="c3">Gemini 3.1 Pro - High</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">HUD Designer</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Designs the in-game heads-up display, including the health
-                        indicator and the gravity power meter, generating structured
-                        JSON output for the UMG Engineer.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Antigravity CLI</span></p>
-                <p class="c0"><span class="c3">Gemini 3.1 Pro - High</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c10">Unreal Motion Graphics Engineer</span>
-                </p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Uses the UE5.8 MCP to implement the UMG data from the HUD
-                        Designer, and if it encounters errors, it passes them back to
-                        the HUD Designer to resolve.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Antigravity CLI</span></p>
-                <p class="c0"><span class="c3">Gemini 3.5 Flash</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c10">Marketing Expert</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c6">Produces trailers, screenshots, social content, and store page
-                        copy to promote </span><span>Empyrean Rifts</span><span class="c3">&nbsp;to the target audience
-                        across all platforms.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Opus 4.8</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">800K output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c25 c10">QA Strategist</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Write test plans, define edge cases, design regression matrix,
-                        triage/root-cause bugs.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Opus 4.8</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">800K output tokens</span></p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c2" colspan="1" rowspan="1">
-                <p class="c0"><span class="c25 c10">QA Runner</span></p>
-            </td>
-            <td class="c4" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Execute PIE test loops, parse logs, file structured bug
-                        reports, re-run after fixes.</span>
-                </p>
-            </td>
-            <td class="c23" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Claude Code</span></p>
-                <p class="c0"><span class="c3">Sonnet 5</span></p>
-                <p class="c1"><span class="c3"></span></p>
-                <p class="c0"><span class="c3">15M output tokens</span></p>
-            </td>
-        </tr>
-        </thead>
-    </table>
-    <p class="c1"><span class="c3"></span></p>
-    <p class="c0">
-        <span>T</span><span class="c3">he Unreal Engine engineer agentsMCP tool and related skills will have
-            only the scoped subset of skills required for them.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <hr />
-    <p class="c0 c9"><span class="c3"></span></p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <h1 class="c12" id="h.5svwnzts6b7z">
-        <span class="c8 c6">Prompt Constraints</span>
-    </h1>
-    <p class="c0">
-        <span class="c19">For Core Technical &amp; Content Creation Agents</span>
-    </p>
-    <hr />
-    <p class="c0 c9"><span class="c3"></span></p>
-    <p class="c0">
-        <span class="c3">Each agent below has a dedicated, versioned prompt definition,
-            input/output specs, and constraints, all tailored to Empyrean
-            Rifts&rsquo; cosmic horror setting and gameplay loop.</span>
-    </p>
-    <h3 class="c29" id="h.hpdpbapxgten">
-        <span class="c24 c6">Architect</span>
-    </h3>
-    <p class="c0"><span class="c3">Prompt Definition:</span></p>
-    <p class="c0 c22">
-        <span class="c3">Design the overall technical and creative structure for Empyrean Rifts,
-            a third-person superhero-style flight battle set in the Astral Plane.
-            Reference the Soul Sphere crisis, cosmic horror tone, and core mechanics
-            (Flight, Kinetic Punch, Singularity). Ensure all systems and content
-            pipelines support the gameplay loop: enter the Astral Plane, fight
-            astral beings, destroy the portal to the Earth Realm, and resolve the
-            Soul Sphere&rsquo;s fate.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <table class="c16">
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Input</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Full GDD, design goals, technical constraints, story/setting
-                        context</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Output</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">High-level architecture doc (Markdown), system diagrams, agent
-                        role definitions, technical pipeline overview</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Version</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">v1.0.0 &mdash; Initial baseline for Empyrean Rifts</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Prompt Constraints</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Output in Markdown; must reference Astral Plane, Soul Sphere, and
-                        core mechanics; technical, clear, actionable</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Pillar 1</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">The Architect will take the full GDD, design goals, and technical
-                        constraints to produce a high-level architecture document so that
-                        the player sees a cohesive, technically sound experience in the
-                        Astral Plane.</span>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <h3 class="c29" id="h.n3tngg49hnvk">
-        <span class="c24 c6">Level Designer</span>
-    </h3>
-    <p class="c0"><span class="c3">Prompt Definition:</span></p>
-    <p class="c0">
-        <span class="c3">Design a level for Empyrean Rifts set in the Astral Plane, emphasizing
-            cosmic horror, drifting star-matter, and the Soul Sphere&rsquo;s crisis.
-            Place encounters, environmental storytelling beats, and pacing elements
-            that highlight Flight, Kinetic Punch, and Singularity mechanics.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <table class="c16">
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Input</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">GDD, story beats, gameplay mechanic briefs, technical
-                        constraints, asset lists</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Output</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Structured level design doc (Markdown) with encounter placements,
-                        pacing notes, environmental storytelling, set pieces</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Version</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">v1.0.0 &mdash; First pass for Astral Plane demo</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Prompt Constraints</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Markdown output; Astral Plane demo only; must reference cosmic
-                        horror, Soul Sphere, all three core mechanics</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Pillar 1</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">In my game, the Level Designer will take the GDD, story beats,
-                        and gameplay mechanic briefs to produce a structured level design
-                        document so that the player sees a dynamic, atmospheric Astral
-                        Plane full of meaningful encounters and environmental
-                        storytelling.</span>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <h3 class="c29" id="h.farigguyu9pb">
-        <span class="c24 c6">Asset Designer</span>
-    </h3>
-    <p class="c0"><span class="c3">Prompt Definition:</span></p>
-    <p class="c0">
-        <span class="c3">Generate precise, structured JSON asset specifications for all 3D, VFX,
-            and material assets required for the Astral Plane level. Each spec must
-            be detailed enough for a 3D artist to create the asset, referencing the
-            cosmic horror tone, drifting star-matter, and the Soul Sphere&rsquo;s
-            influence.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <table class="c16">
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Input</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">GDD, level design doc, asset lists, visual refs, technical
-                        constraints</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Output</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Structured asset spec (JSON) for each asset (name, description,
-                        references, requirements, gameplay function, style, scale,
-                        animation/VFX notes)</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Version</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">v1.0.0 &mdash; Initial asset spec set for Astral Plane demo</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Prompt Constraints</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">JSON output; precise and unambiguous; Astral Plane demo only;
-                        must pass coherence check</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Pillar 1</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">In my game, the Asset Designer will take the GDD, level design
-                        document, and asset lists to produce structured JSON asset
-                        specifications so that the player sees visually coherent, cosmic
-                        horror-inspired assets in the Astral Plane.</span>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <h3 class="c29" id="h.401nr99kh2v4">
-        <span class="c24 c6">Unreal Engine Level Builder</span>
-    </h3>
-    <p class="c0"><span class="c3">Prompt Definition:</span></p>
-    <p class="c0">
-        <span class="c3">Implement the Astral Plane level layout in Unreal Engine 5.8 using MCP
-            at http://127.0.0.1:8000/mcp. Translate the Level Designer&rsquo;s
-            document into a playable level, placing assets, configuring lighting,
-            and setting up traversal and encounter zones.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <table class="c16">
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Input</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Level design doc, asset specs, encounter/pacing notes, technical
-                        constraints</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Output</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Built level in Unreal Engine (project files), asset placement,
-                        lighting, encounter triggers, implementation report
-                        (Markdown)</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Version</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">v1.0.0 &mdash; First implementation of Astral Plane demo
-                        level</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Prompt Constraints</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">UE project files + Markdown report; must use MCP; Astral Plane
-                        demo only; reproducible from design doc</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Pillar 1</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">In my game, the Unreal Engine Level Builder will take the level
-                        design document and asset specifications to produce a built level
-                        in Unreal Engine so that the player sees a fully realized,
-                        explorable Astral Plane.</span>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <h3 class="c29" id="h.lsfptfygspgo">
-        <span class="c6 c24">Unreal Engine Player Mechanics Animator</span>
-    </h3>
-    <p class="c0"><span class="c3">Prompt Definition:</span></p>
-    <p class="c0">
-        <span class="c3">Create and implement animation sequences for Flight, Kinetic Punch, and
-            Singularity in Unreal Engine 5.8 using MCP. Animations must reflect the
-            cosmic horror tone and the physicality of moving through the Astral
-            Plane.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <table class="c16">
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Input</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Animation briefs, gameplay mechanic descriptions, technical
-                        constraints, visual refs</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Output</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Animation blueprints/sequences in UE, implementation report
-                        (Markdown)</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Version</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">v1.0.0 &mdash; Initial animation set for core mechanics</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Prompt Constraints</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">UE animation assets + Markdown report; must use MCP; only Flight,
-                        Kinetic Punch, Singularity</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Pillar 1</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">In my game, the Unreal Engine Player Mechanics Animator will take
-                        animation briefs and gameplay mechanic descriptions to produce
-                        animation blueprints so that the player sees responsive,
-                        atmospheric movement and attacks in the Astral Plane.</span>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <h3 class="c29" id="h.gpjdqyo7czv">
-        <span class="c24 c6">Unreal Engine Gameplay Mechanic Expert</span>
-    </h3>
-    <p class="c0"><span class="c3">Prompt Definition:</span></p>
-    <p class="c0">
-        <span class="c3">Implement core gameplay systems (Flight, Kinetic Punch, Singularity) in
-            Unreal Engine 5.8 using MCP. Systems must support Astral Plane
-            traversal, combat, and cosmic horror tone, and integrate with the Soul
-            Sphere narrative.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <table class="c16">
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Input</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Gameplay mechanic specs, level design doc, technical constraints,
-                        animation blueprints</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Output</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Gameplay blueprints/scripts in UE, system implementation report
-                        (Markdown)</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Version</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">v1.0.0 &mdash; First implementation of all core mechanics</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Prompt Constraints</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">UE blueprints/scripts + Markdown report; must use MCP; only
-                        Flight, Kinetic Punch, Singularity</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Pillar 1</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">In my game, the Unreal Engine Gameplay Mechanic Expert will take
-                        gameplay mechanic specifications and the level design document to
-                        produce gameplay blueprints so that the player sees responsive,
-                        supernatural abilities in the Astral Plane.</span>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <h3 class="c29" id="h.q4o0m9cd4mli">
-        <span class="c24 c6">Unreal Motion Graphics Engineer</span>
-    </h3>
-    <p class="c0"><span class="c3">Prompt Definition:</span></p>
-    <p class="c0">
-        <span class="c3">Implement all UMG (Unreal Motion Graphics) widgets and HUD elements for
-            Empyrean Rifts in UE5.8 using MCP. Translate the HUD Designer&rsquo;s
-            blueprints into interactive, cosmic horror-themed UI.</span>
-    </p>
-    <p class="c0 c9"><span class="c3"></span></p>
-    <table class="c16">
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Input</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">HUD/UI blueprints, asset specs, technical constraints, visual
-                        refs</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Output</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">Implemented UMG widgets in UE, UI implementation report
-                        (Markdown)</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Version</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">v1.0.0 &mdash; Initial UMG implementation for Astral Plane
-                        demo</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Prompt Constraints</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">UE UMG assets + Markdown report; must use MCP; HUD/UI for Astral
-                        Plane demo only</span>
-                </p>
-            </td>
-        </tr>
-        <tr class="c7">
-            <td class="c13" colspan="1" rowspan="1">
-                <p class="c0"><span class="c3">Pillar 1</span></p>
-            </td>
-            <td class="c5" colspan="1" rowspan="1">
-                <p class="c0">
-                    <span class="c3">In my game, the Unreal Motion Graphics Engineer will take HUD/UI
-                        blueprints and asset specifications to produce implemented UMG
-                        widgets so that the player sees immersive, narrative-driven UI in
-                        the Astral Plane.</span>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <p class="c0 c9"><span class="c3"></span></p>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c10">Level Designer</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Plans and documents the layout, pacing, encounter placement,
+                            and environmental storytelling for the Astral Plane level.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Opus 4.8</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">1M output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c10">Unreal Engine Level Builder</span>
+                    </p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Implements the level layout as specified by the level
+                            designer.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Antigravity CLI</span></p>
+                    <p class="c0"><span class="c3">Gemini 3.5 Flash</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">500K output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c10">Asset Designer</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Creates structured JSON asset specifications for the 3D Asset
+                            Builder, ensuring consistent and cohesive visual game
+                            style.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Opus 4.8</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">500K output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c10">Hunyuan 3D Model Asset Builder</span>
+                    </p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Uses the Hunyuan 3D AI pipeline to generate game-ready 3D
+                            character and environment models from prompts and reference
+                            art.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Local Hunyan3D on RTX5070</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c10">Unreal Engine Player Mechanics Animator</span>
+                    </p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Creates and applies animation sequences for characters,
+                            creatures, and environmental objects directly within Unreal
+                            Engine 5.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Sonnet 5</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">1.2M output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c10">Unreal Engine Gameplay Mechanic Expert</span>
+                    </p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Implements core gameplay systems&mdash;movement, combat,
+                            health, and power&mdash;using UE5 Blueprints and C++.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Opus 4.8</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">2.5M output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c10">Sound Effect Expert</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Sources, generates, and integrates all in-game sound effects,
+                            including rift ambient sounds, combat impacts, and Astral Plane
+                            audio signatures.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Sonnet 5</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">500K output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c10">Soundtrack Expert</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Composes and produces the musical score for the Astral
+                            Plane.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Sonnet 5</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">500K output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c10">Menu Designer</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Designs and builds all UI menus&mdash;main menu, pause screen,
+                            and settings&mdash;with visuals consistent with the cosmic
+                            aesthetic, generating structured JSON output for the UMG
+                            Engineer.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Antigravity CLI</span></p>
+                    <p class="c0"><span class="c3">Gemini 3.1 Pro - High</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c10">HUD Designer</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Designs the in-game heads-up display, including the health
+                            indicator and the gravity power meter, generating structured
+                            JSON output for the UMG Engineer.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Antigravity CLI</span></p>
+                    <p class="c0"><span class="c3">Gemini 3.1 Pro - High</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c10">Unreal Motion Graphics Engineer</span>
+                    </p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Uses the UE5.8 MCP to implement the UMG data from the HUD
+                            Designer, and if it encounters errors, it passes them back to
+                            the HUD Designer to resolve.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Antigravity CLI</span></p>
+                    <p class="c0"><span class="c3">Gemini 3.5 Flash</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c10">Marketing Expert</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c6">Produces trailers, screenshots, social content, and store page
+                            copy to promote </span><span>Empyrean Rifts</span><span class="c3">&nbsp;to the target
+                            audience
+                            across all platforms.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Opus 4.8</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">800K output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c25 c10">QA Strategist</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Write test plans, define edge cases, design regression matrix,
+                            triage/root-cause bugs.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Opus 4.8</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">800K output tokens</span></p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c2" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c25 c10">QA Runner</span></p>
+                </td>
+                <td class="c4" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Execute PIE test loops, parse logs, file structured bug
+                            reports, re-run after fixes.</span>
+                    </p>
+                </td>
+                <td class="c23" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Claude Code</span></p>
+                    <p class="c0"><span class="c3">Sonnet 5</span></p>
+                    <p class="c1"><span class="c3"></span></p>
+                    <p class="c0"><span class="c3">15M output tokens</span></p>
+                </td>
+            </tr>
+            </thead>
+        </table>
+        <p class="c1"><span class="c3"></span></p>
+        <p class="c0">
+            <span>T</span><span class="c3">he Unreal Engine engineer agentsMCP tool and related skills will have
+                only the scoped subset of skills required for them.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <hr />
+        <p class="c0 c9"><span class="c3"></span></p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <h1 class="c12" id="h.5svwnzts6b7z">
+            <span class="c8 c6">Prompt Constraints</span>
+        </h1>
+        <p class="c0">
+            <span class="c19">For Core Technical &amp; Content Creation Agents</span>
+        </p>
+        <hr />
+        <p class="c0 c9"><span class="c3"></span></p>
+        <p class="c0">
+            <span class="c3">Each agent below has a dedicated, versioned prompt definition,
+                input/output specs, and constraints, all tailored to Empyrean
+                Rifts&rsquo; cosmic horror setting and gameplay loop.</span>
+        </p>
+        <h3 class="c29" id="h.hpdpbapxgten">
+            <span class="c24 c6">Architect</span>
+        </h3>
+        <p class="c0"><span class="c3">Prompt Definition:</span></p>
+        <p class="c0 c22">
+            <span class="c3">Design the overall technical and creative structure for Empyrean Rifts,
+                a third-person superhero-style flight battle set in the Astral Plane.
+                Reference the Soul Sphere crisis, cosmic horror tone, and core mechanics
+                (Flight, Kinetic Punch, Singularity). Ensure all systems and content
+                pipelines support the gameplay loop: enter the Astral Plane, fight
+                astral beings, destroy the portal to the Earth Realm, and resolve the
+                Soul Sphere&rsquo;s fate.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <table class="c16">
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Input</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Full GDD, design goals, technical constraints, story/setting
+                            context</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Output</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">High-level architecture doc (Markdown), system diagrams, agent
+                            role definitions, technical pipeline overview</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Version</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">v1.0.0 &mdash; Initial baseline for Empyrean Rifts</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Prompt Constraints</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Output in Markdown; must reference Astral Plane, Soul Sphere, and
+                            core mechanics; technical, clear, actionable</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Pillar 1</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">The Architect will take the full GDD, design goals, and technical
+                            constraints to produce a high-level architecture document so that
+                            the player sees a cohesive, technically sound experience in the
+                            Astral Plane.</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h3 class="c29" id="h.n3tngg49hnvk">
+            <span class="c24 c6">Level Designer</span>
+        </h3>
+        <p class="c0"><span class="c3">Prompt Definition:</span></p>
+        <p class="c0">
+            <span class="c3">Design a level for Empyrean Rifts set in the Astral Plane, emphasizing
+                cosmic horror, drifting star-matter, and the Soul Sphere&rsquo;s crisis.
+                Place encounters, environmental storytelling beats, and pacing elements
+                that highlight Flight, Kinetic Punch, and Singularity mechanics.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <table class="c16">
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Input</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">GDD, story beats, gameplay mechanic briefs, technical
+                            constraints, asset lists</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Output</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Structured level design doc (Markdown) with encounter placements,
+                            pacing notes, environmental storytelling, set pieces</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Version</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">v1.0.0 &mdash; First pass for Astral Plane demo</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Prompt Constraints</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Markdown output; Astral Plane demo only; must reference cosmic
+                            horror, Soul Sphere, all three core mechanics</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Pillar 1</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">In my game, the Level Designer will take the GDD, story beats,
+                            and gameplay mechanic briefs to produce a structured level design
+                            document so that the player sees a dynamic, atmospheric Astral
+                            Plane full of meaningful encounters and environmental
+                            storytelling.</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h3 class="c29" id="h.farigguyu9pb">
+            <span class="c24 c6">Asset Designer</span>
+        </h3>
+        <p class="c0"><span class="c3">Prompt Definition:</span></p>
+        <p class="c0">
+            <span class="c3">Generate precise, structured JSON asset specifications for all 3D, VFX,
+                and material assets required for the Astral Plane level. Each spec must
+                be detailed enough for a 3D artist to create the asset, referencing the
+                cosmic horror tone, drifting star-matter, and the Soul Sphere&rsquo;s
+                influence.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <table class="c16">
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Input</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">GDD, level design doc, asset lists, visual refs, technical
+                            constraints</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Output</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Structured asset spec (JSON) for each asset (name, description,
+                            references, requirements, gameplay function, style, scale,
+                            animation/VFX notes)</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Version</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">v1.0.0 &mdash; Initial asset spec set for Astral Plane demo</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Prompt Constraints</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">JSON output; precise and unambiguous; Astral Plane demo only;
+                            must pass coherence check</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Pillar 1</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">In my game, the Asset Designer will take the GDD, level design
+                            document, and asset lists to produce structured JSON asset
+                            specifications so that the player sees visually coherent, cosmic
+                            horror-inspired assets in the Astral Plane.</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h3 class="c29" id="h.401nr99kh2v4">
+            <span class="c24 c6">Unreal Engine Level Builder</span>
+        </h3>
+        <p class="c0"><span class="c3">Prompt Definition:</span></p>
+        <p class="c0">
+            <span class="c3">Implement the Astral Plane level layout in Unreal Engine 5.8 using MCP
+                at http://127.0.0.1:8000/mcp. Translate the Level Designer&rsquo;s
+                document into a playable level, placing assets, configuring lighting,
+                and setting up traversal and encounter zones.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <table class="c16">
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Input</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Level design doc, asset specs, encounter/pacing notes, technical
+                            constraints</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Output</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Built level in Unreal Engine (project files), asset placement,
+                            lighting, encounter triggers, implementation report
+                            (Markdown)</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Version</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">v1.0.0 &mdash; First implementation of Astral Plane demo
+                            level</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Prompt Constraints</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">UE project files + Markdown report; must use MCP; Astral Plane
+                            demo only; reproducible from design doc</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Pillar 1</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">In my game, the Unreal Engine Level Builder will take the level
+                            design document and asset specifications to produce a built level
+                            in Unreal Engine so that the player sees a fully realized,
+                            explorable Astral Plane.</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h3 class="c29" id="h.lsfptfygspgo">
+            <span class="c6 c24">Unreal Engine Player Mechanics Animator</span>
+        </h3>
+        <p class="c0"><span class="c3">Prompt Definition:</span></p>
+        <p class="c0">
+            <span class="c3">Create and implement animation sequences for Flight, Kinetic Punch, and
+                Singularity in Unreal Engine 5.8 using MCP. Animations must reflect the
+                cosmic horror tone and the physicality of moving through the Astral
+                Plane.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <table class="c16">
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Input</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Animation briefs, gameplay mechanic descriptions, technical
+                            constraints, visual refs</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Output</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Animation blueprints/sequences in UE, implementation report
+                            (Markdown)</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Version</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">v1.0.0 &mdash; Initial animation set for core mechanics</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Prompt Constraints</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">UE animation assets + Markdown report; must use MCP; only Flight,
+                            Kinetic Punch, Singularity</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Pillar 1</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">In my game, the Unreal Engine Player Mechanics Animator will take
+                            animation briefs and gameplay mechanic descriptions to produce
+                            animation blueprints so that the player sees responsive,
+                            atmospheric movement and attacks in the Astral Plane.</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h3 class="c29" id="h.gpjdqyo7czv">
+            <span class="c24 c6">Unreal Engine Gameplay Mechanic Expert</span>
+        </h3>
+        <p class="c0"><span class="c3">Prompt Definition:</span></p>
+        <p class="c0">
+            <span class="c3">Implement core gameplay systems (Flight, Kinetic Punch, Singularity) in
+                Unreal Engine 5.8 using MCP. Systems must support Astral Plane
+                traversal, combat, and cosmic horror tone, and integrate with the Soul
+                Sphere narrative.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <table class="c16">
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Input</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Gameplay mechanic specs, level design doc, technical constraints,
+                            animation blueprints</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Output</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Gameplay blueprints/scripts in UE, system implementation report
+                            (Markdown)</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Version</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">v1.0.0 &mdash; First implementation of all core mechanics</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Prompt Constraints</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">UE blueprints/scripts + Markdown report; must use MCP; only
+                            Flight, Kinetic Punch, Singularity</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Pillar 1</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">In my game, the Unreal Engine Gameplay Mechanic Expert will take
+                            gameplay mechanic specifications and the level design document to
+                            produce gameplay blueprints so that the player sees responsive,
+                            supernatural abilities in the Astral Plane.</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h3 class="c29" id="h.q4o0m9cd4mli">
+            <span class="c24 c6">Unreal Motion Graphics Engineer</span>
+        </h3>
+        <p class="c0"><span class="c3">Prompt Definition:</span></p>
+        <p class="c0">
+            <span class="c3">Implement all UMG (Unreal Motion Graphics) widgets and HUD elements for
+                Empyrean Rifts in UE5.8 using MCP. Translate the HUD Designer&rsquo;s
+                blueprints into interactive, cosmic horror-themed UI.</span>
+        </p>
+        <p class="c0 c9"><span class="c3"></span></p>
+        <table class="c16">
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Input</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">HUD/UI blueprints, asset specs, technical constraints, visual
+                            refs</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Output</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">Implemented UMG widgets in UE, UI implementation report
+                            (Markdown)</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Version</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">v1.0.0 &mdash; Initial UMG implementation for Astral Plane
+                            demo</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Prompt Constraints</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">UE UMG assets + Markdown report; must use MCP; HUD/UI for Astral
+                            Plane demo only</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="c7">
+                <td class="c13" colspan="1" rowspan="1">
+                    <p class="c0"><span class="c3">Pillar 1</span></p>
+                </td>
+                <td class="c5" colspan="1" rowspan="1">
+                    <p class="c0">
+                        <span class="c3">In my game, the Unreal Motion Graphics Engineer will take HUD/UI
+                            blueprints and asset specifications to produce implemented UMG
+                            widgets so that the player sees immersive, narrative-driven UI in
+                            the Astral Plane.</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </main>
 </body>
 
 </html>
