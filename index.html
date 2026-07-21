@@ -58,36 +58,90 @@
     }
 
     @media (max-width: 768px) {
-      .container { padding-left: 20px !important; padding-right: 20px !important; }
-      .grid-4 { grid-template-columns: 1fr 1fr !important; }
-      .grid-3 { grid-template-columns: 1fr !important; }
-      .grid-2 { grid-template-columns: 1fr !important; }
-      .loop-col { border-right: none !important; border-bottom: 1px solid rgba(232,200,116,0.16) !important; padding: 16px 0 !important; }
-      .loop-col:last-child { border-bottom: none !important; }
-      .table-wrapper { overflow-x: hidden !important; }
-      .agent-roles-table thead { display: none; }
-      .agent-roles-table tbody, .agent-roles-table tr, .agent-roles-table td { display: block; width: 100%; box-sizing: border-box; }
-      .agent-roles-table tr { padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.06) !important; }
-      .agent-roles-table tr:first-child { border-top: none !important; }
-      .agent-roles-table td { border: none !important; padding: 6px 20px !important; }
-      .agent-roles-table td:first-child { font-size: 16px; color: #e8c874 !important; padding-top: 0 !important; }
-      .agent-roles-table td:last-child { padding-bottom: 0 !important; }
+      .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+
+      .grid-4 {
+        grid-template-columns: 1fr 1fr !important;
+      }
+
+      .grid-3 {
+        grid-template-columns: 1fr !important;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr !important;
+      }
+
+      .loop-col {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(232, 200, 116, 0.16) !important;
+        padding: 16px 0 !important;
+      }
+
+      .loop-col:last-child {
+        border-bottom: none !important;
+      }
+
+      .table-wrapper {
+        overflow-x: hidden !important;
+      }
+
+      .agent-roles-table thead {
+        display: none;
+      }
+
+      .agent-roles-table tbody,
+      .agent-roles-table tr,
+      .agent-roles-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .agent-roles-table tr {
+        padding: 16px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+      }
+
+      .agent-roles-table tr:first-child {
+        border-top: none !important;
+      }
+
+      .agent-roles-table td {
+        border: none !important;
+        padding: 6px 20px !important;
+      }
+
+      .agent-roles-table td:first-child {
+        font-size: 16px;
+        color: #e8c874 !important;
+        padding-top: 0 !important;
+      }
+
+      .agent-roles-table td:last-child {
+        padding-bottom: 0 !important;
+      }
     }
+
     @media (max-width: 480px) {
-      .grid-4 { grid-template-columns: 1fr !important; }
+      .grid-4 {
+        grid-template-columns: 1fr !important;
+      }
     }
   </style>
 </head>
 
 <body>
   <div
-    style="background:#06070f; color:#d8dae6; font-family:'Spectral',Georgia,serif; font-size:17px; line-height:1.7; overflow-x:hidden; min-height:100vh;">
+    style="background:#06070f; color:#d8dae6; font-family:'Spectral',Georgia,serif; font-size:17px; line-height:1.7; overflow-x:hidden; min-height:100vh; display:flex; flex-direction: column;">
 
     <!-- HERO -->
-    <header
-      style="position:relative; min-height:560px; display:flex; flex-direction:column; justify-content:flex-end; padding:0; overflow:hidden;">
+    <header style="position:relative; padding:0; padding-top:20px; overflow:hidden;">
       <div
-        style="position:absolute; inset:0; background-image:url('assets/astral_plane.jpg'); background-size:cover; background-position:center; z-index:0;">
+        style="position:absolute; inset:0; background-image:url('assets/astral_plane.jpg'); background-size:cover; background-position:center; z-index:0; filter: brightness(0.2); min-height: 560px;">
       </div>
       <div
         style="position:absolute; inset:0; background:radial-gradient(120% 90% at 72% 22%, rgba(6,7,15,0) 0%, rgba(6,7,15,0.35) 45%, rgba(6,7,15,0.92) 100%); z-index:1;">
@@ -95,602 +149,79 @@
       <div
         style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,7,15,0.55) 0%, rgba(6,7,15,0) 30%, rgba(6,7,15,0) 55%, #06070f 100%); z-index:1;">
       </div>
-      <div class="container" style="position:relative; z-index:2; max-width:1120px; width:100%; margin:0 auto; padding:0 48px 56px;">
-        <div
-          style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.42em; text-transform:uppercase; color:#e8c874; margin-bottom:22px;">
-          Game Design Document · Gameplay Demo</div>
+      <div class="container"
+        style="position:relative; z-index:2; max-width:700px; width:100%; margin:0 auto; padding:16px 48px 36px;">
         <h1
-          style="font-family:'Cinzel',serif; font-weight:800; font-size:clamp(48px,8.5vw,104px); line-height:0.98; margin:0; color:#f4f0e6; letter-spacing:0.02em; text-shadow:0 4px 40px rgba(0,0,0,0.7);">
+          style="font-family:'Cinzel',serif; font-weight:800; font-size:48px; line-height:0.98; margin:0; color:#f4f0e6; letter-spacing:0.02em; text-shadow:0 4px 40px rgba(0,0,0,0.7); padding:0">
           Empyrean<br />Rifts</h1>
-        <p
-          style="font-family:'Spectral',serif; font-style:italic; font-size:clamp(18px,2.4vw,26px); color:#cdd0e0; margin:22px 0 0; max-width:640px; text-shadow:0 2px 16px rgba(0,0,0,0.9);">
-          &ldquo;Where the heavens fracture, destiny awakens.&rdquo;</p>
+        <div
+          style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.42em; text-transform:uppercase; color:#e8c874; margin-bottom:22px; margin-top: 6px;">
+          Game Design Document · Gameplay Demo</div>
       </div>
     </header>
 
-    <!-- META BAR -->
-    <div
+    <!-- NAVBAR -->
+    <nav
       style="border-top:1px solid rgba(232,200,116,0.22); border-bottom:1px solid rgba(232,200,116,0.14); background:linear-gradient(180deg, rgba(232,200,116,0.05), rgba(232,200,116,0.01));">
-      <div class="container grid-4"
-        style="max-width:1120px; margin:0 auto; padding:26px 48px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
-        <div>
+
+      <!-- GDD Version Links -->
+      <div class="container"
+        style="max-width:700px; margin:0 auto; padding:32px 48px 16px; display:flex; gap:32px; align-items:center; flex-wrap:wrap;">
+        <a href="v1.0.0.html"
+          style="display:flex; flex-direction:column; gap:8px; text-decoration:none; padding:16px 24px; background:rgba(232,200,116,0.08); border:1px solid rgba(232,200,116,0.3); border-radius:4px; transition:all 0.3s ease;">
           <div
-            style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:#e8c874; margin-bottom:8px;">
-            Genre</div>
-          <div style="font-size:16px; color:#e6e8f2;">Action&#8211;Adventure</div>
-        </div>
-        <div>
+            style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#e8c874;">
+            Current Version</div>
+          <div style="font-family:'Cinzel',serif; font-size:28px; font-weight:700; color:#f4f0e6; margin:0;">GDD v1.0.0
+          </div>
+        </a>
+
+        <div
+          style="display:flex; flex-direction:column; gap:8px; padding:16px 24px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.1); border-radius:4px; cursor:not-allowed; opacity:0.5;">
           <div
-            style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:#e8c874; margin-bottom:8px;">
-            Platform</div>
-          <div style="font-size:16px; color:#e6e8f2;">PC &middot; Unreal Engine 5.8</div>
-        </div>
-        <div>
-          <div
-            style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:#e8c874; margin-bottom:8px;">
-            Tone</div>
-          <div style="font-size:16px; color:#e6e8f2;">Dark fantasy, cosmic horror</div>
-        </div>
-        <div>
-          <div
-            style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:#e8c874; margin-bottom:8px;">
-            Inspiration</div>
-          <div style="font-size:14.5px; color:#b9bdd0;">Rifts Megaverse, Fallout, JoJo&rsquo;s Bizarre Adventure, Star
-            Fox</div>
+            style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#7d8098;">
+            In Development</div>
+          <div style="font-family:'Cinzel',serif; font-size:28px; font-weight:700; color:#7d8098; margin:0;">GDD v2.0
+          </div>
         </div>
       </div>
-    </div>
-
-    <main class="container" style="max-width:1120px; margin:0 auto; padding:0 48px 96px;">
-
-      <!-- OVERVIEW -->
-      <section style="padding:72px 0 8px;">
-        <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:26px;">
-          <span
-            style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#e8c874; letter-spacing:0.2em;">01</span>
-          <h2
-            style="font-family:'Cinzel',serif; font-weight:700; font-size:clamp(28px,4vw,42px); margin:0; color:#f4f0e6; letter-spacing:0.03em;">
-            Overview</h2>
-          <span
-            style="flex:1; height:1px; background:linear-gradient(90deg, rgba(232,200,116,0.5), rgba(232,200,116,0)); align-self:center; margin-left:8px;"></span>
-        </div>
-        <p style="font-size:19px; line-height:1.8; color:#cfd2e0; max-width:820px; margin:0; text-wrap:pretty;">A
-          third-person, superhero-style flight battle through the astral plane, alongside a mysterious and ancient
-          emissary. Built for PC on Unreal Engine 5.8, <em style="color:#f4f0e6; font-style:italic;">Empyrean
-            Rifts</em> fuses the exhilarating freedom of flight with gravity-based abilities. This demo is a slice of
-          the ultimate powerset &mdash; it introduces the game&rsquo;s &ldquo;big bad,&rdquo; the <strong
-            style="color:#b18bff; font-weight:600;">Vampire King</strong>, while withholding the protagonist&rsquo;s
-          ultimate secret&mdash;their identity as the <strong style="color:#5fd8ea; font-weight:600;">Galaxy
-            Soul</strong> incarnate&mdash;as the hook for the full game.</p>
-      </section>
-
-      <!-- STORY -->
-      <section style="padding:64px 0 8px;">
-        <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:26px;">
-          <span
-            style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#e8c874; letter-spacing:0.2em;">02</span>
-          <h2
-            style="font-family:'Cinzel',serif; font-weight:700; font-size:clamp(28px,4vw,42px); margin:0; color:#f4f0e6; letter-spacing:0.03em;">
-            Story</h2>
-          <span
-            style="flex:1; height:1px; background:linear-gradient(90deg, rgba(232,200,116,0.5), rgba(232,200,116,0)); align-self:center; margin-left:8px;"></span>
-        </div>
-        <div class="grid-2" style="display:grid; grid-template-columns:1.35fr 1fr; gap:44px; align-items:start;">
-          <div>
-            <p style="margin:0 0 20px; color:#cfd2e0; text-wrap:pretty;">The <strong
-                style="color:#e8c874; font-weight:600;">Soul Sphere</strong>&mdash;an ancient cosmic artifact binding
-              all realms&mdash;rests in a crystalline structure in the <strong
-                style="color:#f4f0e6; font-weight:600;">Astral Plane</strong>, guarded by astral beings. The <strong
-                style="color:#b18bff; font-weight:600;">Vampire King</strong>, disguised as an emissary of the
-              desperate, warns of an impending invasion and tricks the player into destroying the Sphere.</p>
-            <p style="margin:0 0 20px; color:#cfd2e0; text-wrap:pretty;">The shattering scatters fragments across
-              realms, tearing open <strong style="color:#5fd8ea; font-weight:600;">rifts</strong> in the fabric
-              between worlds &mdash; rough-edged wounds that serve as windows and gateways. Through one, a purple-sky
-              mushroom realm; another bleeds fiery light from Tartarus. The player must recover the fragments, repair
-              the Sphere, and banish the Vampire King &mdash; discovering, along the way, that they are the soul of
-              the galaxy incarnate.</p>
-          </div>
-          <div style="border-left:2px solid rgba(232,200,116,0.4); padding:6px 0 6px 26px;">
-            <div
-              style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:#e8c874; margin-bottom:14px;">
-              Demo Arc</div>
-            <p style="margin:0; font-size:16px; color:#b9bdd0; font-style:italic; text-wrap:pretty;">The player enters
-              the Astral Plane, meets the emissary, and flies through soul-currents fighting waves of astral beings
-              with innate gravity powers &mdash; then destroys the portal to the Earth Realm. The demo closes as the
-              Vampire King reveals his true plan: using you to shatter the Soul Sphere and free himself from Tartarus.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- MECHANICS -->
-      <section style="padding:64px 0 8px;">
-        <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:30px;">
-          <span
-            style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#e8c874; letter-spacing:0.2em;">03</span>
-          <h2
-            style="font-family:'Cinzel',serif; font-weight:700; font-size:clamp(28px,4vw,42px); margin:0; color:#f4f0e6; letter-spacing:0.03em;">
-            Player Mechanics</h2>
-          <span
-            style="flex:1; height:1px; background:linear-gradient(90deg, rgba(232,200,116,0.5), rgba(232,200,116,0)); align-self:center; margin-left:8px;"></span>
-        </div>
-        <div class="grid-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
-          <div
-            style="background:linear-gradient(180deg, rgba(95,216,234,0.07), rgba(255,255,255,0.02)); border:1px solid rgba(95,216,234,0.22); border-radius:14px; padding:28px 26px;">
-            <div
-              style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.24em; text-transform:uppercase; color:#5fd8ea; margin-bottom:12px;">
-              Movement</div>
-            <h3 style="font-family:'Cinzel',serif; font-weight:600; font-size:23px; margin:0 0 12px; color:#f4f0e6;">
-              Flight</h3>
-            <p style="margin:0; font-size:15px; color:#b9bdd0; line-height:1.65;">Superhero flight: left stick / WASD
-              for horizontal movement, space &amp; shift (or bumpers) for elevation, and right stick / mouse for
-              camera aiming.</p>
-          </div>
-          <div
-            style="background:linear-gradient(180deg, rgba(232,200,116,0.07), rgba(255,255,255,0.02)); border:1px solid rgba(232,200,116,0.24); border-radius:14px; padding:28px 26px;">
-            <div
-              style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.24em; text-transform:uppercase; color:#e8c874; margin-bottom:12px;">
-              Ranged Attack</div>
-            <h3 style="font-family:'Cinzel',serif; font-weight:600; font-size:23px; margin:0 0 12px; color:#f4f0e6;">
-              Kinetic Punch</h3>
-            <p style="margin:0; font-size:15px; color:#b9bdd0; line-height:1.65;">Fire a line trace carrying a heavy
-              physics impulse along the camera&rsquo;s directional vector &mdash; hurling enemies and debris.</p>
-          </div>
-          <div
-            style="background:linear-gradient(180deg, rgba(177,139,255,0.08), rgba(255,255,255,0.02)); border:1px solid rgba(177,139,255,0.26); border-radius:14px; padding:28px 26px;">
-            <div
-              style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.24em; text-transform:uppercase; color:#b18bff; margin-bottom:12px;">
-              Area of Effect</div>
-            <h3 style="font-family:'Cinzel',serif; font-weight:600; font-size:23px; margin:0 0 12px; color:#f4f0e6;">
-              Singularity</h3>
-            <p style="margin:0; font-size:15px; color:#b9bdd0; line-height:1.65;">Create a single point of gravity
-              that pulls enemies and objects inward &mdash; imploding anything that reaches the center before the
-              event ends.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- LOOP -->
-      <section style="padding:64px 0 8px;">
-        <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:30px;">
-          <span
-            style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#e8c874; letter-spacing:0.2em;">04</span>
-          <h2
-            style="font-family:'Cinzel',serif; font-weight:700; font-size:clamp(28px,4vw,42px); margin:0; color:#f4f0e6; letter-spacing:0.03em;">
-            Core Gameplay Loop</h2>
-          <span
-            style="flex:1; height:1px; background:linear-gradient(90deg, rgba(232,200,116,0.5), rgba(232,200,116,0)); align-self:center; margin-left:8px;"></span>
-        </div>
-        <div class="grid-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:0; align-items:stretch;">
-          <div class="loop-col" style="padding:8px 32px 8px 0; border-right:1px solid rgba(232,200,116,0.16);">
-            <div
-              style="font-family:'Cinzel',serif; font-size:40px; font-weight:700; color:rgba(232,200,116,0.4); line-height:1;">
-              I</div>
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:22px; margin:14px 0 8px; color:#f4f0e6;">
-              Fight</h3>
-            <p style="margin:0; font-size:15.5px; color:#b9bdd0;">Battle waves of astral beings across the
-              soul-currents.</p>
-          </div>
-          <div class="loop-col" style="padding:8px 32px; border-right:1px solid rgba(232,200,116,0.16);">
-            <div
-              style="font-family:'Cinzel',serif; font-size:40px; font-weight:700; color:rgba(232,200,116,0.4); line-height:1;">
-              II</div>
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:22px; margin:14px 0 8px; color:#f4f0e6;">
-              Destroy</h3>
-            <p style="margin:0; font-size:15.5px; color:#b9bdd0;">Tear open and destroy the portal to the Earth Realm.
-            </p>
-          </div>
-          <div class="loop-col" style="padding:8px 0 8px 32px;">
-            <div
-              style="font-family:'Cinzel',serif; font-size:40px; font-weight:700; color:rgba(232,200,116,0.4); line-height:1;">
-              III</div>
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:22px; margin:14px 0 8px; color:#f4f0e6;">
-              Resolve</h3>
-            <p style="margin:0; font-size:15.5px; color:#b9bdd0;">Win &mdash; or be knocked out of the astral plane.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- LEVEL DESIGN -->
-      <section style="padding:64px 0 8px;">
-        <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:30px;">
-          <span
-            style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#e8c874; letter-spacing:0.2em;">05</span>
-          <h2
-            style="font-family:'Cinzel',serif; font-weight:700; font-size:clamp(28px,4vw,42px); margin:0; color:#f4f0e6; letter-spacing:0.03em;">
-            Level Design</h2>
-          <span
-            style="flex:1; height:1px; background:linear-gradient(90deg, rgba(232,200,116,0.5), rgba(232,200,116,0)); align-self:center; margin-left:8px;"></span>
-        </div>
-        <div class="grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center;">
-          <div>
-            <div
-              style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:#e8c874; margin-bottom:14px;">
-              The Astral Plane</div>
-            <p style="margin:0 0 18px; color:#cfd2e0; text-wrap:pretty;">A galactic, flowing cosmic corridor thick
-              with drifting star-matter, luminous nebulae, and soul-currents. Movement here feels weightless and fluid
-              &mdash; a suspension between worlds.</p>
-            <p style="margin:0; color:#cfd2e0; text-wrap:pretty;">Far off in the distance stands a destructible
-              crystalline structure. The player must reach and destroy it to complete the Gameplay Demo.</p>
-          </div>
-          <div
-            style="position:relative; border-radius:14px; overflow:hidden; border:1px solid rgba(177,139,255,0.28); box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-            <img src="assets/wraith.jpg" alt="Astral Wraith encounter"
-              style="display:block; width:100%; height:auto;" />
-            <div
-              style="position:absolute; left:0; right:0; bottom:0; padding:14px 16px; background:linear-gradient(180deg, rgba(6,7,15,0), rgba(6,7,15,0.85)); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#cfd2e0;">
-              ENCOUNTER &middot; ASTRAL WRAITH &middot; LVL 22</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- AGENT ROLES -->
-      <section style="padding:64px 0 8px;">
-        <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:14px;">
-          <span
-            style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#e8c874; letter-spacing:0.2em;">06</span>
-          <h2
-            style="font-family:'Cinzel',serif; font-weight:700; font-size:clamp(28px,4vw,42px); margin:0; color:#f4f0e6; letter-spacing:0.03em;">
-            Development Agent Roles</h2>
-          <span
-            style="flex:1; height:1px; background:linear-gradient(90deg, rgba(232,200,116,0.5), rgba(232,200,116,0)); align-self:center; margin-left:8px;"></span>
-        </div>
-        <p style="margin:0 0 26px; font-style:italic; color:#8f94a8; font-size:15px;">The AI-assisted development
-          &amp; creation agents used to build the Empyrean Rifts Gameplay Demo.</p>
-        <div class="table-wrapper" style="border:1px solid rgba(232,200,116,0.16); border-radius:14px; overflow:hidden;">
-          <table class="agent-roles-table" style="width:100%; border-collapse:collapse; font-size:14.5px;">
-            <thead>
-              <tr style="background:rgba(232,200,116,0.06);">
-                <th
-                  style="text-align:left; padding:14px 20px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.22em; text-transform:uppercase; color:#e8c874; font-weight:600; width:26%;">
-                  Agent</th>
-                <th
-                  style="text-align:left; padding:14px 20px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.22em; text-transform:uppercase; color:#e8c874; font-weight:600;">
-                  Role</th>
-                <th
-                  style="text-align:left; padding:14px 20px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.22em; text-transform:uppercase; color:#e8c874; font-weight:600; width:22%;">
-                  Model</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Architect</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Designs the overall technical and creative structure of the game, establishing systems, pipelines, and high-level decisions before production.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Fable 5</span><br /><span style="color:#7d8098;">1M output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Level Designer</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Plans and documents layout, pacing, encounter placement, and environmental storytelling for the Astral Plane level.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Opus 4.8</span><br /><span style="color:#7d8098;">1M output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Unreal Engine Level Builder</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Implements the level layout as specified by the Level Designer.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Antigravity CLI</span><br /><span style="color:#d8dae6;">Gemini 3.5 Flash</span><br /><span style="color:#7d8098;">500K output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Asset Designer</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Creates structured JSON asset specifications for the 3D Asset Builder, ensuring a consistent, cohesive visual style.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Opus 4.8</span><br /><span style="color:#7d8098;">500K output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Hunyuan 3D Model Asset Builder</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Uses the Hunyuan 3D AI pipeline to generate game-ready character and environment models from prompts and reference art.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Local Hunyuan3D</span><br /><span style="color:#d8dae6;">RTX 5070</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">UE Player Mechanics Animator</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Creates and applies animation sequences for characters, creatures, and environmental objects directly within Unreal Engine 5.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Sonnet 5</span><br /><span style="color:#7d8098;">1.2M output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">UE Gameplay Mechanic Expert</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Implements core gameplay systems &mdash; movement, combat, health, and power &mdash; using UE5 Blueprints and C++.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Opus 4.8</span><br /><span style="color:#7d8098;">2.5M output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Sound Effect Expert</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Sources, generates, and integrates all in-game SFX: rift ambience, combat impacts, and Astral Plane audio signatures.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Sonnet 5</span><br /><span style="color:#7d8098;">500K output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Soundtrack Expert</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Composes and produces the musical score for the Astral Plane.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Sonnet 5</span><br /><span style="color:#7d8098;">500K output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Menu Designer</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Designs all UI menus &mdash; main, pause, settings &mdash; in the cosmic aesthetic, emitting structured JSON for the UMG Engineer.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Antigravity CLI</span><br /><span style="color:#d8dae6;">Gemini 3.1 Pro</span><br /><span style="color:#7d8098;">High</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">HUD Designer</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Designs the in-game HUD, including health indicator and gravity power meter, emitting structured JSON for the UMG Engineer.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Antigravity CLI</span><br /><span style="color:#d8dae6;">Gemini 3.1 Pro</span><br /><span style="color:#7d8098;">High</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Unreal Motion Graphics Engineer</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Implements UMG data from the HUD Designer via the UE5.8 MCP, passing errors back to the HUD Designer to resolve.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Antigravity CLI</span><br /><span style="color:#d8dae6;">Gemini 3.5 Flash</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">Marketing Expert</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Produces trailers, screenshots, social content, and store-page copy to promote Empyrean Rifts across all platforms.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Opus 4.8</span><br /><span style="color:#7d8098;">800K output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">QA Strategist</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Writes test plans, defines edge cases, designs the regression matrix, and triages / root-causes bugs.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Opus 4.8</span><br /><span style="color:#7d8098;">800K output tokens</span>
-                </td>
-              </tr>
-              <tr style="border-top:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:13px 20px; color:#f0ecdf; font-weight:600; vertical-align:top;">QA Runner</td>
-                <td style="padding:13px 20px; color:#b3b7ca; vertical-align:top; line-height:1.55;">Executes PIE test loops, parses logs, files structured bug reports, and re-runs after fixes.</td>
-                <td style="padding:13px 20px; vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
-                  <span style="color:#5fd8ea;">Claude Code</span><br /><span style="color:#d8dae6;">Sonnet 5</span><br /><span style="color:#7d8098;">15M output tokens</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="margin:20px 0 0; font-size:13.5px; color:#7d8098; font-style:italic;">Each Unreal Engine engineer
-          agent&rsquo;s MCP tools and skills are scoped to only the subset required for its role.</p>
-      </section>
-
-      <!-- PROMPT CONSTRAINTS -->
-      <section style="padding:64px 0 8px;">
-        <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:14px;">
-          <span
-            style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#e8c874; letter-spacing:0.2em;">07</span>
-          <h2
-            style="font-family:'Cinzel',serif; font-weight:700; font-size:clamp(28px,4vw,42px); margin:0; color:#f4f0e6; letter-spacing:0.03em;">
-            Prompt Constraints</h2>
-          <span
-            style="flex:1; height:1px; background:linear-gradient(90deg, rgba(232,200,116,0.5), rgba(232,200,116,0)); align-self:center; margin-left:8px;"></span>
-        </div>
-        <p style="margin:0 0 26px; font-style:italic; color:#8f94a8; font-size:15px;">Each core agent has a dedicated,
-          versioned prompt definition with input / output specs and constraints, all tailored to the cosmic-horror
-          setting and the core gameplay loop.</p>
-        <div class="grid-2" style="display:grid; grid-template-columns:repeat(2,1fr); gap:18px;">
-          <div
-            style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px 24px;">
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 12px; color:#f4f0e6;">
-              Architect</h3>
-            <p style="margin:0 0 16px; font-size:14px; color:#a7abbe; line-height:1.6;">Design the overall technical and creative structure for a third-person flight battle set in the Astral Plane, referencing the Soul Sphere crisis, cosmic-horror tone, and the core mechanics.</p>
-            <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13px;">
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#e8c874; padding-top:2px;">In</span><span
-                style="color:#b3b7ca;">Full GDD, design goals, technical constraints, story/setting context</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#5fd8ea; padding-top:2px;">Out</span><span
-                style="color:#b3b7ca;">High-level architecture doc (Markdown), system diagrams, agent role definitions, pipeline overview</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#b18bff; padding-top:2px;">Ver</span><span
-                style="color:#8f94a8; font-family:'IBM Plex Mono',monospace; font-size:12px;">v1.0.0</span>
-            </div>
-          </div>
-
-          <div
-            style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px 24px;">
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 12px; color:#f4f0e6;">
-              Level Designer</h3>
-            <p style="margin:0 0 16px; font-size:14px; color:#a7abbe; line-height:1.6;">Design an Astral Plane level emphasizing cosmic horror, drifting star-matter, and the Soul Sphere crisis &mdash; placing encounters, storytelling beats, and pacing around the three core mechanics.</p>
-            <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13px;">
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#e8c874; padding-top:2px;">In</span><span
-                style="color:#b3b7ca;">GDD, story beats, gameplay mechanic briefs, constraints, asset lists</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#5fd8ea; padding-top:2px;">Out</span><span
-                style="color:#b3b7ca;">Structured level design doc (Markdown) with encounters, pacing, environmental storytelling, set pieces</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#b18bff; padding-top:2px;">Ver</span><span
-                style="color:#8f94a8; font-family:'IBM Plex Mono',monospace; font-size:12px;">v1.0.0</span>
-            </div>
-          </div>
-
-          <div
-            style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px 24px;">
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 12px; color:#f4f0e6;">
-              Asset Designer</h3>
-            <p style="margin:0 0 16px; font-size:14px; color:#a7abbe; line-height:1.6;">Generate precise, structured JSON asset specs for all 3D, VFX, and material assets, detailed enough for an artist to build &mdash; referencing tone, star-matter, and Soul Sphere influence.</p>
-            <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13px;">
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#e8c874; padding-top:2px;">In</span><span
-                style="color:#b3b7ca;">GDD, level design doc, asset lists, visual refs, constraints</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#5fd8ea; padding-top:2px;">Out</span><span
-                style="color:#b3b7ca;">Structured asset spec (JSON) per asset: description, refs, requirements, function, style, scale, VFX notes</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#b18bff; padding-top:2px;">Ver</span><span
-                style="color:#8f94a8; font-family:'IBM Plex Mono',monospace; font-size:12px;">v1.0.0</span>
-            </div>
-          </div>
-
-          <div
-            style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px 24px;">
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 12px; color:#f4f0e6;">
-              UE Level Builder</h3>
-            <p style="margin:0 0 16px; font-size:14px; color:#a7abbe; line-height:1.6;">Implement the Astral Plane layout in UE5.8 via MCP &mdash; translating the design doc into a playable level with asset placement, lighting, traversal, and encounter zones.</p>
-            <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13px;">
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#e8c874; padding-top:2px;">In</span><span
-                style="color:#b3b7ca;">Level design doc, asset specs, encounter / pacing notes, constraints</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#5fd8ea; padding-top:2px;">Out</span><span
-                style="color:#b3b7ca;">Built level (UE project files), placement, lighting, triggers, implementation report (Markdown)</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#b18bff; padding-top:2px;">Ver</span><span
-                style="color:#8f94a8; font-family:'IBM Plex Mono',monospace; font-size:12px;">v1.0.0</span>
-            </div>
-          </div>
-
-          <div
-            style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px 24px;">
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 12px; color:#f4f0e6;">
-              UE Player Mechanics Animator</h3>
-            <p style="margin:0 0 16px; font-size:14px; color:#a7abbe; line-height:1.6;">Create and implement animation sequences for Flight, Kinetic Punch, and Singularity in UE5.8 via MCP, reflecting cosmic-horror tone and Astral Plane physicality.</p>
-            <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13px;">
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#e8c874; padding-top:2px;">In</span><span
-                style="color:#b3b7ca;">Animation briefs, mechanic descriptions, constraints, visual refs</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#5fd8ea; padding-top:2px;">Out</span><span
-                style="color:#b3b7ca;">Animation blueprints / sequences in UE, implementation report (Markdown)</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#b18bff; padding-top:2px;">Ver</span><span
-                style="color:#8f94a8; font-family:'IBM Plex Mono',monospace; font-size:12px;">v1.0.0</span>
-            </div>
-          </div>
-
-          <div
-            style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px 24px;">
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 12px; color:#f4f0e6;">
-              UE Gameplay Mechanic Expert</h3>
-            <p style="margin:0 0 16px; font-size:14px; color:#a7abbe; line-height:1.6;">Implement core systems (Flight, Kinetic Punch, Singularity) in UE5.8 via MCP, supporting traversal, combat, tone, and integration with the Soul Sphere narrative.</p>
-            <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13px;">
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#e8c874; padding-top:2px;">In</span><span
-                style="color:#b3b7ca;">Gameplay specs, level design doc, constraints, animation blueprints</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#5fd8ea; padding-top:2px;">Out</span><span
-                style="color:#b3b7ca;">Gameplay blueprints / scripts in UE, system implementation report (Markdown)</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#b18bff; padding-top:2px;">Ver</span><span
-                style="color:#8f94a8; font-family:'IBM Plex Mono',monospace; font-size:12px;">v1.0.0</span>
-            </div>
-          </div>
-
-          <div
-            style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px 24px;">
-            <h3
-              style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 12px; color:#f4f0e6;">
-              Unreal Motion Graphics Engineer</h3>
-            <p style="margin:0 0 16px; font-size:14px; color:#a7abbe; line-height:1.6;">Implement all UMG widgets and HUD elements in UE5.8 via MCP, translating the HUD Designer's blueprints into interactive, cosmic-horror-themed UI.</p>
-            <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13px;">
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#e8c874; padding-top:2px;">In</span><span
-                style="color:#b3b7ca;">HUD / UI blueprints, asset specs, constraints, visual refs</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#5fd8ea; padding-top:2px;">Out</span><span
-                style="color:#b3b7ca;">Implemented UMG widgets in UE, UI implementation report (Markdown)</span>
-              <span
-                style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#b18bff; padding-top:2px;">Ver</span><span
-                style="color:#8f94a8; font-family:'IBM Plex Mono',monospace; font-size:12px;">v1.0.0</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
+    </nav>
 
     <footer class="container" style="border-top:1px solid rgba(232,200,116,0.16); padding:32px 48px;">
       <div
-        style="max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:#7d8098;">
+        style="max-width:600px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:#7d8098;">
         <span style="color:#e8c874;">Empyrean Rifts</span>
-        <span style="color:#7d8098;">GDD v1.0.0 &middot; Astral Plane Gameplay Demo</span>
+        <span style="color:#7d8098;">Astral Plane Gameplay Demo</span>
       </div>
     </footer>
 
   </div>
 
   <script>
-    window.addEventListener('load', () => {
-      // Hero Background Video Swap
-      const heroBg = document.querySelector('div[style*="astral_plane.jpg"]');
-      if (heroBg) {
-        const heroVid = document.createElement('video');
-        heroVid.autoplay = true;
-        heroVid.loop = true;
-        heroVid.muted = true;
-        heroVid.playsInline = true;
-        heroVid.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;';
+    // window.addEventListener('load', () => {
+    //   // Hero Background Video Swap
+    //   const heroBg = document.querySelector('div[style*="astral_plane.jpg"]');
+    //   if (heroBg) {
+    //     const heroVid = document.createElement('video');
+    //     heroVid.autoplay = true;
+    //     heroVid.loop = true;
+    //     heroVid.muted = true;
+    //     heroVid.playsInline = true;
+    //     heroVid.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;';
 
-        heroBg.parentNode.insertBefore(heroVid, heroBg);
+    //     heroBg.parentNode.insertBefore(heroVid, heroBg);
 
-        heroVid.addEventListener('canplay', () => {
-          heroVid.play().then(() => {
-            heroBg.style.transition = 'opacity 0.5s ease';
-            heroBg.style.opacity = '0';
-            setTimeout(() => heroBg.remove(), 500);
-          }).catch(() => { });
-        }, { once: true });
+    //     heroVid.addEventListener('canplay', () => {
+    //       heroVid.play().then(() => {
+    //         heroBg.style.transition = 'opacity 0.5s ease';
+    //         heroBg.style.opacity = '0';
+    //         setTimeout(() => heroBg.remove(), 500);
+    //       }).catch(() => { });
+    //     }, { once: true });
 
-        heroVid.src = 'assets/astral_plane_traversal.mp4';
-      }
-
-      // Wraith Image Video Swap
-      const wraithImg = document.querySelector('img[src="assets/wraith.jpg"]');
-      if (wraithImg) {
-        const wraithVid = document.createElement('video');
-        wraithVid.autoplay = true;
-        wraithVid.loop = true;
-        wraithVid.muted = true;
-        wraithVid.playsInline = true;
-        wraithVid.style.cssText = 'display:block; width:100%; height:auto; position:absolute; inset:0; object-fit:cover;';
-
-        const wrapper = document.createElement('div');
-        wrapper.style.position = 'relative';
-        wrapper.style.display = 'block';
-        wrapper.style.width = '100%';
-        wraithImg.parentNode.insertBefore(wrapper, wraithImg);
-        wrapper.appendChild(wraithVid);
-        wrapper.appendChild(wraithImg);
-
-        wraithImg.style.position = 'relative';
-        wraithImg.style.zIndex = '1';
-
-        wraithVid.addEventListener('canplay', () => {
-          wraithVid.play().then(() => {
-            wraithImg.style.transition = 'opacity 0.5s ease';
-            wraithImg.style.opacity = '0';
-            setTimeout(() => {
-              wraithVid.style.position = 'static';
-              wrapper.replaceWith(wraithVid);
-            }, 500);
-          }).catch(() => { });
-        }, { once: true });
-
-        wraithVid.src = 'assets/astral_wraith_enemy.mp4';
-      }
-    });
+    //     heroVid.src = 'assets/astral_plane_traversal.mp4';
+    //   }
+    // });
   </script>
 </body>
 
