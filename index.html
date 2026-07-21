@@ -64,7 +64,14 @@
       .grid-2 { grid-template-columns: 1fr !important; }
       .loop-col { border-right: none !important; border-bottom: 1px solid rgba(232,200,116,0.16) !important; padding: 16px 0 !important; }
       .loop-col:last-child { border-bottom: none !important; }
-      .table-wrapper { overflow-x: auto !important; }
+      .table-wrapper { overflow-x: hidden !important; }
+      .agent-roles-table thead { display: none; }
+      .agent-roles-table tbody, .agent-roles-table tr, .agent-roles-table td { display: block; width: 100%; box-sizing: border-box; }
+      .agent-roles-table tr { padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.06) !important; }
+      .agent-roles-table tr:first-child { border-top: none !important; }
+      .agent-roles-table td { border: none !important; padding: 6px 20px !important; }
+      .agent-roles-table td:first-child { font-size: 16px; color: #e8c874 !important; padding-top: 0 !important; }
+      .agent-roles-table td:last-child { padding-bottom: 0 !important; }
     }
     @media (max-width: 480px) {
       .grid-4 { grid-template-columns: 1fr !important; }
@@ -335,7 +342,7 @@
         <p style="margin:0 0 26px; font-style:italic; color:#8f94a8; font-size:15px;">The AI-assisted development
           &amp; creation agents used to build the Empyrean Rifts Gameplay Demo.</p>
         <div class="table-wrapper" style="border:1px solid rgba(232,200,116,0.16); border-radius:14px; overflow:hidden;">
-          <table style="width:100%; border-collapse:collapse; font-size:14.5px;">
+          <table class="agent-roles-table" style="width:100%; border-collapse:collapse; font-size:14.5px;">
             <thead>
               <tr style="background:rgba(232,200,116,0.06);">
                 <th
