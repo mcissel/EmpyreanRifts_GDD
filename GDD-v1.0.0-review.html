@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDD Review Board — Interactive Report</title>
+<style>
+  :root{
+    --bg:#16181D;
+    --panel:#1F232B;
+    --text:#E8E6E1;
+    --muted:#8A8F98;
+    --rule:#2A2F38;
+    --blocking:#E5484D;
+    --major:#F5A623;
+    --minor:#5A6270;
+    --focus:#E8E6E1;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#F2F1ED;
+      --panel:#FFFFFF;
+      --text:#181B20;
+      --muted:#5B6068;
+      --rule:#D9D7D1;
+    }
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *, *::before, *::after{animation:none !important; transition:none !important;}
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+  }
+  .mono{font-family:ui-monospace,SFMono-Regular,"Cascadia Mono","Consolas",monospace;}
+  .display{font-family:"Arial Narrow","Helvetica Neue Condensed",Arial,sans-serif;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+  a{color:inherit;}
+
+  /* ---------- Masthead ---------- */
+  .masthead{padding:56px 0 32px;border-bottom:1px solid var(--rule);}
+  .eyebrow{
+    font-family:"Arial Narrow","Helvetica Neue Condensed",Arial,sans-serif;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-size:13px;
+    color:var(--muted);
+    margin:0 0 8px;
+  }
+  .masthead h1{
+    font-family:"Arial Narrow","Helvetica Neue Condensed",Arial,sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    font-size:clamp(32px,5vw,56px);
+    margin:0 0 12px;
+  }
+  .masthead .verdict-line{
+    font-size:17px;
+    color:var(--muted);
+    max-width:820px;
+    margin:0 0 28px;
+  }
+  .stat-row{display:flex;flex-wrap:wrap;gap:32px;}
+  .stat-block{min-width:160px;}
+  .stat-block .num{font-family:"Arial Narrow","Helvetica Neue Condensed",Arial,sans-serif;font-size:48px;font-weight:700;line-height:1;}
+  .stat-block .label{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+  .stat-block.blocking .num{color:var(--blocking);}
+
+  /* ---------- Filter bar ---------- */
+  .filter-bar{
+    position:sticky;top:0;z-index:50;
+    background:var(--bg);
+    border-bottom:1px solid var(--rule);
+    padding:14px 0;
+  }
+  .filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px;}
+  .filter-group{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+  .filter-group .fg-label{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-right:4px;}
+  .chip{
+    font-size:13px;
+    padding:5px 12px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--text);
+    border-radius:2px;
+    cursor:pointer;
+    font-family:inherit;
+    letter-spacing:0.02em;
+  }
+  .chip[aria-pressed="true"]{border-color:var(--text);background:var(--panel);}
+  .chip.sev-blocking[aria-pressed="true"]{border-color:var(--blocking);color:var(--blocking);}
+  .chip.sev-major[aria-pressed="true"]{border-color:var(--major);color:var(--major);}
+  .chip.sev-minor[aria-pressed="true"]{border-color:var(--minor);color:var(--minor);}
+  .round-toggle{display:flex;border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+  .round-toggle button{
+    font-family:inherit;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+    background:transparent;color:var(--muted);border:none;padding:7px 14px;cursor:pointer;
+  }
+  .round-toggle button[aria-pressed="true"]{background:var(--panel);color:var(--text);}
+
+  /* ---------- Sections ---------- */
+  section.section{padding:64px 0;border-bottom:1px solid var(--rule);}
+  section.section:last-of-type{border-bottom:none;}
+  .section-eyebrow{font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;}
+  .section-title{
+    font-family:"Arial Narrow","Helvetica Neue Condensed",Arial,sans-serif;
+    font-size:clamp(24px,3vw,34px);
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    margin:0 0 8px;
+  }
+  .section-note{color:var(--muted);font-size:14px;max-width:760px;margin:0 0 28px;}
+
+  /* ---------- Stamps ---------- */
+  .stamp{
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border:1px solid var(--muted);
+    color:var(--muted);
+    background:transparent;
+    white-space:nowrap;
+  }
+  .stamp-blocking{border-color:var(--blocking);color:var(--blocking);}
+  .stamp-major{border-color:var(--major);color:var(--major);}
+  .stamp-minor{border-color:var(--minor);color:var(--minor);}
+
+  /* ---------- Legend ---------- */
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;font-size:13px;color:var(--muted);}
+  .legend .item{display:flex;align-items:center;gap:6px;}
+  .legend .swatch{width:12px;height:12px;display:inline-block;border-radius:2px;}
+
+  /* ---------- SVG chart wrapper ---------- */
+  .chart-wrap{width:100%;overflow-x:auto;}
+  svg{display:block;}
+  svg [tabindex]:focus{outline:none;}
+  .sv-focusable:focus rect, rect.sv-focusable:focus{stroke:var(--focus);stroke-width:2;}
+
+  /* ---------- Tooltip ---------- */
+  #tooltip{
+    position:fixed;
+    pointer-events:none;
+    background:var(--panel);
+    border:1px solid var(--rule);
+    color:var(--text);
+    padding:10px 12px;
+    font-size:13px;
+    max-width:340px;
+    line-height:1.4;
+    z-index:1000;
+    display:none;
+    box-shadow:none;
+  }
+  #tooltip .tt-tag{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;display:block;}
+
+  /* ---------- Matrix expansion panel ---------- */
+  .matrix-panel{
+    margin-top:24px;
+    border-top:1px solid var(--rule);
+    padding-top:20px;
+    display:none;
+  }
+  .matrix-panel.open{display:block;}
+  .matrix-entry{padding:14px 0;border-bottom:1px solid var(--rule);}
+  .matrix-entry:last-child{border-bottom:none;}
+  .matrix-entry .tag{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block;}
+  .matrix-entry p{margin:0 0 8px;font-size:15px;}
+  .finding-chip{
+    display:inline-block;font-size:12px;margin:2px 6px 2px 0;padding:2px 8px;
+    border:1px solid var(--rule);color:var(--muted);cursor:pointer;background:transparent;font-family:inherit;
+  }
+  .finding-chip:hover, .finding-chip:focus{border-color:var(--text);color:var(--text);}
+
+  /* ---------- Top Issues (VIZ4) ---------- */
+  .issue-card{border-top:1px solid var(--rule);padding:32px 0;}
+  section#viz4 .issue-card:last-child{border-bottom:1px solid var(--rule);}
+  .issue-head{display:flex;align-items:flex-start;gap:24px;cursor:pointer;background:none;border:none;text-align:left;width:100%;color:inherit;font-family:inherit;padding:0;}
+  .issue-rank{
+    font-family:"Arial Narrow","Helvetica Neue Condensed",Arial,sans-serif;
+    font-size:92px;font-weight:700;line-height:1;color:var(--muted);opacity:0.35;flex:0 0 auto;
+  }
+  .issue-main{flex:1 1 auto;min-width:0;}
+  .issue-title{font-size:clamp(20px,2.4vw,30px);font-weight:600;margin:4px 0 14px;line-height:1.25;}
+  .issue-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
+  .reviewer-chip{
+    font-size:12px;letter-spacing:0.04em;padding:3px 9px;border:1px solid var(--rule);color:var(--muted);
+    background:transparent;cursor:pointer;font-family:inherit;
+  }
+  .reviewer-chip:hover,.reviewer-chip:focus{border-color:var(--text);color:var(--text);}
+  .issue-body{display:none;margin-top:24px;padding-left:116px;}
+  .issue-card.open .issue-body{display:block;}
+  .issue-body p{font-size:16px;max-width:820px;}
+  .trail{margin-top:20px;}
+  .trail-row{display:flex;gap:16px;align-items:baseline;padding:10px 0;border-top:1px solid var(--rule);font-size:14px;flex-wrap:wrap;}
+  .trail-row .rev{min-width:170px;color:var(--muted);}
+  .trail-row .arrow{color:var(--muted);}
+  .timeline{display:flex;gap:0;margin-top:20px;border-top:1px solid var(--rule);padding-top:20px;flex-wrap:wrap;}
+  .timeline .tl-step{flex:1 1 220px;padding:0 18px;border-left:1px solid var(--rule);}
+  .timeline .tl-step:first-child{border-left:none;padding-left:0;}
+  .timeline .tl-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .timeline .tl-text{font-size:14px;}
+
+  /* ---------- Disagreements (VIZ5) ---------- */
+  .disagreement{border-top:1px solid var(--rule);padding:32px 0;}
+  section#viz5 .disagreement:last-child{border-bottom:1px solid var(--rule);}
+  .disagreement h3{font-size:20px;margin:0 0 16px;}
+  .positions{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  @media (max-width:760px){.positions{grid-template-columns:1fr;}}
+  .position{padding:16px 18px;border:1px solid var(--rule);}
+  .position .stance{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .position p{margin:0;font-size:15px;}
+  .badges{margin-top:10px;font-size:12px;color:var(--muted);display:none;}
+  .badges.show{display:block;}
+  .agree-toggle{
+    margin-top:16px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;background:none;
+    border:1px solid var(--rule);color:var(--muted);padding:6px 12px;cursor:pointer;font-family:inherit;
+  }
+  .escalation{margin-top:16px;font-size:14px;color:var(--muted);padding-top:14px;border-top:1px solid var(--rule);}
+  .empty-state{color:var(--muted);font-size:16px;font-style:italic;}
+
+  /* ---------- Quick wins ---------- */
+  .quickwins{list-style:none;margin:0;padding:0;}
+  .quickwins li{border-top:1px solid var(--rule);padding:18px 0;}
+  .quickwins li:last-child{border-bottom:1px solid var(--rule);}
+  .qw-title{font-weight:600;font-size:16px;margin-bottom:4px;}
+  .qw-detail{color:var(--muted);font-size:14px;}
+
+  /* ---------- Table (VIZ6) ---------- */
+  .table-controls{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+  #table-search{
+    background:var(--panel);border:1px solid var(--rule);color:var(--text);padding:9px 12px;font-size:14px;
+    font-family:inherit;min-width:260px;
+  }
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  thead th{
+    text-align:left;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);
+    border-bottom:1px solid var(--rule);padding:10px 10px;cursor:pointer;user-select:none;white-space:nowrap;
+  }
+  thead th:focus{outline:1px solid var(--focus);}
+  tbody td{padding:12px 10px;border-bottom:1px solid var(--rule);vertical-align:top;}
+  tbody tr.finding-row{cursor:pointer;}
+  tbody tr.finding-row:hover{background:var(--panel);}
+  tbody tr.finding-row.hidden-row{display:none;}
+  tr.expand-row{display:none;background:var(--panel);}
+  tr.expand-row.open{display:table-row;}
+  tr.expand-row td{padding:16px 10px 20px;}
+  tr.finding-row.highlight{background:var(--panel);box-shadow:inset 3px 0 0 var(--major);}
+  .status-glyph{font-size:16px;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+  /* ---------- Footer ---------- */
+  footer{padding:48px 0 64px;color:var(--muted);font-size:13px;}
+  footer p{margin:4px 0;}
+
+  .fade-up{animation:fadeUp 0.5s ease-out;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<div id="tooltip" role="status" aria-live="polite"></div>
+
+<header class="masthead wrap fade-up">
+  <p class="eyebrow">Design Review Board · Interactive</p>
+  <h1>GDD Review — Round 5 Visualization</h1>
+  <p class="verdict-line" id="verdict-line"></p>
+  <div class="stat-row" id="stat-row"></div>
+</header>
+
+<div class="filter-bar">
+  <div class="wrap filter-row">
+    <div class="filter-group" id="reviewer-filter-group">
+      <span class="fg-label">Reviewer</span>
+    </div>
+    <div class="filter-group" id="severity-filter-group">
+      <span class="fg-label">Severity</span>
+    </div>
+    <div class="filter-group">
+      <span class="fg-label">Lens</span>
+      <div class="round-toggle" id="round-toggle">
+        <button type="button" data-round="r1" aria-pressed="false">Round 1</button>
+        <button type="button" data-round="final" aria-pressed="true">Final</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="section" id="viz1">
+    <p class="section-eyebrow">01 — Overview</p>
+    <h2 class="section-title">Severity Breakdown</h2>
+    <p class="section-note">One stacked bar per reviewer plus an all-reviewer aggregate. Toggle the lens above to compare Round 1 severities against the post-cross-examination Final severities — the aggregate row gained more BLOCKING weight after Round 2.</p>
+    <div class="legend" id="viz1-legend"></div>
+    <div class="chart-wrap"><svg id="viz1-svg" role="img" aria-label="Stacked bar chart of finding severities per reviewer"></svg></div>
+  </section>
+
+  <section class="section" id="viz2">
+    <p class="section-eyebrow">02 — Cross-Examination</p>
+    <h2 class="section-title">Reviewer Agreement Matrix</h2>
+    <p class="section-note">Row = reviewer who wrote the Round 2 response ("from"). Column = the colleague they engaged ("to"). Fill opacity = volume of engagement; border style/color = whether the engagement was conflict-majority (amber, dashed) or connection-majority (grey, solid). Click a cell for the full argument text.</p>
+    <div class="legend" id="viz2-legend"></div>
+    <div class="chart-wrap"><svg id="viz2-svg" role="img" aria-label="Six by six heatmap of reviewer cross-examination engagement"></svg></div>
+    <div class="matrix-panel" id="matrix-panel"></div>
+  </section>
+
+  <section class="section" id="viz3">
+    <p class="section-eyebrow">03 — Movement</p>
+    <h2 class="section-title">Finding Flow — Round 1 to Final</h2>
+    <p class="section-note">Every one of the 30 findings as a ribbon from its Round 1 severity bucket to its Final severity bucket, coloured by the Final severity. Bent, rightward-climbing ribbons are findings the board judged worse after cross-examination; flat ribbons held their ground.</p>
+    <div class="chart-wrap"><svg id="viz3-svg" role="img" aria-label="Alluvial diagram showing findings moving between severity buckets from round 1 to final"></svg></div>
+  </section>
+
+  <section class="section" id="viz4">
+    <p class="section-eyebrow">04 — Centerpiece</p>
+    <h2 class="section-title">Top 5 Issues</h2>
+    <p class="section-note">Ranked by severity × confidence per the Round 3 synthesis. Click a card to expand its full cross-examination trail.</p>
+    <div id="viz4-list"></div>
+  </section>
+
+  <section class="section" id="viz5">
+    <p class="section-eyebrow">05 — Escalation</p>
+    <h2 class="section-title">Unresolved Disagreements</h2>
+    <p class="section-note">Conflicts from Round 2 the board could not settle. Positions are shown as written; use "Show who agrees" to see how many reviewers stand on each side.</p>
+    <div id="viz5-list"></div>
+  </section>
+
+  <section class="section" id="viz6">
+    <p class="section-eyebrow">06 — Reference</p>
+    <h2 class="section-title">Full Findings Table</h2>
+    <p class="section-note">All 30 Round 1 findings, filterable by the bar above and searchable below. Click a row to expand the full text; click any chart element elsewhere on the page to jump here with a highlighted match.</p>
+    <div class="table-controls">
+      <input type="text" id="table-search" placeholder="Search findings (e.g. portal, fail state, timeline)…" aria-label="Search findings">
+      <span class="section-note" style="margin:0;" id="table-count"></span>
+    </div>
+    <div class="chart-wrap">
+      <table id="findings-table">
+        <thead>
+          <tr>
+            <th data-col="reviewer" tabindex="0">Reviewer</th>
+            <th data-col="title" tabindex="0">Finding</th>
+            <th data-col="severityR1" tabindex="0">Round 1</th>
+            <th data-col="severityFinal" tabindex="0">Final</th>
+            <th data-col="status" tabindex="0">Status</th>
+            <th data-col="source" tabindex="0">Source</th>
+          </tr>
+        </thead>
+        <tbody id="findings-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="quickwins-section" style="border-bottom:none;">
+    <p class="section-eyebrow">07 — Cheap Fixes</p>
+    <h2 class="section-title">Quick Wins</h2>
+    <ul class="quickwins" id="quickwins-list"></ul>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Six isolated agent contexts · parallel review · cross-examination · moderated synthesis.</p>
+  <p id="footer-source"></p>
+</footer>
+
+<script>
+const RAW = {
+  "meta": {
+    "source_document": "gdd.txt",
+    "review_files_read": [
+      "reviews/systems-designer.md",
+      "reviews/narrative-critic.md",
+      "reviews/player-psychologist.md",
+      "reviews/feasibility-lead.md",
+      "reviews/adversarial-qa.md",
+      "reviews/business-analyst.md",
+      "reviews/SYNTHESIS.md"
+    ],
+    "reviewers": [
+      "systems-designer",
+      "narrative-critic",
+      "player-psychologist",
+      "feasibility-lead",
+      "adversarial-qa",
+      "business-analyst"
+    ]
+  },
+
+  "findings": [
+    { "reviewer": "systems-designer", "finding_id": "F1", "title": "A resource/power system is implied but never specified", "description": "Section 06 (HUD Designer role) states the HUD includes a 'gravity power meter,' implying at least one consumable/regenerating player resource gating Kinetic Punch and/or Singularity. But Section 03 (Player Mechanics), where these abilities are defined, gives zero numbers: no cost per use, no cooldown, no regen rate, no cap, and no statement of which ability draws from the meter. Singularity's 'before the event ends' duration is also never quantified. A HUD element referencing a resource the mechanics section never defines makes it impossible to evaluate balance or pacing.", "severity_round1": "MAJOR", "passage_or_omission": "Section 03 'Kinetic Punch' / 'Singularity' (lines ~45-56) vs. Section 06 HUD Designer row (line 109)." },
+    { "reviewer": "systems-designer", "finding_id": "F2", "title": "The Core Gameplay Loop has no stated transition criteria between phases", "description": "The loop is Fight -> Destroy -> Resolve, but nothing states what causes the game to move from 'Fight' (battle waves of astral beings) to 'Destroy' (tear open and destroy the portal). No wave count, timer, kill quota, or gate is given, so the player may be free to disengage and fly to the portal at any time, rendering 'Fight' optional busywork. Without a stated gate, this isn't a loop with pacing -- it's three activity descriptions in a list, and it removes the demo's only real difficulty control.", "severity_round1": "MAJOR", "passage_or_omission": "Section 04 'Core Gameplay Loop,' items I-III (lines 61-77)." },
+    { "reviewer": "systems-designer", "finding_id": "F3", "title": "Single enemy type, single stated level number, no progression or escalation across the demo", "description": "The only combat content specified for the entire demo is 'ENCOUNTER - ASTRAL WRAITH - LVL 22.' No player level, XP, or stat-progression system is defined anywhere the '22' could be relative to. One enemy type with one difficulty value, described only as 'waves,' gives no indication of ramp across the demo's few minutes of play.", "severity_round1": "MAJOR", "passage_or_omission": "Section 05 'Level Design' (lines 83-90); no player-progression system appears anywhere else in the document." },
+    { "reviewer": "systems-designer", "finding_id": "F4", "title": "Undefined fail-state consequences", "description": "'Resolve: Win, or be knocked out of the astral plane' is the entire specification of the loss condition. There is no statement of what happens on loss -- restart the encounter, restart the level, lose progress, respawn at a checkpoint, or scaled-down retry. For a short vertical-slice demo meant to hook players into the full game, an undefined or punishing fail-state could sour the exact experience the demo exists to sell.", "severity_round1": "MINOR", "passage_or_omission": "Section 04 'Resolve' (lines 73-77)." },
+    { "reviewer": "systems-designer", "finding_id": "F5", "title": "The two abilities are described in isolation, not as an interlocking kit", "description": "Kinetic Punch (single-target/directional ranged force) and Singularity (AoE pull-and-implode) are each self-contained, but nothing states how they're meant to work together (e.g., punch enemies into a Singularity, or use Singularity to cluster enemies for a Punch), despite cited inspirations (Rifts Megaverse, JoJo) leaning on combo-oriented powers. As written, the 'powerset' is two separate toys on the same page, not a kit that compounds.", "severity_round1": "MINOR", "passage_or_omission": "Section 03 'Ranged Attack: Kinetic Punch' and 'Area of Effect: Singularity' (lines 45-56)." },
+
+    { "reviewer": "narrative-critic", "finding_id": "F1", "title": "The demo's central objective has no stated motivation", "description": "The single concrete gameplay goal of the demo -- destroying the portal to the Earth Realm -- is never given a reason. The player isn't told why severing the portal is desirable, necessary, or whose idea it is; it isn't connected to the 'impending invasion' warning or to the eventual reveal that the Vampire King's real goal is to get the player to shatter the Soul Sphere. The player spends the entire demo working toward an objective with zero stated stakes or justification.", "severity_round1": "BLOCKING", "passage_or_omission": "'The player enters the Astral Plane, meets the emissary, and flies through soul-currents fighting waves of astral beings with innate gravity powers, then destroys the portal to the Earth Realm.' (Story S02, Demo Arc) / 'Destroy -- Tear open and destroy the portal to the Earth Realm.' (S04)" },
+    { "reviewer": "narrative-critic", "finding_id": "F2", "title": "The 'companion is secretly the villain' twist is asserted, not staged", "description": "The Overview promises the player flies alongside a 'mysterious and ancient emissary'; the Story section separately reveals the Vampire King, disguised as an emissary, tricks the player. The document never explicitly confirms these are the same figure, and gives no mechanism for the reveal -- no foreshadowing, no changed behavior, no staged betrayal beat. A twist this central needs at least one planted seed or a described reveal moment; as written it reads as information dropped on the player rather than a payoff earned through play.", "severity_round1": "MAJOR", "passage_or_omission": "'alongside a mysterious and ancient emissary' (S01 Overview) vs. 'The Vampire King, disguised as an emissary...tricks the player' (S02 Story) vs. 'The demo closes as the Vampire King reveals his true plan' (S02 Demo Arc)" },
+    { "reviewer": "narrative-critic", "finding_id": "F3", "title": "Tone pillar is not reconciled with the actual gameplay fantasy", "description": "Tone is declared 'Dark fantasy, cosmic horror,' but mechanics and inspirations point the opposite way: superhero-style flight, a Kinetic Punch, a triumphant 'Win' state, and inspirations including Star Fox (arcade power fantasy) and JoJo (shonen bravado). Nothing explains how dread, insignificance, or existential horror is meant to survive contact with a moment-to-moment loop built entirely around empowerment and victory. 'Cosmic horror' reads as set-dressing layered over a fundamentally different genre promise.", "severity_round1": "MAJOR", "passage_or_omission": "'Tone: Dark fantasy, cosmic horror' / 'Inspiration: Rifts Megaverse, Fallout, JoJo's Bizarre Adventure, Star Fox' (title block) vs. 'III Resolve -- Win, or be knocked out of the astral plane.' (S04)" },
+    { "reviewer": "narrative-critic", "finding_id": "F4", "title": "The Vampire King's scheme lacks the specificity a deception plot needs", "description": "We're told the Vampire King warns of an impending invasion and tricks the player into destroying the Sphere, but not what the invasion is, why destroying the artifact that binds all realms would stop it, or why a being powerful enough to impersonate an ancient emissary can't just shatter the Sphere himself and needs the player to do it. That 'why the player' question is exactly what a cosmic-horror antagonist plot needs answered to feel like a scheme rather than a contrivance.", "severity_round1": "MINOR", "passage_or_omission": "'The Vampire King, disguised as an emissary of the desperate, warns of an impending invasion and tricks the player into destroying the Sphere.' (S02 Story)" },
+    { "reviewer": "narrative-critic", "finding_id": "F5", "title": "The withheld identity hook has no planted seeds", "description": "The Overview states the game withholds the protagonist's ultimate secret (identity as the Galaxy Soul incarnate) as the hook for the full game. That's a legitimate structural choice, but no moment in the demo plants a seed for it -- no unusual reaction to the Soul Sphere, no visual/audio motif, no NPC reaction. A held-back reveal with zero foreshadowing risks landing as an arbitrary retcon rather than an earned payoff.", "severity_round1": "MINOR", "passage_or_omission": "'This demo is a slice of the ultimate powerset. It introduces the game's \"big bad,\" the Vampire King, while withholding the protagonist's ultimate secret...as the hook for the full game.' (S01 Overview) -- no corresponding setup appears in S02 or S05." },
+
+    { "reviewer": "player-psychologist", "finding_id": "F1", "title": "No onboarding sequence for a three-ability kit", "description": "Section 03 hands the player Flight, Kinetic Punch, and Singularity, but nothing describes an order of introduction, a tutorial beat, or gating. The Core Gameplay Loop jumps straight to 'Fight: Battle waves of astral beings' as if all three systems are already known. For a demo whose entire job is to hook a first-time player in one sitting, dropping a full moveset simultaneously with no ramp is a classic early-abandonment risk.", "severity_round1": "MAJOR", "passage_or_omission": "Section 03 (Player Mechanics) vs. Section 04 (Core Gameplay Loop, 'Fight')." },
+    { "reviewer": "player-psychologist", "finding_id": "F2", "title": "\"LVL 22\" enemy label with no supporting stat/progression system", "description": "'ENCOUNTER - ASTRAL WRAITH - LVL 22' is stated with no other mention of player levels, XP, a stat system, or difficulty curve anywhere in the document. A level number is a strong genre signal, but here the player has no way to know if 22 is easy, hard, or lethal. A player-facing number with no explained meaning is a confusion risk exactly where the demo needs to feel confident.", "severity_round1": "MAJOR", "passage_or_omission": "Section 05 Level Design, 'ENCOUNTER - ASTRAL WRAITH - LVL 22.'" },
+    { "reviewer": "player-psychologist", "finding_id": "F3", "title": "Failure state is undefined", "description": "'Resolve: Win, or be knocked out of the astral plane' is the entire specification of failure -- no checkpoints, retry flow, penalty, or whether 'knocked out' ends the demo, restarts the encounter, or boots to a menu. Not knowing the cost of failure is a well-established source of player anxiety, especially in a flight-combat game players will die repeatedly learning.", "severity_round1": "MAJOR", "passage_or_omission": "Section 04 Core Gameplay Loop, 'Resolve.'" },
+    { "reviewer": "player-psychologist", "finding_id": "F4", "title": "No visible reward or progression loop", "description": "Nothing in Overview, Story, Mechanics, or Gameplay Loop describes what the player gains for playing well -- no upgrades, unlocks, currency, scoring, checkpoints, or power growth -- despite the Overview teasing 'a slice of the ultimate powerset' and Section 06 referencing a 'gravity power meter' that never appears in Player Mechanics. A demo meant to sell a player on the full game typically needs a legible reward signal within the first play session.", "severity_round1": "MAJOR", "passage_or_omission": "Overview, Story, Mechanics, Gameplay Loop sections; Section 06 HUD Designer role ('gravity power meter')." },
+    { "reviewer": "player-psychologist", "finding_id": "F5", "title": "The player's one accomplishment in the demo is secretly a loss, with no in-the-moment feedback", "description": "The Demo Arc has the player fight waves, then 'destroy the portal to the Earth Realm' as an apparent objective completion -- only for the ending cutscene to reveal this served the Vampire King's plan. Step II ('Destroy') is framed as a positive milestone with no in-game signal anything is wrong until a scripted reveal. Setting story quality aside, the document gives no indication of how gameplay feedback will keep the 'destroy' beat feeling satisfying to actually play in the moment.", "severity_round1": "MINOR", "passage_or_omission": "Demo Arc / Core Gameplay Loop step II ('Destroy')." },
+
+    { "reviewer": "feasibility-lead", "finding_id": "F1", "title": "No timeline exists anywhere in the document", "description": "There is no schedule, milestone list, deadline, or wall-clock duration estimate anywhere in the GDD. Section 08 is the closest thing to a production plan and explicitly optimizes for cash cost at the cost of longer wall-clock generation time, but never states what that cost actually is (hours, days, weeks) or whether it's acceptable. You cannot assess whether scope matches capacity without any notion of the capacity's time dimension.", "severity_round1": "BLOCKING", "passage_or_omission": "Section 08, final paragraph. No section titled 'Timeline,' 'Milestones,' or 'Schedule' exists in the document at all." },
+    { "reviewer": "feasibility-lead", "finding_id": "F2", "title": "No human playtesting or feel-iteration loop for feel-critical mechanics", "description": "Flight controls, gravity-based combat, and camera-aiming historically require dozens of human-tuned iteration passes to feel good. The pipeline in Sections 06-07 is almost entirely agent-to-agent handoff; the only explicit correction loop named in the whole document is UMG widget errors passed back to the HUD Designer. No equivalent loop exists for the Gameplay Mechanic Expert or Animator tuning flight/combat feel, and no human playtest checkpoint is mentioned anywhere.", "severity_round1": "MAJOR", "passage_or_omission": "Section 06/07 role tables; sole feedback loop is in the 'Unreal Motion Graphics Engineer' row/prompt. 'QA Runner' only executes PIE test loops and files bug reports -- functional/regression testing, not feel-tuning." },
+    { "reviewer": "feasibility-lead", "finding_id": "F3", "title": "High feature interdependency for a \"demo\" with no stated cut-list", "description": "The demo stacks several independently risky systems that must all work together: free-flight movement + camera aiming, gravity-well physics (Singularity pulling and detecting objects, triggering implosion), a destructible crystalline structure objective, and enemy AI with gravity powers, all in a 'flowing cosmic corridor.' Nowhere does the document acknowledge which of these would be cut or simplified if one proves too costly.", "severity_round1": "MAJOR", "passage_or_omission": "Sections 03 (Player Mechanics), 04 ('Destroy'), 05 (Level Design -- 'destructible crystalline structure,' 'ASTRAL WRAITH - LVL 22' with 'innate gravity powers'). No fallback, priority order, or 'if X doesn't work, we cut Y' language exists." },
+    { "reviewer": "feasibility-lead", "finding_id": "F4", "title": "Orphaned \"LVL 22\" implies an undescribed progression system", "description": "'ENCOUNTER - ASTRAL WRAITH - LVL 22' implies a leveling/progression or difficulty-scaling system that appears nowhere in Player Mechanics, Core Gameplay Loop, or Story. This is either a leftover scope item the document forgot to define, or a signal that a whole unspecified system is assumed -- exactly the kind of ambiguity that causes downstream agents to build inconsistent assumptions.", "severity_round1": "MINOR-to-MAJOR", "passage_or_omission": "Section 05, 'ENCOUNTER - ASTRAL WRAITH - LVL 22' -- the only occurrence of leveling language in the entire document." },
+    { "reviewer": "feasibility-lead", "finding_id": "F5", "title": "Sequential, single-GPU asset pipeline has no throughput/iteration estimate", "description": "All 3D/VFX/material asset generation is explicitly serialized on one local RTX 5070 GPU. This is a reasonable technical call given the VRAM ceiling, but the document never states how many assets the demo needs, how many revision passes are expected, or how this bottleneck compounds with the total absence of a timeline (Finding 1). This single-GPU pipeline could become the critical path for even a modest demo, with no acknowledgment of that risk.", "severity_round1": "MINOR", "passage_or_omission": "Section 08, 'Local GPU - Hunyuan3D on RTX 5070' and 'Key Constraint - VRAM Ceiling' subsections." },
+
+    { "reviewer": "adversarial-qa", "finding_id": "F1", "title": "The demo's actual win condition is described three different, contradictory ways", "description": "Story (S02) says the Soul Sphere rests in a crystalline structure the Vampire King tricks the player into destroying. Demo Arc (S02) says the player destroys the portal to the Earth Realm, framing the Sphere's shattering as a future cliffhanger. Core Gameplay Loop 'Destroy' (S04) matches the portal language ('tear open AND destroy' the same object, which is itself internally confusing). Level Design (S05) uses 'destructible crystalline structure' -- the exact phrase used for the Soul Sphere's housing in S02, not the portal. The document is unbuildable as written: level designer, encounter designer, and narrative designer would each build a different object.", "severity_round1": "BLOCKING", "passage_or_omission": "Story S02 (Soul Sphere housing); Demo Arc S02 and Core Gameplay Loop S04 (portal to Earth Realm); Level Design S05 ('destructible crystalline structure')." },
+    { "reviewer": "adversarial-qa", "finding_id": "F2", "title": "No fail state, respawn, or checkpoint behavior is defined", "description": "'Resolve: Win, or be knocked out of the astral plane' is the only mention of a loss condition in the entire document. Nothing defines what 'knocked out' means mechanically, what triggers it (no health/damage system is specified anywhere in Player Mechanics), or what happens afterward. The only other hint of a health system is the HUD Designer's role blurb mentioning a 'health indicator,' but Player Mechanics never defines player HP or damage sources.", "severity_round1": "BLOCKING", "passage_or_omission": "Section 04 ('Resolve: Win, or be knocked out of the astral plane') and Section 06 HUD Designer role ('health indicator')." },
+    { "reviewer": "adversarial-qa", "finding_id": "F3", "title": "Gravity abilities have no cost, cooldown, or counterplay -- contradicts the implied \"gravity power meter\"", "description": "Kinetic Punch and Singularity are described with zero resource cost, cooldown, or duration limits, yet Section 06 references a 'gravity power meter' implying resource-gating that Player Mechanics never defines. 'Before the event ends' implies a duration that is never specified. If the abilities truly have no cost, a player can chain-cast Singularity to trivially wipe every wave encounter with no described enemy counterplay.", "severity_round1": "MAJOR", "passage_or_omission": "Section 03 'Singularity' description vs. Section 06 HUD Designer role ('gravity power meter')." },
+    { "reviewer": "adversarial-qa", "finding_id": "F4", "title": "Open 3D flight has no described boundaries -- the core loop's \"Fight\" step can likely be sequence-broken", "description": "Movement is unrestricted superhero flight in all directions. Level Design places the crystalline structure/objective visible 'far off in the distance' from the start. Nothing (no trigger volumes, gates, forced-combat zones, invisible walls, or enemy aggro-lock) stops a player from simply flying past the waves of astral beings directly to the destroy objective, skipping the 'Fight' step of the Core Gameplay Loop entirely.", "severity_round1": "MAJOR", "passage_or_omission": "Section 03 (flight controls) and Section 05 ('Far off in the distance stands a destructible crystalline structure')." },
+    { "reviewer": "adversarial-qa", "finding_id": "F5", "title": "The single \"ENCOUNTER\" line cannot support the \"waves\" of enemies promised by the Core Loop, and introduces an undefined leveling concept", "description": "Section 04's Fight step promises 'waves' (plural) of astral beings, but Level Design documents exactly one encounter entry: 'ENCOUNTER - ASTRAL WRAITH - LVL 22.' No wave count, spawn count/placement, difficulty ramp, or respawn behavior on player death is given. 'LVL 22' also implies a level/stat system never introduced anywhere else in the GDD.", "severity_round1": "MINOR", "passage_or_omission": "Section 04 ('waves of astral beings') vs. Section 05 ('ENCOUNTER - ASTRAL WRAITH - LVL 22')." },
+
+    { "reviewer": "business-analyst", "finding_id": "F1", "title": "Incoherent genre identity from the stated inspirations", "description": "The document lists four inspirations pulling in fundamentally different directions -- Rifts Megaverse (tabletop multiverse crossover), Fallout (open-world RPG with loot/choice/survival), JoJo's Bizarre Adventure (character-specific power rules, dramatic duels), and Star Fox (linear rail-shooter arcade combat) -- and never reconciles them. The actual demo content most resembles Star Fox's arcade simplicity, but the framing gestures at Fallout/JoJo-scale RPG depth. This reads as several different games asserted at once.", "severity_round1": "MAJOR", "passage_or_omission": "'Inspiration: Rifts Megaverse, Fallout, JoJo's Bizarre Adventure, Star Fox' (line 15), contrasted with the thin, arcade-scale mechanics in Sections 03-04." },
+    { "reviewer": "business-analyst", "finding_id": "F2", "title": "No target audience, market positioning, or comparable-title framing anywhere in the document", "description": "A document titled 'Game Design Document' devotes roughly half its length (Sections 06-08) to AI development agent rosters, model routing, and VRAM budgeting, but contains zero explicit statements about who the game is for, what it competes with, what platforms/business model it targets beyond 'PC,' or what commercial success looks like. Everything downstream (marketing agent scope, store-page copy, trailer content) has nothing to anchor to.", "severity_round1": "BLOCKING", "passage_or_omission": "Sections 06-08 (lines 91-190) are entirely agent-roster and token-budget content; no section addresses audience, competitive positioning, or monetization." },
+    { "reviewer": "business-analyst", "finding_id": "F3", "title": "Tonal mismatch between \"cosmic horror\" branding and superhero power-fantasy content", "description": "The document declares 'Tone: Dark fantasy, cosmic horror,' but every subsequent gameplay description uses superhero power-fantasy language: 'superhero-style flight battle,' 'Superhero flight,' punching enemies away, imploding foes, and a comic-book 'big bad.' Cosmic horror typically trades on dread and loss of control; the mechanics described center on unrestrained, empowering destruction, affecting art direction, music, marketing, and pacing decisions downstream.", "severity_round1": "MAJOR", "passage_or_omission": "'Tone: Dark fantasy, cosmic horror' (line 13) vs. 'superhero-style flight battle' (line 21), 'Superhero flight' (line 43), and 'big bad' (line 21)." },
+    { "reviewer": "business-analyst", "finding_id": "F4", "title": "Production apparatus is wildly disproportionate to the design content it supports", "description": "The demo's actual content is one level, one enemy type, one encounter, three mechanics, and a single combat loop. Against that, Section 06 specifies fifteen distinct specialized AI agent roles with multi-million-token budgets each. No milestone plan, schedule, or scope checkpoint ties this scale of production infrastructure back to the tiny scope of content, suggesting the design scope was not sized to match the pipeline (or vice versa).", "severity_round1": "MINOR", "passage_or_omission": "Compare Section 05 (one paragraph of level content, one named encounter) to the fifteen-row agent table in Section 06 (lines 97-114)." },
+    { "reviewer": "business-analyst", "finding_id": "F5", "title": "Unintegrated RPG-style feature (\"LVL 22\") with no supporting system", "description": "The single named encounter is labeled 'ENCOUNTER - ASTRAL WRAITH - LVL 22,' implying a leveling/difficulty-tier system. No other part of the document mentions player levels, enemy scaling, stats, or progression of any kind; Player Mechanics defines only three fixed abilities with no growth or unlock structure.", "severity_round1": "MINOR", "passage_or_omission": "'ENCOUNTER - ASTRAL WRAITH - LVL 22' (line 89), with no corresponding leveling/progression system defined anywhere else." }
+  ],
+
+  "cross_examination": [
+    { "reviewer": "systems-designer", "conflicts": [
+        { "with": "adversarial-qa", "topic": "Severity of undefined fail-state (own Finding 4 vs QA Finding 2)", "disagreement": "QA rates the same gap BLOCKING; systems-designer originally rated it MINOR. Systems-designer partially concedes QA's evidence is stronger (no health/damage system exists at all for 'knocked out' to attach to) but stops short of BLOCKING, arguing an underspecified fail-state in a vertical-slice demo is recoverable by a level designer's judgment call during production, unlike an undefined win-condition object." },
+        { "with": "feasibility-lead", "topic": "Should Kinetic Punch and Singularity interlock more tightly (own Finding 5) vs. keep scope minimal (Feasibility Finding 3)", "disagreement": "Systems-designer argues the abilities should combo (juggle windows, force scaling, shared resource) for the powerset to cohere as a kit. Feasibility-lead's Finding 3 (no cut-list, high interdependency, single-GPU fragile pipeline) is in tension with this: every added cross-system interaction is one more physics interaction that must work in an already-fragile pipeline. Systems-designer does not withdraw Finding 5 but reframes it as a stretch goal, not a blocking requirement." }
+      ],
+      "connections": [
+        { "with": "adversarial-qa", "insight": "QA's Finding 4 (open flight, no boundaries, objective visible far off with no trigger volumes) is the concrete mechanism behind systems-designer's abstract Finding 2 (no phase-transition gate). Combined, this isn't a hypothetical pacing risk -- it's a demonstrated sequence-break: a player can simply fly past the wave encounter to the objective." },
+        { "with": "adversarial-qa", "insight": "QA's Finding 1 (win-condition object described three contradictory ways) is upstream of systems-designer's Finding 2: you cannot define transition criteria into a step whose destination object is inconsistent across sections. Finding 2 should be read as downstream of QA's Finding 1." },
+        { "with": "feasibility-lead", "insight": "Feasibility's Finding 5 (serialized single-GPU asset pipeline with no throughput estimate) interacts with systems-designer's Finding 3 (single enemy type, no escalation): the obvious remedy for Finding 3 (add enemy variety/wave ramp) would directly increase load on the exact asset-generation bottleneck Feasibility flags. This is a real design-vs-feasibility trade the synthesis should surface, not treat as a simple 'add more content' action item." },
+        { "with": "business-analyst and narrative-critic", "insight": "Business Analyst's incoherent-genre-identity finding and Narrative Critic's tone-mismatch finding both independently explain symptoms systems-designer registered as pure systems gaps: the 'gravity power meter' and 'LVL 22' are fingerprints of an RPG-depth game gesturing at itself inside a document whose specified mechanics are arcade-simple. The document hasn't decided if it's an arcade vertical slice or the opening slice of an RPG-scale power fantasy." }
+      ],
+      "revisions": [
+        { "finding_id": "F4", "from": "MINOR", "to": "MAJOR", "reason": "Conceded to adversarial-qa's evidence that there is no health/damage system anywhere in Player Mechanics for 'knocked out' to attach to -- it's not just the consequence of failure that's missing, it's the entire mechanism." }
+      ]
+    },
+    { "reviewer": "narrative-critic", "conflicts": [
+        { "with": "business-analyst", "topic": "Whether the tone/genre mismatch (Finding 3) is fixable with a messaging pass", "disagreement": "Business Analyst frames the tone/genre incoherence as a branding/production-consistency problem repairable by aligning messaging. Narrative-critic pushes back: the problem isn't that the document says 'cosmic horror' while marketing superhero flight, it's that nothing in the actual designed content (loop, enemy roster, resolve state, level layout) contains any mechanism that could produce dread, insignificance, or loss of control. Even a perfectly aligned marketing pass can't retrofit horror onto a mechanically triumphant loop." }
+      ],
+      "connections": [
+        { "with": "adversarial-qa", "insight": "QA's Finding 1 (win condition described three contradictory ways) reveals that the document contains two mutually exclusive plots, not one plot with an ambiguous prop reference: Reading A (Story) has the player's own hands destroy the Soul Sphere as the villain's plan in real time; Reading B (Demo Arc/Loop) has the player destroy an unrelated portal while the Sphere's shattering is a separate future cliffhanger. This strengthens Finding 2 (twist asserted, not staged) -- the document doesn't even consistently know what the twist's content is." },
+        { "with": "player-psychologist", "insight": "Player Psychologist's Finding 5 (the 'Destroy' beat has no in-the-moment feedback signaling it's secretly a loss) arrives at the same seam as narrative-critic's Finding 1/2 from the opposite direction (moment-to-moment feedback vs. motivation and staging). Two independent lenses landing on the same gap is stronger evidence than either alone." },
+        { "with": "player-psychologist", "insight": "Player Psychologist's Finding 1 (no onboarding ramp, full kit available immediately) feeds narrative-critic's Finding 3 (tone mismatch): cosmic horror typically depends on withheld competence, and handing the player its full kit immediately with no vulnerability window actively works against the tone pillar independent of the mechanics themselves." }
+      ],
+      "revisions": [
+        { "finding_id": "F2", "from": "MAJOR", "to": "BLOCKING", "reason": "Upgraded per QA's contradiction evidence showing the twist's actual content is internally inconsistent, not merely under-staged -- you can't stage a reveal whose object the document itself contradicts." },
+        { "finding_id": "F3", "from": "MAJOR", "to": "BLOCKING", "reason": "Upgraded per convergence with Business Analyst's genre-incoherence findings and Player Psychologist's onboarding-pacing finding -- three lenses independently reaching the same root cause: an absence of horror content at the design level, not a cosmetic copy problem." },
+        { "finding_id": "F4", "from": "MINOR", "to": "unchanged", "reason": "QA's Finding 1 shifts the open question from 'why doesn't the Vampire King do it himself' (answered under Reading A) to 'how does destroying the Earth-Realm portal causally serve shattering the Soul Sphere' (unanswered under either reading)." },
+        { "finding_id": "F1 and F5", "from": "unchanged", "to": "unchanged", "reason": "No colleague review surfaced evidence bearing on the demo's core-objective motivation (F1) or the withheld-identity foreshadowing gap (F5)." }
+      ]
+    },
+    { "reviewer": "player-psychologist", "conflicts": [
+        { "with": "systems-designer and adversarial-qa", "topic": "Severity of the undefined fail-state (own Finding 3)", "disagreement": "Player-psychologist (MAJOR originally) sides with adversarial-qa (BLOCKING) over systems-designer (MINOR/upgraded to MAJOR), arguing an undefined fail state is not a documentation nicety but the single biggest lever on whether a first-time player rage-quits during exactly the un-onboarded combat phase where they're most likely to fail repeatedly." },
+        { "with": "business-analyst", "topic": "Whether the disproportionate 15-agent pipeline (Business Analyst Finding 4) is purely a resourcing/business red flag", "disagreement": "Player-psychologist argues it's also a player-facing risk: the pipeline over-invests in presentation-layer roles (HUD Designer, Menu Designer, UMG Engineer) for UI that has no defined content to display (own Finding 4 -- no reward/progression signal, undefined gravity power meter), while under-investing in feel/onboarding/reward design." }
+      ],
+      "connections": [
+        { "with": "adversarial-qa", "insight": "QA's Finding 1 (contradictory win-condition objects) recontextualizes own Finding 5: the problem isn't just that in-the-moment feedback design is missing for the 'Destroy' beat, it's that there may not be one coherent object to design feedback around at all. This elevates the risk from 'the climax may feel emotionally flat' to 'the climax cannot be built as a legible objective in the first place.'" },
+        { "with": "feasibility-lead", "insight": "Feasibility's Finding 2 (no human playtesting or feel-iteration loop) compounds own Finding 1 (no onboarding ramp): not only is the onboarding problem present in the design as written, there is no described production mechanism that would ever surface or correct it before the demo ships." },
+        { "with": "adversarial-qa", "insight": "QA's Finding 4 (open flight lets players sequence-break past the Fight step) is the opposite-facing symptom of the same root cause as own Finding 1 (no onboarding/gating): without a stated gate, the demo either overwhelms players who engage with combat or lets players who avoid it skip the only content that would teach the moveset and deliver the only reward signal available." }
+      ],
+      "revisions": [
+        { "finding_id": "F3", "from": "MAJOR", "to": "BLOCKING", "reason": "Aligning with adversarial-qa: the absence of any described health/damage system means the game cannot even define when a loss occurs, let alone what follows it -- a structural gap, not a polish item." },
+        { "finding_id": "F5", "from": "MINOR", "to": "unchanged", "reason": "Now viewed as a downstream symptom of QA's BLOCKING win-condition contradiction (Finding 1) rather than an independent feedback-design issue -- gated behind that fix, not resolvable in parallel." },
+        { "finding_id": "F2", "from": "MAJOR", "to": "unchanged", "reason": "Independently flagged by all five other reviewers from different lenses; unusually strong cross-lens convergence reinforces rather than changes the rating." }
+      ]
+    },
+    { "reviewer": "feasibility-lead", "conflicts": [
+        { "with": "systems-designer", "topic": "Severity of the missing phase-transition gate (Systems Designer Finding 2)", "disagreement": "Feasibility-lead pushes back on equal severity: an undefined transition trigger is one of the cheapest gaps in the document to close (a single boolean/counter condition, not a new system) and doesn't carry the cross-agent coordination risk of the undefined gravity-power-meter or the win-condition contradiction. Would downgrade to MINOR from a pure build-cost perspective, while not disputing it as a legitimate design gap." },
+        { "with": "business-analyst", "topic": "Whether 'no audience/positioning' (Business Analyst Finding 2) deserves the same BLOCKING tier as feasibility's own BLOCKING findings", "disagreement": "Feasibility-lead's BLOCKING findings are about whether engineering scope can be built against capacity; Business Analyst's BLOCKING is about whether the finished product can be sold. Both are legitimate but different production-readiness questions; conflating them risks treating 'we don't know who this is for' as equally urgent as 'we don't know if this can physically be built.' Asks the moderator to keep them as two distinct BLOCKING tracks." }
+      ],
+      "connections": [
+        { "with": "adversarial-qa", "insight": "QA's Finding 1 (contradictory win condition) exposes a gap in feasibility-lead's own Finding 3: 'destructible crystalline structure' was used uncritically as a settled, single object, but it isn't. This is a build-spec failure, not just a narrative-consistency problem -- the Level Designer, Asset Designer, and Gameplay Mechanic Expert would each build a different object from the same source documents." },
+        { "with": "systems-designer and adversarial-qa", "insight": "Systems Designer's Finding 1 (gravity power meter referenced but never defined) and QA's Finding 3 (abilities have no cost/cooldown) converge on the exact seam feasibility-lead flagged tangentially: from a feasibility lens, this is a pipeline-ordering risk -- the HUD Designer's inputs never define what the meter tracks, so it either invents a resource system unilaterally or ships a decorative, non-functional meter." },
+        { "with": "adversarial-qa", "insight": "QA's Finding 4 (open flight = sequence-break risk) is a concrete instance of the interdependency risk raised abstractly in feasibility-lead's Finding 3: an open-flight game with no gating is cheaper to build, so the risk isn't the gap itself but that the document gives no indication whether skippable content is intended or an unnoticed bug." }
+      ],
+      "revisions": [
+        { "finding_id": "F4", "from": "MINOR-to-MAJOR", "to": "MAJOR", "reason": "Four other reviewers (Systems Designer, Player Psychologist, Adversarial QA, Business Analyst) independently flagged the same orphaned progression signal from their own lenses with no coordination -- that convergence is itself evidence it's a real gap." },
+        { "finding_id": "F3", "from": "MAJOR", "to": "MAJOR", "reason": "QA's Finding 1 shows the 'destructible crystalline structure' treated as a stable reference point is itself contested across sections -- the interdependency risk is worse than originally credited because the team can't even converge on what the shared object is." },
+        { "finding_id": "F1 and F2", "from": "BLOCKING / MAJOR", "to": "unchanged", "reason": "Nothing in colleagues' reviews weakens either; Player Psychologist's Findings 1 and 3 reinforce Finding 2 with concrete examples of feel/UX tuning that has no described catching process." },
+        { "finding_id": "F5", "from": "MINOR", "to": "unchanged", "reason": "Business Analyst's Finding 4 (disproportionate production apparatus) is a connection worth noting but describes a different failure mode (over-built pipeline vs. under-specified throughput) than Finding 5, so not merged." }
+      ]
+    },
+    { "reviewer": "adversarial-qa", "conflicts": [
+        { "with": "systems-designer", "topic": "Severity of single-enemy/no-progression finding", "disagreement": "Systems-designer rates the missing escalation curve MAJOR; adversarial-qa's related 'LVL 22' observation (own Finding 5) was originally filed MINOR, scoped narrowly as an orphaned label rather than a missing escalation curve across the whole demo. QA concedes systems-designer's framing is more consequential (see revisions)." },
+        { "with": "narrative-critic", "topic": "Whether the destroy-objective's target object is settled", "disagreement": "Narrative-critic's Finding 1 (objective has no stated motivation) treats 'destroy the portal' as the settled demo objective. QA's own Finding 1 argues the document never actually settles whether the target is the portal or the Soul Sphere's housing. Both findings can be true simultaneously, but the narrative motivation fix has to be sequenced after the object is disambiguated, not before or in parallel." },
+        { "with": "player-psychologist", "topic": "Severity of orphaned 'LVL 22' (minor conflict)", "disagreement": "Player-psychologist rates it MAJOR (player confusion risk); QA rated it MINOR because their lens was pure buildability ('can this ship without a functioning level system attached') rather than player confusion. Both severities defensible under different mandates." },
+        { "with": "feasibility-lead", "topic": "Severity calibration on 'LVL 22' (not a substance disagreement)", "disagreement": "Feasibility-lead scores it 'MINOR-to-MAJOR' citing risk of a downstream agent implementing stat-scaling from a one-line hint. QA still thinks MINOR is right from a pure break-it standpoint. Flags this so the moderator doesn't average four different severities on the same fact into a false consensus -- buildability, schedule risk, and player confusion are different questions sharing one piece of evidence." },
+        { "with": "business-analyst", "topic": "Whether 'no audience/positioning' deserves the same BLOCKING tier as QA's own BLOCKING findings", "disagreement": "QA's BLOCKING findings mean the demo cannot be built as specified (a level designer literally doesn't know what object to place at the climax). Business-analyst's finding means the business case is unproven, which doesn't stop an engineer from building the level exactly as documented. Asks the moderator to keep 'blocks construction' and 'blocks go/no-go investment decision' as distinct flavors of BLOCKING." }
+      ],
+      "connections": [
+        { "with": "systems-designer", "insight": "Systems-designer's Finding 2 (no phase-transition gate) is the missing rule that explains why own Finding 4 (open flight, sequence-break) is possible: no gate/quota/timer named anywhere, combined with unobstructed line of sight to the goal, makes a sequence break near-certain rather than a maybe." },
+        { "with": "narrative-critic", "insight": "Narrative-critic's Finding 3 (cosmic horror tone undercut by empowerment mechanics) connects to own Finding 3 (Singularity/Kinetic Punch have no cost or counterplay): an unlimited-use, no-drawback AoE implosion power isn't just a balance problem, it's mechanical proof of the tonal complaint -- a design wanting dread/insignificance would have built in cost, risk, or failure pressure around its signature power." },
+        { "with": "player-psychologist", "insight": "Player-psychologist's Finding 1 (no onboarding ramp) and own Finding 3 (abilities free of cost/cooldown) describe two ends of the same undertuned system: a first-time player can button-mash Singularity from the first encounter and trivialize the demo without learning Kinetic Punch exists. Adding a cost/cooldown to Singularity would simultaneously be a balance fix and a forced-onboarding mechanism." },
+        { "with": "feasibility-lead", "insight": "Feasibility-lead's Finding 3 (high interdependency, no cut-list) reframes own Finding 1 (contradictory win-condition object) as a build-order risk: if the 'destructible crystalline structure' and the 'portal' are meant to be two different assets, that's two physics-driven destructible objects to build under the already-flagged single-GPU asset bottleneck, not one." }
+      ],
+      "revisions": [
+        { "finding_id": "F5", "from": "MINOR", "to": "MAJOR", "reason": "Systems-designer, player-psychologist, and feasibility-lead all independently converged on this same evidence at a higher severity; the broader reading (a genuinely missing progression/difficulty system, not a cosmetic one-off) is more defensible." },
+        { "finding_id": "F3", "from": "MAJOR", "to": "MAJOR", "reason": "Corroborated independently by systems-designer (resource system named in HUD but never specified) and narrative-critic (tone-vs-mechanics mismatch); player-psychologist shows it also has a UX cost, not just a balance/exploit cost -- now a three-lens problem." },
+        { "finding_id": "F1, F2, F4", "from": "unchanged", "to": "unchanged", "reason": "No colleague review contradicts the underlying evidence; where reviews overlap (narrative-critic on the objective, systems-designer on the missing gate, player-psychologist on the undefined fail state) they reinforce rather than complicate the read." }
+      ]
+    },
+    { "reviewer": "business-analyst", "conflicts": [
+        { "with": "feasibility-lead", "topic": "Which is the core failure in Sections 06-08: missing timeline (Feasibility Finding 1) vs. disproportionate production apparatus (own Finding 4)", "disagreement": "Feasibility-lead reads the absence of wall-clock scheduling as the core failure; business-analyst reads the mismatch between a 15-agent pipeline and a one-encounter demo as the core failure, arguing it implies the team invested in infrastructure ahead of a validated scope. Business-analyst doesn't contest feasibility-lead's BLOCKING rating, just argues for its own Finding 4 to move up (see revisions)." },
+        { "with": "systems-designer", "topic": "The 'gravity power meter' gap (Systems Designer Finding 1)", "disagreement": "Systems-designer rates it MAJOR on systems-design grounds (can't evaluate balance/pacing). Business-analyst doesn't dispute the rating but reframes it as also a business-process red flag: a downstream production role (HUD Designer) is already citing a UI element for a system the design section never actually specified -- evidence the Section 06 agent roster was written ahead of the design, the same pattern as its own Finding 4." }
+      ],
+      "connections": [
+        { "with": "feasibility-lead", "insight": "Feasibility-lead's Finding 3 (high interdependency, no cut-list) combines with own Finding 1 (incoherent genre identity): together they show the document isn't just vague about which game it's making, it's technically committed to building several hard, independently risky systems at once with no priority order -- because nobody decided what the game's spine is, nobody could write a cut-list even if asked." },
+        { "with": "adversarial-qa", "insight": "QA's Finding 1 (contradictory win condition) sharpens own Finding 2 (no audience/positioning) and Finding 5 (orphaned LVL 22): the document doesn't just lack business framing, it actively disagrees with itself about what the player is doing at the climax, so no store-page copy or trailer beat can be written for an objective the design itself can't settle on." },
+        { "with": "systems-designer", "insight": "Systems-designer's Finding 5 (abilities are two separate toys, no interlock) reframes own Finding 1 (genre incoherence) at the mechanical level: it's not just that four genres were name-dropped without reconciliation at the top level, the two mechanics that do exist don't reconcile with each other either -- the disease is structural, recurring at the smallest scale of content." },
+        { "with": "narrative-critic and player-psychologist", "insight": "Narrative Critic's Finding 3 and Player Psychologist's Finding 4 (no visible reward/progression loop) both independently converge on ground flagged from a market/positioning angle (own Finding 3 tonal mismatch, Finding 5 orphaned LVL 22): four different lenses landing on the same handful of passages (tone line, LVL 22 tag, gravity power meter) is itself a business-relevant signal that the marketing promise and the actual designed content visibly don't meet." }
+      ],
+      "revisions": [
+        { "finding_id": "F5", "from": "MINOR", "to": "MAJOR", "reason": "Four of five colleagues (Systems Designer, Player Psychologist, Feasibility Lead, Adversarial QA) independently flagged the exact same 'LVL 22' tag from four different lenses -- convergence across nearly the entire board means it's a symptom of a whole missing system, not a small ambiguity." },
+        { "finding_id": "F4", "from": "MINOR", "to": "MAJOR", "reason": "Feasibility Lead's independent findings on missing timeline (BLOCKING) and unacknowledged interdependency with no cut-list (MAJOR) corroborate that the production pipeline was scoped without reference to the design's actual thin content -- a resourcing decision made in a vacuum." },
+        { "finding_id": "F2", "from": "BLOCKING", "to": "unchanged", "reason": "QA's Finding 1 shows that even if a positioning statement existed, the document currently can't supply a consistent one-line description of its own climax to build that positioning around -- doesn't change severity but changes what the fix requires." },
+        { "finding_id": "F1 and F3", "from": "MAJOR", "to": "unchanged", "reason": "Both independently corroborated (Finding 1 by Systems Designer's ability-interlock gap; Finding 3 by Narrative Critic's own tone finding), increasing confidence but not changing the rating -- neither prevents building something, they risk building the wrong thing without a genre/tone decision." }
+      ]
+    }
+  ],
+
+  "synthesis": {
+    "top_5_issues": [
+      { "rank": 1, "problem_statement": "The demo's single win-condition object is described three contradictory ways: destroying the Soul Sphere's crystalline housing, tearing open a portal to the Earth Realm, or reaching a generic 'destructible crystalline structure.'", "severity": "BLOCKING", "flagged_by": ["adversarial-qa (originating finding)", "narrative-critic", "systems-designer", "feasibility-lead", "business-analyst", "player-psychologist"], "cross_examination_outcome": "STRENGTHENED", "outcome_detail": "The single most load-bearing finding on the board. Narrative-critic upgraded their twist-staging finding to BLOCKING because of it; feasibility-lead upgraded their interdependency finding because of it; systems-designer conceded their phase-gate finding is strictly downstream of it; player-psychologist reframed their feedback-design finding as gated behind it; business-analyst noted no positioning copy can be written until it's resolved." },
+      { "rank": 2, "problem_statement": "No fail state, health system, or damage mechanism is defined anywhere -- 'Win, or be knocked out of the astral plane' is the entire specification of loss.", "severity": "BLOCKING (2 of 3 reviewers) / MAJOR (1 of 3 reviewers) -- see unresolved disagreement B", "flagged_by": ["adversarial-qa (BLOCKING)", "player-psychologist (upgraded MAJOR to BLOCKING)", "systems-designer (upgraded MINOR to MAJOR, explicitly stopped short of BLOCKING)"], "cross_examination_outcome": "STRENGTHENED", "outcome_detail": "STRENGTHENED, with one live severity split. All three agree the gap is bigger than originally scoped: it isn't a missing consequence, it's a missing mechanism -- the game has no defined way to lose at all." },
+      { "rank": 3, "problem_statement": "\"Cosmic horror\" tone is not reconcilable with the actual power-fantasy mechanics (unlimited-use flight, zero-drawback moveset, triumphant Win state).", "severity": "BLOCKING", "flagged_by": ["narrative-critic (upgraded MAJOR to BLOCKING)", "business-analyst (two related MAJOR findings)", "systems-designer", "adversarial-qa", "player-psychologist"], "cross_examination_outcome": "STRENGTHENED", "outcome_detail": "STRENGTHENED via three-lens convergence (narrative, business, systems), though reviewers disagree whether it's fixable with a messaging pass (business-analyst's original framing) or requires new design content (narrative-critic's position, explicitly argued against business-analyst's framing)." },
+      { "rank": 4, "problem_statement": "No production timeline or schedule exists anywhere in the document -- Section 08 concedes it trades wall-clock time for zero cash cost but never states what that time cost is.", "severity": "BLOCKING", "flagged_by": ["feasibility-lead"], "cross_examination_outcome": "SURVIVED", "outcome_detail": "No colleague weakened the underlying evidence. Business Analyst contested its priority relative to their own disproportionate-production-apparatus finding but did not dispute it's a real gap -- a ranking disagreement, not a rebuttal." },
+      { "rank": 5, "problem_statement": "No target audience, market positioning, or business framing anywhere in the document, despite roughly half the document detailing AI production infrastructure.", "severity": "BLOCKING", "flagged_by": ["business-analyst"], "cross_examination_outcome": "STRENGTHENED in substance, unresolved in classification", "outcome_detail": "Adversarial QA's win-condition contradiction (#1) sharpens this finding by showing the document can't even supply a consistent one-line description of its own climax to position around. But both Adversarial QA and Feasibility Lead object to this sitting at the same BLOCKING tier as their own build-feasibility BLOCKING findings, arguing it's a different flavor of blocking (go/no-go investment vs. constructability)." }
+    ],
+    "unresolved_disagreements": [
+      { "id": "A", "title": "Does \"BLOCKING\" need to be split into distinct tracks?", "position_1": "Adversarial QA and Feasibility Lead: their BLOCKING ratings (win-condition contradiction; no fail state; no timeline) describe 'the demo cannot be built/completed as specified' -- a fundamentally different kind of severity than Business Analyst's BLOCKING on missing audience/positioning ('the business case is unproven, but an engineer could still build exactly what's written').", "position_2": "Business Analyst did not concede this framing.", "escalation": "Should synthesis and future rounds track 'build-blocking' and 'go-to-market-blocking' as separate severity lanes, or is a single BLOCKING tier correct because both stop the project from safely proceeding?" },
+      { "id": "B", "title": "Severity of the missing fail-state: MAJOR or BLOCKING?", "position_1": "Adversarial QA and Player Psychologist hold BLOCKING, arguing the absence of any health/damage system means the game cannot even define when a loss occurs.", "position_2": "Systems Designer holds MAJOR, arguing that for a vertical-slice demo (not a shipping product) this is recoverable by a level designer's judgment call during production and doesn't halt the ability to build the rest of the loop the way an undefined win-condition object does.", "escalation": "Neither side moved in Round 2." },
+      { "id": "C", "title": "Should the two abilities be designed to interlock more tightly, or should scope stay minimal?", "position_1": "Systems Designer: Kinetic Punch and Singularity should combo (juggle windows, force scaling, shared resource) or the 'powerset' doesn't cohere as a kit.", "position_2": "Feasibility Lead: the demo already stacks multiple independently risky physics systems with no cut-list; every additional cross-system interaction is one more thing that can fail in a single-GPU, agent-driven pipeline with no feel-iteration loop -- don't add scope.", "escalation": "Systems Designer conceded the tension in Round 2 but did not withdraw the recommendation, instead proposing it be scoped as a stretch goal. This is a genuine design-vs-feasibility trade-off the moderator cannot resolve from the review files alone." }
+    ],
+    "quick_wins": [
+      "Delete or contextualize the \"LVL 22\" tag. Five of six reviewers independently flagged this exact one-line artifact (systems-designer, player-psychologist, feasibility-lead, adversarial-qa, business-analyst) as implying a progression system that doesn't exist anywhere else in the document. Either remove the numeral or add one sentence clarifying it's a placeholder -- cheapest fix on the board with the widest cross-reviewer agreement.",
+      "Add a one-line phase-transition rule between \"Fight\" and \"Destroy.\" Feasibility Lead notes this is 'a single boolean/counter condition, not a new system' -- a wave count, timer, or kill quota closes both Systems Designer's pacing gap and Adversarial QA's sequence-break finding in one stroke.",
+      "State the fail-consequence, even provisionally. A single added sentence ('on knockout, restart the current wave') wouldn't resolve the deeper missing-health-system problem (#2), but it would immediately de-risk the player-facing anxiety multiple reviewers flagged, at near-zero cost."
+    ],
+    "verdict": "This document is not ready to drive production as written. Its most consequential defect is not any single missing system but a foundational contradiction: the game does not consistently know what object the player is destroying to win, and that single unresolved fact cascades into and gates fixes for the narrative twist, the fail-state design, the phase-pacing gate, and even the business team's ability to write a one-line pitch -- nearly every reviewer, working independently and across different lenses, arrived back at this same fork. Resolve the win-condition object first; every other fix on this board either depends on that decision or becomes meaningfully easier once it's made."
+  },
+
+  "aggregate_counts": {
+    "total_findings": 30,
+    "blocking_issues_count_round1": 5,
+    "blocking_issues_count_after_round2_revisions": 8,
+    "unresolved_disagreements_count": 3
+  }
+};
+
+/* ============================================================
+   CONSTANTS
+============================================================ */
+const SEV_COLOR = { BLOCKING:"#E5484D", MAJOR:"#F5A623", MINOR:"#5A6270" };
+const SEV_RANK = { MINOR:0, MAJOR:1, BLOCKING:2 };
+const REVIEWER_IDS = RAW.meta.reviewers;
+const DISPLAY_NAMES = {
+  "systems-designer":"Systems Designer",
+  "narrative-critic":"Narrative Critic",
+  "player-psychologist":"Player Psychologist",
+  "feasibility-lead":"Feasibility Lead",
+  "adversarial-qa":"Adversarial QA",
+  "business-analyst":"Business Analyst"
+};
+const REDUCED_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function displayName(id){ return DISPLAY_NAMES[id] || id; }
+
+function normSeverity(raw){
+  if(!raw) return "MINOR";
+  const s = String(raw).toUpperCase();
+  if (s.includes("MINOR") && s.includes("MAJOR")) return "MINOR"; // e.g. "MINOR-to-MAJOR" original R1 call
+  if (s.includes("BLOCKING")) return "BLOCKING";
+  if (s.includes("MAJOR")) return "MAJOR";
+  return "MINOR";
+}
+
+/* ============================================================
+   TRANSFORM: FINDINGS
+============================================================ */
+const FINDINGS = RAW.findings.map(f=>{
+  const sevR1 = normSeverity(f.severity_round1);
+  return {
+    id: (f.reviewer + "-" + f.finding_id).toLowerCase(),
+    reviewer: f.reviewer,
+    findingId: f.finding_id,
+    title: f.title,
+    problem: f.description,
+    source: f.passage_or_omission,
+    severityR1: sevR1,
+    severityFinal: sevR1,
+    status: "unchanged",
+    round2Notes: null
+  };
+});
+const FINDINGS_BY_ID = {};
+FINDINGS.forEach(f=>FINDINGS_BY_ID[f.id]=f);
+
+function findFinding(reviewer, fid){
+  return FINDINGS_BY_ID[(reviewer+"-"+fid).toLowerCase()];
+}
+
+RAW.cross_examination.forEach(entry=>{
+  (entry.revisions||[]).forEach(rev=>{
+    const fids = String(rev.finding_id).split(/,|\sand\s/i).map(s=>s.trim()).filter(s=>/^F\d+$/i.test(s));
+    fids.forEach(fid=>{
+      const finding = findFinding(entry.reviewer, fid);
+      if(!finding) return;
+      const toStr = String(rev.to).trim();
+      let newSev;
+      if (/unchanged/i.test(toStr) && !/BLOCKING|MAJOR|MINOR/i.test(toStr)){
+        newSev = finding.severityR1;
+      } else {
+        newSev = normSeverity(toStr);
+      }
+      finding.severityFinal = newSev;
+      finding.round2Notes = rev.reason;
+      finding.status = SEV_RANK[newSev] > SEV_RANK[finding.severityR1] ? "upgraded"
+                      : SEV_RANK[newSev] < SEV_RANK[finding.severityR1] ? "downgraded"
+                      : "unchanged";
+    });
+  });
+});
+
+/* ============================================================
+   TRANSFORM: CROSS-EXAM (matrix)
+============================================================ */
+function parseColleagues(withStr){
+  return String(withStr).split(/\sand\s/i).map(s=>s.trim()).filter(s=>REVIEWER_IDS.includes(s));
+}
+const CROSS_EXAM = [];
+RAW.cross_examination.forEach(entry=>{
+  (entry.conflicts||[]).forEach(c=>{
+    parseColleagues(c.with).forEach(to=>{
+      CROSS_EXAM.push({ fromReviewer: entry.reviewer, toReviewer: to, type:"conflict",
+        summary: (c.topic ? c.topic + " — " : "") + c.disagreement });
+    });
+  });
+  (entry.connections||[]).forEach(c=>{
+    parseColleagues(c.with).forEach(to=>{
+      CROSS_EXAM.push({ fromReviewer: entry.reviewer, toReviewer: to, type:"connection",
+        summary: c.insight });
+    });
+  });
+});
+
+const MATRIX = {};
+REVIEWER_IDS.forEach(a=>{ MATRIX[a]={}; REVIEWER_IDS.forEach(b=>{ MATRIX[a][b] = {conflict:0, connection:0, entries:[]}; }); });
+CROSS_EXAM.forEach(e=>{
+  const cell = MATRIX[e.fromReviewer][e.toReviewer];
+  cell[e.type]++;
+  cell.entries.push(e);
+});
+let MATRIX_MAX = 1;
+REVIEWER_IDS.forEach(a=>REVIEWER_IDS.forEach(b=>{
+  if(a===b) return;
+  const c = MATRIX[a][b];
+  MATRIX_MAX = Math.max(MATRIX_MAX, c.conflict + c.connection);
+}));
+
+function relatedFindingIdsFromText(fromReviewer, text){
+  const out = [];
+  const re = /(?:own\s+)?Finding\s+(\d+)/gi;
+  let m;
+  while((m = re.exec(text))){
+    const fid = "F"+m[1];
+    const f = findFinding(fromReviewer, fid);
+    if(f && !out.includes(f.id)) out.push(f.id);
+  }
+  return out;
+}
+
+/* ============================================================
+   TRANSFORM: TOP ISSUES
+============================================================ */
+const TOP_ISSUE_RELATED = {
+  1: ["adversarial-qa-f1","narrative-critic-f2","feasibility-lead-f3","systems-designer-f2","player-psychologist-f5","business-analyst-f2"],
+  2: ["adversarial-qa-f2","player-psychologist-f3","systems-designer-f4"],
+  3: ["narrative-critic-f3","business-analyst-f1","business-analyst-f3","systems-designer-f1","adversarial-qa-f3","player-psychologist-f1"],
+  4: ["feasibility-lead-f1"],
+  5: ["business-analyst-f2","adversarial-qa-f1"]
+};
+function extractReviewerId(str){
+  const lower = String(str).toLowerCase();
+  for(const id of REVIEWER_IDS){ if(lower.includes(id)) return id; }
+  return null;
+}
+function extractOutcome(str){
+  const m = String(str).match(/SURVIVED|STRENGTHENED|WEAKENED/i);
+  return m ? m[0].toUpperCase() : "SURVIVED";
+}
+const TOP_ISSUES = RAW.synthesis.top_5_issues.map(t=>({
+  rank: t.rank,
+  title: t.problem_statement,
+  flaggedBy: t.flagged_by.map(extractReviewerId).filter(Boolean),
+  flaggedByRaw: t.flagged_by,
+  outcome: extractOutcome(t.cross_examination_outcome),
+  outcomeRaw: t.cross_examination_outcome,
+  severityLabel: t.severity,
+  detail: t.outcome_detail,
+  relatedFindingIds: TOP_ISSUE_RELATED[t.rank] || []
+}));
+
+/* ============================================================
+   TRANSFORM: DISAGREEMENTS
+============================================================ */
+function reviewersMentioned(text){
+  const out = [];
+  Object.entries(DISPLAY_NAMES).forEach(([id,name])=>{
+    if(String(text).includes(name)) out.push(id);
+  });
+  return out;
+}
+const DISAGREEMENTS = RAW.synthesis.unresolved_disagreements.map(d=>({
+  id: d.id,
+  title: d.title,
+  positions: [
+    { stance: "Position 1", argument: d.position_1, reviewers: reviewersMentioned(d.position_1) },
+    { stance: "Position 2", argument: d.position_2, reviewers: reviewersMentioned(d.position_2) }
+  ],
+  escalation: d.escalation
+}));
+
+/* ============================================================
+   TRANSFORM: QUICK WINS
+============================================================ */
+const QUICK_WINS = RAW.synthesis.quick_wins.map(raw=>{
+  const text = raw.replace(/\*\*/g,"");
+  const cut = text.indexOf(". ");
+  const title = cut>-1 ? text.slice(0,cut+1) : text;
+  const detail = cut>-1 ? text.slice(cut+2).trim() : "";
+  const flaggedBy = REVIEWER_IDS.filter(id=>text.toLowerCase().includes(id));
+  return { title, detail, flaggedBy };
+});
+
+/* ============================================================
+   STATE
+============================================================ */
+const state = {
+  round: "final",
+  reviewers: new Set(REVIEWER_IDS),
+  severities: new Set(["BLOCKING","MAJOR","MINOR"]),
+  search: "",
+  sortCol: "severityFinal",
+  sortDir: "desc",
+  openIssue: 1,
+  openMatrixCell: null
+};
+
+/* ============================================================
+   TOOLTIP
+============================================================ */
+const tooltipEl = document.getElementById("tooltip");
+function showTooltip(x,y,html){
+  tooltipEl.innerHTML = html;
+  tooltipEl.style.display = "block";
+  const pad = 16;
+  let left = x + 14, top = y + 14;
+  const rect = tooltipEl.getBoundingClientRect();
+  if(left + rect.width > window.innerWidth - pad) left = x - rect.width - 14;
+  if(top + rect.height > window.innerHeight - pad) top = y - rect.height - 14;
+  tooltipEl.style.left = left + "px";
+  tooltipEl.style.top = top + "px";
+}
+function hideTooltip(){ tooltipEl.style.display = "none"; }
+
+function makeInteractive(el, opts){
+  el.setAttribute("tabindex","0");
+  el.classList.add("sv-focusable");
+  if(opts.label) el.setAttribute("aria-label", opts.label);
+  el.addEventListener("mouseenter", (e)=>{ if(opts.onHover) opts.onHover(e.clientX, e.clientY); });
+  el.addEventListener("mousemove", (e)=>{ if(opts.onHover) opts.onHover(e.clientX, e.clientY); });
+  el.addEventListener("mouseleave", hideTooltip);
+  el.addEventListener("focus", ()=>{ const r = el.getBoundingClientRect(); if(opts.onHover) opts.onHover(r.left+r.width/2, r.top); });
+  el.addEventListener("blur", hideTooltip);
+  if(opts.onClick){
+    el.addEventListener("click", opts.onClick);
+    el.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); opts.onClick(e); }
+    });
+  }
+}
+
+const SVGNS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs){
+  const el = document.createElementNS(SVGNS, tag);
+  Object.entries(attrs||{}).forEach(([k,v])=>el.setAttribute(k,v));
+  return el;
+}
+
+/* ============================================================
+   MASTHEAD
+============================================================ */
+function renderMasthead(){
+  document.getElementById("verdict-line").textContent = RAW.synthesis.verdict.split(". ")[0] + ".";
+  const stats = [
+    { num: RAW.aggregate_counts.total_findings, label: "Total findings", blocking:false },
+    { num: RAW.aggregate_counts.blocking_issues_count_after_round2_revisions, label: "BLOCKING (final)", blocking:true },
+    { num: RAW.aggregate_counts.unresolved_disagreements_count, label: "Unresolved disagreements", blocking:false }
+  ];
+  const wrap = document.getElementById("stat-row");
+  stats.forEach(s=>{
+    const div = document.createElement("div");
+    div.className = "stat-block" + (s.blocking ? " blocking" : "");
+    div.innerHTML = '<div class="num mono">'+s.num+'</div><div class="label">'+s.label+'</div>';
+    wrap.appendChild(div);
+  });
+  document.getElementById("footer-source").textContent = "Source document reviewed: " + RAW.meta.source_document;
+}
+
+/* ============================================================
+   FILTER BAR
+============================================================ */
+function renderFilterBar(){
+  const revGroup = document.getElementById("reviewer-filter-group");
+  REVIEWER_IDS.forEach(id=>{
+    const btn = document.createElement("button");
+    btn.className = "chip"; btn.type = "button";
+    btn.setAttribute("aria-pressed","true");
+    btn.textContent = displayName(id);
+    btn.addEventListener("click", ()=>{
+      if(state.reviewers.has(id)) state.reviewers.delete(id); else state.reviewers.add(id);
+      btn.setAttribute("aria-pressed", state.reviewers.has(id) ? "true":"false");
+      applyFilters();
+    });
+    revGroup.appendChild(btn);
+  });
+  const sevGroup = document.getElementById("severity-filter-group");
+  ["BLOCKING","MAJOR","MINOR"].forEach(sev=>{
+    const btn = document.createElement("button");
+    btn.className = "chip sev-"+sev.toLowerCase(); btn.type = "button";
+    btn.setAttribute("aria-pressed","true");
+    btn.textContent = sev;
+    btn.addEventListener("click", ()=>{
+      if(state.severities.has(sev)) state.severities.delete(sev); else state.severities.add(sev);
+      btn.setAttribute("aria-pressed", state.severities.has(sev) ? "true":"false");
+      applyFilters();
+    });
+    sevGroup.appendChild(btn);
+  });
+  const roundBtns = document.querySelectorAll("#round-toggle button");
+  roundBtns.forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      state.round = btn.dataset.round;
+      roundBtns.forEach(b=>b.setAttribute("aria-pressed", b===btn ? "true":"false"));
+      applyFilters();
+    });
+  });
+}
+
+function applyFilters(){
+  renderViz1();
+  renderViz2Dimming();
+  renderViz3();
+  renderTable();
+}
+
+/* ============================================================
+   VIZ 1 — SEVERITY BREAKDOWN
+============================================================ */
+function renderViz1(){
+  const legend = document.getElementById("viz1-legend");
+  legend.innerHTML = "";
+  ["BLOCKING","MAJOR","MINOR"].forEach(sev=>{
+    const item = document.createElement("span"); item.className = "item";
+    item.innerHTML = '<span class="swatch" style="background:'+SEV_COLOR[sev]+'"></span>'+sev;
+    legend.appendChild(item);
+  });
+
+  const svg = document.getElementById("viz1-svg");
+  svg.innerHTML = "";
+  const rows = ["ALL REVIEWERS", ...REVIEWER_IDS];
+  const rowH = 46, gap = 14, topPad = 10, labelW = 210, barW = 740, viewW = 1000;
+  const totalH = topPad*2 + rows.length*(rowH+gap);
+  svg.setAttribute("viewBox", "0 0 "+viewW+" "+totalH);
+  svg.setAttribute("width","100%");
+  svg.setAttribute("height", Math.min(totalH, 620));
+  svg.setAttribute("aria-label","Stacked bar chart: finding severities per reviewer, "+ (state.round==="r1"?"Round 1":"Final") + " lens");
+
+  const key = state.round === "r1" ? "severityR1" : "severityFinal";
+
+  rows.forEach((row, i)=>{
+    const isAgg = row === "ALL REVIEWERS";
+    const reviewerId = isAgg ? null : row;
+    const list = isAgg ? FINDINGS : FINDINGS.filter(f=>f.reviewer===reviewerId);
+    const counts = { MINOR:0, MAJOR:0, BLOCKING:0 };
+    const items = { MINOR:[], MAJOR:[], BLOCKING:[] };
+    list.forEach(f=>{ counts[f[key]]++; items[f[key]].push(f.title); });
+    const total = list.length || 1;
+    const y = topPad + i*(rowH+gap);
+    const dimmed = !isAgg && !state.reviewers.has(reviewerId);
+
+    const label = svgEl("text", { x:0, y:y+rowH/2+5, fill:"var(--text)", "font-size":isAgg?15:14,
+      "font-family":"ui-monospace,monospace", "font-weight": isAgg?"700":"400" });
+    label.setAttribute("fill", dimmed ? "#5A6270" : (isAgg ? "#E8E6E1" : "#E8E6E1"));
+    label.textContent = isAgg ? "ALL REVIEWERS" : displayName(reviewerId);
+    svg.appendChild(label);
+
+    if(isAgg){
+      const rule = svgEl("line", {x1:0,y1:y-8,x2:viewW,y2:y-8,stroke:"var(--rule)","stroke-width":1});
+      rule.setAttribute("stroke","#2A2F38");
+      svg.appendChild(rule);
+    }
+
+    let x = labelW;
+    ["MINOR","MAJOR","BLOCKING"].forEach(sev=>{
+      const c = counts[sev];
+      if(c===0) return;
+      const w = (c/total)*barW;
+      const rect = svgEl("rect", { x:x, y:y, width:w, height:rowH, fill:SEV_COLOR[sev] });
+      rect.setAttribute("opacity", dimmed ? 0.18 : (state.severities.has(sev) ? 0.95 : 0.15));
+      svg.appendChild(rect);
+      if(w > 18){
+        const txt = svgEl("text", { x:x+w/2, y:y+rowH/2+5, fill:"#16181D", "font-size":13, "text-anchor":"middle", "font-family":"ui-monospace,monospace","font-weight":"700"});
+        txt.textContent = c;
+        txt.setAttribute("opacity", dimmed ? 0.3 : 1);
+        svg.appendChild(txt);
+      }
+      const hitRect = svgEl("rect", { x:x, y:y, width:w, height:rowH, fill:"transparent", "aria-hidden":"false" });
+      makeInteractive(hitRect, {
+        label: sev+" — "+c+" finding(s) for "+(isAgg?"all reviewers":displayName(reviewerId)),
+        onHover: (mx,my)=>{
+          showTooltip(mx,my, '<span class="tt-tag">'+sev+' · '+c+' finding(s)</span>' + items[sev].map(t=>"&bull; "+t).join("<br>"));
+        },
+        onClick: ()=>{
+          state.reviewers = isAgg ? new Set(REVIEWER_IDS) : new Set([reviewerId]);
+          state.severities = new Set([sev]);
+          syncFilterChips();
+          applyFilters();
+          document.getElementById("viz6").scrollIntoView({behavior: REDUCED_MOTION?"auto":"smooth", block:"start"});
+        }
+      });
+      svg.appendChild(hitRect);
+      x += w;
+    });
+  });
+}
+
+function syncFilterChips(){
+  document.querySelectorAll("#reviewer-filter-group .chip").forEach((btn,i)=>{
+    btn.setAttribute("aria-pressed", state.reviewers.has(REVIEWER_IDS[i]) ? "true":"false");
+  });
+  document.querySelectorAll("#severity-filter-group .chip").forEach((btn)=>{
+    const sev = ["BLOCKING","MAJOR","MINOR"].find(s=>btn.textContent===s);
+    btn.setAttribute("aria-pressed", state.severities.has(sev) ? "true":"false");
+  });
+}
+
+/* ============================================================
+   VIZ 2 — REVIEWER AGREEMENT MATRIX
+============================================================ */
+function renderViz2(){
+  const legend = document.getElementById("viz2-legend");
+  legend.innerHTML =
+    '<span class="item"><span class="swatch" style="background:var(--major);border-radius:0;"></span>Conflict-majority (dashed border)</span>'+
+    '<span class="item"><span class="swatch" style="background:var(--minor);border-radius:0;"></span>Connection-majority (solid border)</span>'+
+    '<span class="item">Opacity = engagement volume</span>';
+
+  const svg = document.getElementById("viz2-svg");
+  svg.innerHTML = "";
+  const n = REVIEWER_IDS.length;
+  const cell = 108, labelW = 170, pad = 6;
+  const viewW = labelW + n*cell + 10;
+  const viewH = labelW + n*cell + 10;
+  svg.setAttribute("viewBox", "0 0 "+viewW+" "+viewH);
+  svg.setAttribute("width","100%");
+  svg.setAttribute("height", Math.min(viewH, 720));
+  svg.setAttribute("aria-label","Six by six matrix of reviewer cross-examination engagement, rows are the author, columns are the colleague engaged");
+
+  REVIEWER_IDS.forEach((id,i)=>{
+    const colLabel = svgEl("text", { x: labelW + i*cell + cell/2, y: labelW - 14, "text-anchor":"middle", "font-size":11, fill:"#8A8F98" });
+    colLabel.textContent = displayName(id).split(" ").map(w=>w.slice(0,4)).join(" ");
+    svg.appendChild(colLabel);
+    const rowLabel = svgEl("text", { x: labelW - 10, y: labelW + i*cell + cell/2 + 4, "text-anchor":"end", "font-size":12, fill:"#8A8F98" });
+    rowLabel.textContent = displayName(id);
+    svg.appendChild(rowLabel);
+  });
+
+  REVIEWER_IDS.forEach((from,r)=>{
+    REVIEWER_IDS.forEach((to,c)=>{
+      const x = labelW + c*cell, y = labelW + r*cell;
+      if(from===to){
+        const rect = svgEl("rect", {x:x+pad,y:y+pad,width:cell-2*pad,height:cell-2*pad, fill:"#2A2F38"});
+        svg.appendChild(rect);
+        return;
+      }
+      const data = MATRIX[from][to];
+      const total = data.conflict + data.connection;
+      const opacity = total===0 ? 0.06 : 0.15 + 0.75*(total/MATRIX_MAX);
+      const dimmed = !state.reviewers.has(from) || !state.reviewers.has(to);
+      const borderColor = data.conflict > data.connection ? "#F5A623" : "#8A8F98";
+      const dash = data.conflict > data.connection ? "4,3" : "0";
+      const rect = svgEl("rect", { x:x+pad, y:y+pad, width:cell-2*pad, height:cell-2*pad,
+        fill:"#E8E6E1", stroke: borderColor, "stroke-width":1.5, "stroke-dasharray": dash });
+      rect.setAttribute("fill-opacity", dimmed ? Math.min(opacity,0.15) : opacity);
+      svg.appendChild(rect);
+      if(total>0){
+        const txt = svgEl("text", {x:x+cell/2, y:y+cell/2+4, "text-anchor":"middle", "font-size":16, "font-family":"ui-monospace,monospace",
+          fill: opacity>0.5 ? "#16181D" : "#E8E6E1"});
+        txt.textContent = total;
+        txt.setAttribute("opacity", dimmed?0.35:1);
+        svg.appendChild(txt);
+      }
+      const hit = svgEl("rect", {x:x+pad,y:y+pad,width:cell-2*pad,height:cell-2*pad, fill:"transparent"});
+      makeInteractive(hit, {
+        label: displayName(from)+" engaging "+displayName(to)+": "+data.conflict+" conflict(s), "+data.connection+" connection(s)",
+        onHover: (mx,my)=>{
+          if(total===0){ showTooltip(mx,my,"No Round 2 entries from "+displayName(from)+" engaging "+displayName(to)+"."); return; }
+          let html = '<span class="tt-tag">'+displayName(from)+' → '+displayName(to)+'</span>';
+          data.entries.forEach(e=>{
+            html += '<div style="margin-top:6px;"><strong>'+e.type.toUpperCase()+'</strong> — '+e.summary.slice(0,160)+(e.summary.length>160?"…":"")+'</div>';
+          });
+          showTooltip(mx,my,html);
+        },
+        onClick: ()=>{
+          state.openMatrixCell = (state.openMatrixCell && state.openMatrixCell[0]===from && state.openMatrixCell[1]===to) ? null : [from,to];
+          renderMatrixPanel();
+        }
+      });
+      svg.appendChild(hit);
+    });
+  });
+}
+function renderViz2Dimming(){ renderViz2(); }
+
+function renderMatrixPanel(){
+  const panel = document.getElementById("matrix-panel");
+  if(!state.openMatrixCell){ panel.classList.remove("open"); panel.innerHTML=""; return; }
+  const [from,to] = state.openMatrixCell;
+  const data = MATRIX[from][to];
+  panel.classList.add("open");
+  let html = "<h3 style=\"margin:0 0 16px;font-size:18px;\">"+displayName(from)+" → "+displayName(to)+"</h3>";
+  if(data.entries.length===0){
+    html += '<p class="section-note">No direct Round 2 entries recorded from '+displayName(from)+' engaging '+displayName(to)+'.</p>';
+  }
+  data.entries.forEach(e=>{
+    const chips = relatedFindingIdsFromText(from, e.summary);
+    html += '<div class="matrix-entry"><span class="tag">'+e.type+'</span><p>'+e.summary+'</p>';
+    if(chips.length){
+      html += chips.map(id=>{
+        const f = FINDINGS_BY_ID[id];
+        return '<button class="finding-chip" data-fid="'+id+'">'+displayName(f.reviewer)+" "+f.findingId+'</button>';
+      }).join("");
+    }
+    html += "</div>";
+  });
+  panel.innerHTML = html;
+  panel.querySelectorAll(".finding-chip").forEach(btn=>{
+    btn.addEventListener("click", ()=>scrollToFinding(btn.dataset.fid));
+  });
+}
+
+/* ============================================================
+   VIZ 3 — FINDING FLOW
+============================================================ */
+function renderViz3(){
+  const svg = document.getElementById("viz3-svg");
+  svg.innerHTML = "";
+  const viewW = 1000, viewH = 520;
+  svg.setAttribute("viewBox","0 0 "+viewW+" "+viewH);
+  svg.setAttribute("width","100%");
+  svg.setAttribute("height", Math.min(viewH,560));
+  svg.setAttribute("aria-label","Alluvial diagram of findings moving from Round 1 severity to Final severity");
+
+  const order = ["BLOCKING","MAJOR","MINOR"];
+  const leftX = 140, rightX = 860, topPad = 40, bottomPad = 40;
+  const usableH = viewH - topPad - bottomPad;
+
+  const leftCounts = {BLOCKING:0,MAJOR:0,MINOR:0};
+  const rightCounts = {BLOCKING:0,MAJOR:0,MINOR:0};
+  FINDINGS.forEach(f=>{ leftCounts[f.severityR1]++; rightCounts[f.severityFinal]++; });
+  const total = FINDINGS.length;
+
+  const leftY0 = {}, rightY0 = {};
+  let accL = topPad, accR = topPad;
+  order.forEach(sev=>{
+    leftY0[sev] = accL; accL += (leftCounts[sev]/total)*usableH;
+    rightY0[sev] = accR; accR += (rightCounts[sev]/total)*usableH;
+  });
+
+  order.forEach(sev=>{
+    const h = (leftCounts[sev]/total)*usableH;
+    if(h>0){
+      const r = svgEl("rect", {x:leftX-16, y:leftY0[sev], width:16, height:Math.max(h,1), fill:SEV_COLOR[sev]});
+      svg.appendChild(r);
+    }
+    const hR = (rightCounts[sev]/total)*usableH;
+    if(hR>0){
+      const r = svgEl("rect", {x:rightX, y:rightY0[sev], width:16, height:Math.max(hR,1), fill:SEV_COLOR[sev]});
+      svg.appendChild(r);
+    }
+    const lLabel = svgEl("text",{x:leftX-26, y:leftY0[sev]+h/2+4, "text-anchor":"end","font-size":13,fill:"#E8E6E1"});
+    lLabel.textContent = sev+" ("+leftCounts[sev]+")";
+    svg.appendChild(lLabel);
+    const rLabel = svgEl("text",{x:rightX+26, y:rightY0[sev]+hR/2+4, "text-anchor":"start","font-size":13,fill:"#E8E6E1"});
+    rLabel.textContent = sev+" ("+rightCounts[sev]+")";
+    svg.appendChild(rLabel);
+  });
+
+  const colHeaderL = svgEl("text",{x:leftX-16,y:22,"text-anchor":"end","font-size":12,fill:"#8A8F98"});
+  colHeaderL.textContent = "ROUND 1"; svg.appendChild(colHeaderL);
+  const colHeaderR = svgEl("text",{x:rightX+16,y:22,"text-anchor":"start","font-size":12,fill:"#8A8F98"});
+  colHeaderR.textContent = "FINAL"; svg.appendChild(colHeaderR);
+
+  const leftCursor = {BLOCKING:0,MAJOR:0,MINOR:0};
+  const rightCursor = {BLOCKING:0,MAJOR:0,MINOR:0};
+  const ribbonH = usableH/total;
+  const key = state.round==="r1" ? "severityR1" : "severityFinal";
+
+  FINDINGS.forEach(f=>{
+    const ySrc = leftY0[f.severityR1] + leftCursor[f.severityR1]*ribbonH; leftCursor[f.severityR1]++;
+    const yDst = rightY0[f.severityFinal] + rightCursor[f.severityFinal]*ribbonH; rightCursor[f.severityFinal]++;
+    const x0 = leftX, x1 = rightX+16;
+    const midX = (x0+x1)/2;
+    const path = "M"+x0+","+ySrc+" C"+midX+","+ySrc+" "+midX+","+yDst+" "+x1+","+yDst;
+    const p = svgEl("path", { d:path, fill:"none", stroke: SEV_COLOR[f.severityFinal], "stroke-width": Math.max(ribbonH*0.7,1.4) });
+    const dimmed = !state.reviewers.has(f.reviewer) || !state.severities.has(f[key]);
+    p.setAttribute("opacity", dimmed ? 0.08 : 0.5);
+    p.dataset.baseOpacity = dimmed ? 0.08 : 0.5;
+    svg.appendChild(p);
+    makeInteractive(p, {
+      label: f.title+" — "+displayName(f.reviewer)+" — "+f.severityR1+" to "+f.severityFinal,
+      onHover: (mx,my)=>{
+        svg.querySelectorAll("path").forEach(other=>other.setAttribute("opacity", other===p?1:0.08));
+        let html = '<span class="tt-tag">'+displayName(f.reviewer)+' — '+f.title+'</span>'+
+          f.severityR1+" &rarr; "+f.severityFinal;
+        if(f.round2Notes) html += "<br>"+f.round2Notes;
+        showTooltip(mx,my,html);
+      },
+      onClick: ()=>scrollToFinding(f.id)
+    });
+    p.addEventListener("mouseleave", ()=>{
+      svg.querySelectorAll("path").forEach(other=>other.setAttribute("opacity", other.dataset.baseOpacity));
+    });
+    p.addEventListener("blur", ()=>{
+      svg.querySelectorAll("path").forEach(other=>other.setAttribute("opacity", other.dataset.baseOpacity));
+    });
+  });
+}
+
+/* ============================================================
+   VIZ 4 — TOP ISSUES
+============================================================ */
+function renderViz4(){
+  const wrap = document.getElementById("viz4-list");
+  wrap.innerHTML = "";
+  TOP_ISSUES.forEach(issue=>{
+    const card = document.createElement("div");
+    card.className = "issue-card" + (state.openIssue===issue.rank ? " open" : "");
+    card.dataset.rank = issue.rank;
+
+    const head = document.createElement("button");
+    head.className = "issue-head"; head.type="button";
+    head.setAttribute("aria-expanded", state.openIssue===issue.rank ? "true":"false");
+    head.innerHTML =
+      '<div class="issue-rank mono">'+issue.rank+'</div>'+
+      '<div class="issue-main">'+
+        '<div class="issue-title">'+issue.title+'</div>'+
+        '<div class="issue-meta">'+
+          '<span class="stamp stamp-'+(issue.severityLabel.match(/BLOCKING/i)?"blocking":issue.severityLabel.match(/MAJOR/i)?"major":"minor")+'">'+issue.severityLabel.split(" ")[0]+'</span>'+
+          '<span class="stamp">'+issue.outcome+'</span>'+
+          issue.flaggedBy.map(id=>'<span class="reviewer-chip" data-rev="'+id+'">'+displayName(id)+'</span>').join("")+
+        '</div>'+
+      '</div>';
+    head.addEventListener("click", ()=>{
+      state.openIssue = (state.openIssue===issue.rank) ? null : issue.rank;
+      renderViz4();
+    });
+    card.appendChild(head);
+
+    if(state.openIssue===issue.rank){
+      const body = document.createElement("div");
+      body.className = "issue-body";
+      let html = "<p>"+issue.detail+"</p>";
+      const trailFindings = issue.relatedFindingIds.map(id=>FINDINGS_BY_ID[id]).filter(Boolean);
+      if(issue.rank===1 || issue.rank===2){
+        html += '<div class="timeline">';
+        trailFindings.forEach(f=>{
+          html += '<div class="tl-step">'+
+            '<div class="tl-label">'+displayName(f.reviewer)+' · '+f.findingId+'</div>'+
+            '<div class="tl-text"><strong>R1:</strong> '+f.severityR1+' — '+f.title+'<br>'+
+            (f.round2Notes ? '<strong>R2:</strong> '+f.round2Notes+'<br>' : '')+
+            '<strong>Final:</strong> '+f.severityFinal+'</div></div>';
+        });
+        html += "</div>";
+      } else {
+        html += '<div class="trail">';
+        trailFindings.forEach(f=>{
+          html += '<div class="trail-row"><span class="rev">'+displayName(f.reviewer)+' · '+f.findingId+'</span>'+
+            '<span class="stamp stamp-'+f.severityR1.toLowerCase()+'">'+f.severityR1+'</span>'+
+            (f.severityR1!==f.severityFinal ? '<span class="arrow">&rarr;</span><span class="stamp stamp-'+f.severityFinal.toLowerCase()+'">'+f.severityFinal+'</span>' : '')+
+            '<span style="color:var(--muted);">'+(f.round2Notes||"")+'</span></div>';
+        });
+        html += "</div>";
+      }
+      body.innerHTML = html;
+      card.appendChild(body);
+    }
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll(".reviewer-chip").forEach(chip=>{
+    chip.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      const table = document.getElementById("viz6");
+      table.scrollIntoView({behavior: REDUCED_MOTION?"auto":"smooth", block:"start"});
+    });
+  });
+}
+
+/* ============================================================
+   VIZ 5 — DISAGREEMENTS
+============================================================ */
+function renderViz5(){
+  const wrap = document.getElementById("viz5-list");
+  wrap.innerHTML = "";
+  if(DISAGREEMENTS.length===0){
+    wrap.innerHTML = '<p class="empty-state">The board reached consensus — rerun Round 2 if that seems too easy.</p>';
+    return;
+  }
+  DISAGREEMENTS.forEach(d=>{
+    const div = document.createElement("div");
+    div.className = "disagreement";
+    let html = "<h3>"+d.id+". "+d.title+"</h3><div class=\"positions\">";
+    d.positions.forEach(p=>{
+      html += '<div class="position"><div class="stance">'+p.stance+'</div><p>'+p.argument+'</p>'+
+        '<div class="badges" data-side>'+p.reviewers.length+' reviewer(s): '+p.reviewers.map(displayName).join(", ")+'</div></div>';
+    });
+    html += '</div><button class="agree-toggle" type="button">Show who agrees</button>'+
+      '<div class="escalation"><strong>Escalation:</strong> '+d.escalation+'</div>';
+    div.innerHTML = html;
+    const btn = div.querySelector(".agree-toggle");
+    const badges = div.querySelectorAll(".badges");
+    btn.addEventListener("click", ()=>{
+      const showing = badges[0].classList.toggle("show");
+      badges.forEach(b=>b.classList.toggle("show", showing));
+      btn.textContent = showing ? "Hide who agrees" : "Show who agrees";
+    });
+    wrap.appendChild(div);
+  });
+}
+
+/* ============================================================
+   QUICK WINS
+============================================================ */
+function renderQuickWins(){
+  const list = document.getElementById("quickwins-list");
+  list.innerHTML = "";
+  QUICK_WINS.forEach(qw=>{
+    const li = document.createElement("li");
+    li.innerHTML = '<div class="qw-title">'+qw.title+'</div><div class="qw-detail">'+qw.detail+'</div>'+
+      '<div class="issue-meta" style="margin-top:8px;">'+qw.flaggedBy.map(id=>'<span class="reviewer-chip" data-rev="'+id+'" style="cursor:default;">'+displayName(id)+'</span>').join("")+'</div>';
+    list.appendChild(li);
+  });
+}
+
+/* ============================================================
+   VIZ 6 — TABLE
+============================================================ */
+function getFilteredFindings(){
+  const key = state.round==="r1" ? "severityR1" : "severityFinal";
+  const q = state.search.trim().toLowerCase();
+  return FINDINGS.filter(f=>{
+    if(!state.reviewers.has(f.reviewer)) return false;
+    if(!state.severities.has(f[key])) return false;
+    if(q && !(f.title.toLowerCase().includes(q) || f.problem.toLowerCase().includes(q))) return false;
+    return true;
+  });
+}
+
+function sortFindings(list){
+  const col = state.sortCol, dir = state.sortDir === "asc" ? 1 : -1;
+  return list.slice().sort((a,b)=>{
+    let av, bv;
+    if(col==="severityR1" || col==="severityFinal"){ av = SEV_RANK[a[col]]; bv = SEV_RANK[b[col]]; }
+    else if(col==="reviewer"){ av = REVIEWER_IDS.indexOf(a.reviewer); bv = REVIEWER_IDS.indexOf(b.reviewer); }
+    else { av = String(a[col]).toLowerCase(); bv = String(b[col]).toLowerCase(); }
+    if(av<bv) return -1*dir;
+    if(av>bv) return 1*dir;
+    return REVIEWER_IDS.indexOf(a.reviewer) - REVIEWER_IDS.indexOf(b.reviewer);
+  });
+}
+
+function statusGlyph(status){
+  if(status==="upgraded") return "&#8593;";
+  if(status==="downgraded") return "&#8595;";
+  return "&#8212;";
+}
+
+function renderTable(){
+  const tbody = document.getElementById("findings-tbody");
+  tbody.innerHTML = "";
+  const list = sortFindings(getFilteredFindings());
+  document.getElementById("table-count").textContent = list.length + " of " + FINDINGS.length + " findings shown";
+  list.forEach(f=>{
+    const tr = document.createElement("tr");
+    tr.className = "finding-row";
+    tr.dataset.id = f.id;
+    tr.innerHTML =
+      '<td>'+displayName(f.reviewer)+'</td>'+
+      '<td>'+f.title+'</td>'+
+      '<td><span class="stamp stamp-'+f.severityR1.toLowerCase()+'">'+f.severityR1+'</span></td>'+
+      '<td><span class="stamp stamp-'+f.severityFinal.toLowerCase()+'">'+f.severityFinal+'</span></td>'+
+      '<td><span class="status-glyph" aria-label="'+f.status+'">'+statusGlyph(f.status)+'</span> <span class="sr-only">'+f.status+'</span></td>'+
+      '<td class="mono" style="font-size:12px;color:var(--muted);">'+f.source+'</td>';
+
+    const exTr = document.createElement("tr");
+    exTr.className = "expand-row";
+    exTr.dataset.id = f.id+"-ex";
+    const td = document.createElement("td");
+    td.colSpan = 6;
+    td.innerHTML = '<p style="margin:0 0 10px;">'+f.problem+'</p>' +
+      (f.round2Notes ? '<p style="margin:0;color:var(--muted);"><strong>Round 2:</strong> '+f.round2Notes+'</p>' : '');
+    exTr.appendChild(td);
+
+    tr.addEventListener("click", ()=>{
+      exTr.classList.toggle("open");
+    });
+    tbody.appendChild(tr);
+    tbody.appendChild(exTr);
+  });
+}
+
+function scrollToFinding(id){
+  const key = state.round==="r1" ? "severityR1" : "severityFinal";
+  const f = FINDINGS_BY_ID[id];
+  if(!f) return;
+  if(!state.reviewers.has(f.reviewer)) state.reviewers.add(f.reviewer);
+  if(!state.severities.has(f[key])) state.severities.add(f[key]);
+  syncFilterChips();
+  applyFilters();
+  requestAnimationFrame(()=>{
+    const row = document.querySelector('tr.finding-row[data-id="'+id+'"]');
+    const exRow = document.querySelector('tr.expand-row[data-id="'+id+'-ex"]');
+    if(!row) return;
+    row.scrollIntoView({behavior: REDUCED_MOTION?"auto":"smooth", block:"center"});
+    if(exRow) exRow.classList.add("open");
+    row.classList.add("highlight");
+    setTimeout(()=>row.classList.remove("highlight"), 2600);
+  });
+}
+
+function wireTableControls(){
+  document.getElementById("table-search").addEventListener("input", (e)=>{
+    state.search = e.target.value;
+    renderTable();
+  });
+  document.querySelectorAll("#findings-table thead th").forEach(th=>{
+    const activate = ()=>{
+      const col = th.dataset.col;
+      if(state.sortCol === col){ state.sortDir = state.sortDir==="asc" ? "desc":"asc"; }
+      else { state.sortCol = col; state.sortDir = "desc"; }
+      renderTable();
+    };
+    th.addEventListener("click", activate);
+    th.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); activate(); } });
+  });
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+function init(){
+  renderMasthead();
+  renderFilterBar();
+  renderViz1();
+  renderViz2();
+  renderMatrixPanel();
+  renderViz3();
+  renderViz4();
+  renderViz5();
+  renderQuickWins();
+  wireTableControls();
+  renderTable();
+}
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
