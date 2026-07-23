@@ -76,7 +76,11 @@
             }
 
             .grid-hud {
-                grid-template-columns: 1fr !important;
+                grid-template-columns: 1fr 1fr !important;
+            }
+
+            .grid-hud>div:last-child {
+                grid-column: 1 / -1 !important;
             }
 
             .loop-col {
@@ -130,9 +134,17 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 460px) {
             .grid-4 {
                 grid-template-columns: 1fr !important;
+            }
+
+            .grid-hud {
+                grid-template-columns: 1fr !important;
+            }
+
+            .grid-hud>div:last-child {
+                grid-column: auto !important;
             }
         }
     </style>
@@ -405,80 +417,77 @@
                     <h3
                         style="font-family:'Cinzel',serif; font-weight:600; font-size:24px; margin:0 0 12px; color:#f4f0e6;">
                         Reading the HUD</h3>
-                    <div class="grid-hud"
-                        style="display:grid; grid-template-columns:1fr 1fr 2fr; gap:24px; margin-top:20px;">
+                    <div class="grid-hud" style="display:grid; grid-template-columns:1fr 1fr 1.3fr; gap:24px;">
                         <div
-                            style="background:linear-gradient(180deg, rgba(232,200,116,0.07), rgba(255,255,255,0.02)); border:1px solid rgba(232,200,116,0.24); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 12px 32px rgba(0,0,0,0.3);">
+                            style="background:linear-gradient(180deg, rgba(232,200,116,0.08), rgba(255,255,255,0.02)); border:1px solid rgba(232,200,116,0.26); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
                             <img src="assets/KineticPunch.jpg" alt="Kinetic Punch"
-                                style="width:100%; height:auto; display:block; border-bottom:1px solid rgba(232,200,116,0.24);" />
-                            <div style="padding:20px; display:flex; flex-direction:column; flex:1;">
+                                style="width:100%; height:auto; display:block; border-bottom:1px solid rgba(232,200,116,0.26);" />
+                            <div style="padding:22px; display:flex; flex-direction:column; flex:1;">
                                 <h4
                                     style="font-family:'Cinzel',serif; font-weight:700; font-size:17px; color:#e8c874; margin:0 0 10px;">
                                     Kinetic Punch</h4>
                                 <p style="margin:0; font-size:14px; color:#b9bdd0; line-height:1.6;">Always available.
-                                    Its HUD icon displays the bound button (LMB / X). <strong style="color:#f4f0e6;">No
-                                        need for any tutorial.</strong> This, the main attack, uses a dynamic damage
-                                    drop-off rule. It acts as a heavy melee-style attack at close range but scales down
-                                    to do fewer damage points when the wave hits from afar.</p>
+                                    Its HUD icon displays the bound button (LMB / X). Dynamic damage drop-off: heavy
+                                    melee at close range, scaling down over distance.</p>
                             </div>
                         </div>
                         <div
-                            style="background:linear-gradient(180deg, rgba(177,139,255,0.08), rgba(255,255,255,0.02)); border:1px solid rgba(177,139,255,0.26); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 12px 32px rgba(0,0,0,0.3);">
+                            style="background:linear-gradient(180deg, rgba(177,139,255,0.09), rgba(255,255,255,0.02)); border:1px solid rgba(177,139,255,0.28); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
                             <img src="assets/Singularity.jpg" alt="Singularity"
-                                style="width:100%; height:auto; display:block; border-bottom:1px solid rgba(177,139,255,0.26);" />
-                            <div style="padding:20px; display:flex; flex-direction:column; flex:1;">
+                                style="width:100%; height:auto; display:block; border-bottom:1px solid rgba(177,139,255,0.28);" />
+                            <div style="padding:22px; display:flex; flex-direction:column; flex:1;">
                                 <h4
                                     style="font-family:'Cinzel',serif; font-weight:700; font-size:17px; color:#b18bff; margin:0 0 10px;">
                                     Singularity</h4>
-                                <p style="margin:0; font-size:14px; color:#b9bdd0; line-height:1.6;">Gated by a <strong
-                                        style="color:#f4f0e6;">charge ring</strong> that wraps its HUD icon, tagged with
-                                    its bound button (RMB / Y). It fills clockwise from the top as the player deals
-                                    damage to enemies and as time elapses. When the ring completes, the icon lights and
-                                    Singularity can be unleashed. Once triggered, the gravity event holds for <strong
-                                        style="color:#f4f0e6;">3 seconds</strong> <span style="color:#8489a0;">(tunable
-                                        in playtesting)</span>.</p>
+                                <p style="margin:0; font-size:14px; color:#b9bdd0; line-height:1.6;">Gated by a charge
+                                    ring wrapping its HUD icon (RMB / Y). Fills clockwise from the top as you deal
+                                    damage and time elapses. Holds for <strong style="color:#f4f0e6;">3 seconds</strong>
+                                    once unleashed.</p>
                             </div>
                         </div>
                         <div
-                            style="background:linear-gradient(180deg, rgba(95,216,234,0.07), rgba(255,255,255,0.02)); border:1px solid rgba(95,216,234,0.22); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 12px 32px rgba(0,0,0,0.3);">
+                            style="background:linear-gradient(180deg, rgba(95,216,234,0.08), rgba(255,255,255,0.02)); border:1px solid rgba(95,216,234,0.24); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
                             <img src="assets/Lucidity.jpg" alt="Lucidity Meter"
-                                style="width:100%; height:auto; display:block; border-bottom:1px solid rgba(95,216,234,0.22);" />
-                            <div style="padding:20px; display:flex; flex-direction:column; flex:1;">
+                                style="width:100%; height:auto; display:block; border-bottom:1px solid rgba(95,216,234,0.24);" />
+                            <div style="padding:22px; display:flex; flex-direction:column; flex:1;">
                                 <h4
                                     style="font-family:'Cinzel',serif; font-weight:700; font-size:17px; color:#5fd8ea; margin:0 0 10px;">
                                     Lucidity Meter</h4>
-                                <p style="margin:0; font-size:14px; color:#b9bdd0; line-height:1.6;">The player's
-                                    health is tracked by the <strong style="color:#f4f0e6;">Lucid meter</strong>. If it
-                                    empties to <strong style="color:#f4f0e6;">0</strong>, the player is <strong
-                                        style="color:#f4f0e6;">knocked out of the astral plane</strong>. A short
-                                    cutscene carries them back to reality and then re-immerses them into the Astral
-                                    Plane. On continuing, they resume at the <strong style="color:#f4f0e6;">start of the
-                                        same wave</strong>, their last checkpoint.</p>
+                                <p style="margin:0; font-size:14px; color:#b9bdd0; line-height:1.6;">Player health.
+                                    Depleting to zero knocks you out of the astral plane into a brief cutscene, then
+                                    re-immerses you at the start of the same wave checkpoint.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Wave Progression -->
-                <div style="margin-bottom:44px;">
-                    <div
-                        style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:6px;">
-                        Wave Progression</div>
-                    <h3
-                        style="font-family:'Cinzel',serif; font-weight:600; font-size:24px; margin:0 0 12px; color:#f4f0e6;">
-                        Riding the Soul-Currents</h3>
-                    <p style="margin:0 0 14px; font-size:15.5px; color:#b9bdd0;">
-                        Combat is paced in <strong style="color:#f4f0e6;">waves</strong>. Destroy a set number of astral
-                        beings <span style="color:#8489a0;">(count tuned during playtesting)</span>, the world pulls the
-                        player forward: a <strong style="color:#f4f0e6;">warp through a soul-current</strong>,
-                        a rushing nebular cloud-ring that carries the player deeper into the Astral Plane. <strong
-                            style="color:#f4f0e6;">Progression is saved here.</strong></p>
-                    <p style="margin:0; font-size:15.5px; color:#b9bdd0;">
-                        Each warp reframes the goal: the crystalline structure looms <strong
-                            style="color:#f4f0e6;">closer and more centered</strong> in view, and the emissary companion
-                        marks the moment aloud, <em style="color:#e8c874;">"We're getting closer!"</em> Distinctly
-                        calling out, <em style="color:#e8c874;">"This looks like the last wave!"</em>, before
-                        the final push toward the fortress.</p>
+                <!-- WAVE PROGRESSION -->
+                <div
+                    style="border-left:3px solid rgba(232,200,116,0.6); background:rgba(232,200,116,0.06); padding:28px 0 28px 28px; border-radius:0 12px 12px 0;">
+                    <div style="margin-bottom:16px;">
+                        <div
+                            style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">
+                            Wave Progression</div>
+                        <h3
+                            style="font-family:'Cinzel',serif; font-weight:600; font-size:24px; margin:0 0 14px; color:#f4f0e6;">
+                            Riding the Soul-Currents</h3>
+                    </div>
+                    <div style="max-width:760px;">
+                        <p style="margin:0 0 14px; font-size:15.5px; color:#b9bdd0; line-height:1.65;">Combat paces in
+                            <strong style="color:#f4f0e6;">waves</strong>. Destroy a set number of astral beings and the
+                            world pulls you
+                            forward: a <strong style="color:#f4f0e6;">warp through a soul-current</strong>, a rushing
+                            nebular
+                            cloud-ring carrying you deeper. <strong style="color:#f4f0e6;">Progression saves
+                                here.</strong>
+                        </p>
+                        <p style="margin:0; font-size:15.5px; color:#b9bdd0; line-height:1.65;">Each warp reframes the
+                            goal: the
+                            crystalline structure looms <strong style="color:#f4f0e6;">closer and more
+                                centered</strong>, and your
+                            companion marks the moment aloud. Before the final wave, they distinctly call, <em
+                                style="color:#e8c874;">"This looks like the last wave!"</em></p>
+                    </div>
                 </div>
             </section>
 
@@ -501,92 +510,95 @@
                             style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:#e8c874; margin-bottom:14px;">
                             The Astral Plane</div>
                         <p style="margin:0 0 18px; color:#cfd2e0; text-wrap:pretty;">A galactic, flowing cosmic corridor
-                            thick
-                            with drifting star-matter, luminous nebulae, and soul-currents. Movement here feels
-                            weightless and fluid, a suspension between worlds.</p>
-                        <p style="margin:0; color:#cfd2e0; text-wrap:pretty;">Far off in the distance stands a
-                            destructible
-                            crystalline structure. The player must reach and destroy it to complete the Gameplay Demo.
+                            thick with drifting star-matter, luminous nebulae, and soul-currents to provide frame of
+                            reference. Movement here feels weightless and fluid, a suspension between worlds.</p>
+                        <p style="margin:0; color:#cfd2e0; text-wrap:pretty;">Far off in the distance stands the
+                            destructible crystalline structure that gets closer as the playre progresses through the
+                            Gameplay Demo.
                         </p>
                     </div>
                     <div
                         style="position:relative; border-radius:14px; overflow:hidden; border:1px solid rgba(177,139,255,0.28); box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-                        <img src="assets/wraith.jpg" alt="Astral Wraith encounter"
+                        <img src="assets/player_proto.jpg" alt="The Astral Plane"
                             style="display:block; width:100%; height:auto;" />
                     </div>
-                    <div>&nbsp;</div>
-                    <p style="margin: 4px 0 0; font-size: 13px; color: #8f94a8; font-style: italic; text-align: left;">*
-                        inspiration only, no knights will be in the game</p>
                 </div>
 
-                <!-- ASTRAL BEINGS ROSTER -->
-                <div style="margin-top:44px;">
-                    <div
-                        style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:6px;">
-                        The Astral Beings</div>
-                    <h3
-                        style="font-family:'Cinzel',serif; font-weight:600; font-size:24px; margin:0 0 8px; color:#f4f0e6;">
-                        Guardians of the Soul Sphere</h3>
-                    <p style="margin:0 0 26px; font-size:15.5px; color:#b9bdd0; max-width:760px;">
-                        Three classes of astral being defend the crystalline structure, each wielding a facet of the
-                        Astral Plane's gravity. The player carves through waves of the first two before facing the
-                        warden that guards the Sphere itself.</p>
+                <!-- ASTRAL BEINGS -->
+                <div>
+                    <div style="margin:28px 0;">
+                        <div
+                            style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">
+                            The Astral Beings</div>
+                        <h3
+                            style="font-family:'Cinzel',serif; font-weight:600; font-size:24px; margin:0 0 14px; color:#f4f0e6;">
+                            Guardians of the Soul Sphere</h3>
+                        <p style="margin:0; font-size:15.5px; color:#b9bdd0; max-width:760px; line-height:1.65;">Three
+                            classes
+                            defend the crystalline structure, each wielding a facet of the Astral Plane's gravity. You
+                            carve through
+                            waves of the first two before facing the warden that guards the Sphere itself.</p>
+                    </div>
 
-                    <div class="grid-3"
-                        style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:stretch;">
+                    <div class="grid-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
 
                         <!-- RANGED -->
                         <div
-                            style="border:1px solid rgba(232,200,116,0.16); border-radius:6px; overflow:hidden; background:rgba(232,200,116,0.02); display:flex; flex-direction:column;">
-                            <img src="assets/enemy_ranged.jpg" alt="Ranged astral being"
-                                style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-bottom:1px solid rgba(232,200,116,0.16);">
-                            <div style="padding:18px 20px;">
+                            style="border:1px solid rgba(232,200,116,0.18); border-radius:8px; overflow:hidden; background:rgba(232,200,116,0.03); display:flex; flex-direction:column; transition:all 0.3s ease;">
+                            <img src="assets/ranged.jpg" alt="Void Caster"
+                                style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-bottom:1px solid rgba(232,200,116,0.18);">
+                            <div style="padding:20px; display:flex; flex-direction:column; flex:1;">
                                 <div
-                                    style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:6px;">
+                                    style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">
                                     Ranged</div>
                                 <h4
-                                    style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 8px; color:#f4f0e6;">
+                                    style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 10px; color:#f4f0e6;">
                                     Void Caster</h4>
-                                <p style="margin:0; font-size:14.5px; color:#b9bdd0;">Hangs back at the edge of the
+                                <p style="margin:0; font-size:14.5px; color:#b9bdd0; line-height:1.6;">Hangs back at the
+                                    edge of the
                                     fray, hurling gravity-charged projectiles across the soul-currents. Low health, but
-                                    punishes a player who hovers in the open, forcing constant repositioning.</p>
+                                    pressures you
+                                    into constant repositioning.</p>
                             </div>
                         </div>
 
                         <!-- MELEE -->
                         <div
-                            style="border:1px solid rgba(232,200,116,0.16); border-radius:6px; overflow:hidden; background:rgba(232,200,116,0.02); display:flex; flex-direction:column;">
-                            <img src="assets/enemy_melee.jpg" alt="Melee astral being"
-                                style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-bottom:1px solid rgba(232,200,116,0.16);">
-                            <div style="padding:18px 20px;">
+                            style="border:1px solid rgba(232,200,116,0.18); border-radius:8px; overflow:hidden; background:rgba(232,200,116,0.03); display:flex; flex-direction:column; transition:all 0.3s ease;">
+                            <img src="assets/melee.jpg" alt="Rift Stalker"
+                                style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-bottom:1px solid rgba(232,200,116,0.18);">
+                            <div style="padding:20px; display:flex; flex-direction:column; flex:1;">
                                 <div
-                                    style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:6px;">
+                                    style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">
                                     Melee</div>
                                 <h4
-                                    style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 8px; color:#f4f0e6;">
+                                    style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 10px; color:#f4f0e6;">
                                     Rift Stalker</h4>
-                                <p style="margin:0; font-size:14.5px; color:#b9bdd0;">Swarms in fast, closing distance
-                                    to
-                                    strike at close range. Pressures the player into kinetic-punch knockbacks and makes
-                                    Singularity ideal for clustering and imploding a pack at once.</p>
+                                <p style="margin:0; font-size:14.5px; color:#b9bdd0; line-height:1.6;">Swarms in fast,
+                                    closing
+                                    distance to strike at close range. Pressures you into kinetic-punch knockbacks and
+                                    makes Singularity
+                                    ideal for clustering a pack.</p>
                             </div>
                         </div>
 
                         <!-- BOSS -->
                         <div
-                            style="border:1px solid rgba(232,200,116,0.35); border-radius:6px; overflow:hidden; background:rgba(232,200,116,0.05); display:flex; flex-direction:column;">
-                            <img src="assets/enemy_boss.jpg" alt="Boss astral being"
+                            style="border:1px solid rgba(232,200,116,0.35); border-radius:8px; overflow:hidden; background:rgba(232,200,116,0.06); display:flex; flex-direction:column; box-shadow:0 4px 16px rgba(232,200,116,0.1);">
+                            <img src="assets/boss_angel.jpg" alt="Crystalline Warden"
                                 style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-bottom:1px solid rgba(232,200,116,0.35);">
-                            <div style="padding:18px 20px;">
+                            <div style="padding:20px; display:flex; flex-direction:column; flex:1;">
                                 <div
-                                    style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:6px;">
+                                    style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#e8c874; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">
                                     Boss</div>
                                 <h4
-                                    style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 8px; color:#f4f0e6;">
+                                    style="font-family:'Cinzel',serif; font-weight:600; font-size:19px; margin:0 0 10px; color:#f4f0e6;">
                                     The Crystalline Warden</h4>
-                                <p style="margin:0; font-size:14.5px; color:#b9bdd0;">The final threat, bound to the
-                                    crystalline structure it protects. Blends the Void Caster's ranged barrages with the
-                                    Rift Stalker's aggression, gating the last wave and the demo's closing cutscene.</p>
+                                <p style="margin:0; font-size:14.5px; color:#b9bdd0; line-height:1.6;">The final threat,
+                                    bound to the
+                                    crystalline structure. Blends ranged barrages with melee aggression, gating the last
+                                    wave and the
+                                    demo's closing cutscene.</p>
                             </div>
                         </div>
 
@@ -1182,38 +1194,72 @@
                 heroVid.src = 'assets/astral_plane_traversal.mp4';
             }
 
-            // Wraith Image Video Swap
-            const wraithImg = document.querySelector('img[src="assets/wraith.jpg"]');
-            if (wraithImg) {
-                const wraithVid = document.createElement('video');
-                wraithVid.autoplay = true;
-                wraithVid.loop = true;
-                wraithVid.muted = true;
-                wraithVid.playsInline = true;
-                wraithVid.style.cssText = 'display:block; width:100%; height:100%; position:absolute; inset:0; object-fit:cover;';
+            // Crystal Warden / Boss Angel Image Video Swap
+            const crystalWarden = document.querySelector('img[src="assets/boss_angel.jpg"]');
+            if (crystalWarden) {
+                const crystalWardenVid = document.createElement('video');
+                crystalWardenVid.autoplay = true;
+                crystalWardenVid.loop = true;
+                crystalWardenVid.muted = true;
+                crystalWardenVid.playsInline = true;
+                crystalWardenVid.style.cssText = 'display:block; width:100%; height:100%; position:absolute; inset:0; object-fit:cover;';
 
                 const wrapper = document.createElement('div');
                 wrapper.style.position = 'relative';
                 wrapper.style.display = 'block';
                 wrapper.style.width = '100%';
-                wraithImg.parentNode.insertBefore(wrapper, wraithImg);
-                wrapper.appendChild(wraithVid);
-                wrapper.appendChild(wraithImg);
+                crystalWarden.parentNode.insertBefore(wrapper, crystalWarden);
+                wrapper.appendChild(crystalWardenVid);
+                wrapper.appendChild(crystalWarden);
 
-                wraithImg.style.position = 'relative';
-                wraithImg.style.zIndex = '1';
+                crystalWarden.style.position = 'relative';
+                crystalWarden.style.zIndex = '1';
 
-                wraithVid.addEventListener('canplay', () => {
-                    wraithVid.play().then(() => {
-                        wraithImg.style.transition = 'opacity 0.5s ease';
-                        wraithImg.style.opacity = '0';
+                crystalWardenVid.addEventListener('canplay', () => {
+                    crystalWardenVid.play().then(() => {
+                        crystalWarden.style.transition = 'opacity 0.5s ease';
+                        crystalWarden.style.opacity = '0';
                         setTimeout(() => {
-                            wraithImg.style.pointerEvents = 'none';
+                            crystalWarden.style.pointerEvents = 'none';
                         }, 500);
                     }).catch(() => { });
                 }, { once: true });
 
-                wraithVid.src = 'assets/astral_wraith_enemy.mp4';
+                crystalWardenVid.src = 'assets/boss_angel_motion.mp4';
+            }
+
+            // Astral Plane Image Video Swap
+            const astralPlane = document.querySelector('img[src="assets/player_proto.jpg"]');
+            if (astralPlane) {
+                const astralPlaneVid = document.createElement('video');
+                astralPlaneVid.autoplay = true;
+                astralPlaneVid.loop = true;
+                astralPlaneVid.muted = true;
+                astralPlaneVid.playsInline = true;
+                astralPlaneVid.style.cssText = 'display:block; width:100%; height:100%; position:absolute; inset:0; object-fit:cover;';
+
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'relative';
+                wrapper.style.display = 'block';
+                wrapper.style.width = '100%';
+                astralPlane.parentNode.insertBefore(wrapper, astralPlane);
+                wrapper.appendChild(astralPlaneVid);
+                wrapper.appendChild(astralPlane);
+
+                astralPlane.style.position = 'relative';
+                astralPlane.style.zIndex = '1';
+
+                astralPlaneVid.addEventListener('canplay', () => {
+                    astralPlaneVid.play().then(() => {
+                        astralPlane.style.transition = 'opacity 0.5s ease';
+                        astralPlane.style.opacity = '0';
+                        setTimeout(() => {
+                            astralPlane.style.pointerEvents = 'none';
+                        }, 500);
+                    }).catch(() => { });
+                }, { once: true });
+
+                astralPlaneVid.src = 'assets/astral_plane_motion.mp4';
             }
         });
     </script>
