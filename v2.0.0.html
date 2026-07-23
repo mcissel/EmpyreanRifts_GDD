@@ -1198,7 +1198,6 @@
             const crystalWarden = document.querySelector('img[src="assets/boss_angel.jpg"]');
             if (crystalWarden) {
                 const crystalWardenVid = document.createElement('video');
-                crystalWardenVid.autoplay = true;
                 crystalWardenVid.loop = true;
                 crystalWardenVid.muted = true;
                 crystalWardenVid.playsInline = true;
@@ -1214,18 +1213,52 @@
 
                 crystalWarden.style.position = 'relative';
                 crystalWarden.style.zIndex = '1';
+                crystalWarden.style.transition = 'opacity 0.5s ease';
 
-                crystalWardenVid.addEventListener('canplay', () => {
-                    crystalWardenVid.play().then(() => {
-                        crystalWarden.style.transition = 'opacity 0.5s ease';
-                        crystalWarden.style.opacity = '0';
-                        setTimeout(() => {
+                const bossCard = wrapper.closest('div[style*="border"]') || wrapper;
+                let hasTriggered = false;
+
+                const checkAnimationTrigger = () => {
+                    const isMobile = window.innerWidth <= 768;
+
+                    if (isMobile) {
+                        if (crystalWardenVid.paused) {
+                            crystalWardenVid.play().then(() => {
+                                crystalWarden.style.opacity = '0';
+                                crystalWarden.style.pointerEvents = 'none';
+                            }).catch(() => { });
+                        }
+                        return;
+                    }
+
+                    const rect = bossCard.getBoundingClientRect();
+                    const isCompletelyInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+                    const isCompletelyOffScreen = rect.bottom < 0 || rect.top > window.innerHeight;
+
+                    if (isCompletelyOffScreen) {
+                        hasTriggered = false;
+                        if (!crystalWardenVid.paused) {
+                            crystalWardenVid.pause();
+                        }
+                        try { crystalWardenVid.currentTime = 0; } catch (e) { }
+                        crystalWarden.style.opacity = '1';
+                        crystalWarden.style.pointerEvents = 'auto';
+                    } else if (isCompletelyInView && !hasTriggered) {
+                        hasTriggered = true;
+                        try { crystalWardenVid.currentTime = 0; } catch (e) { }
+                        crystalWardenVid.play().then(() => {
+                            crystalWarden.style.opacity = '0';
                             crystalWarden.style.pointerEvents = 'none';
-                        }, 500);
-                    }).catch(() => { });
-                }, { once: true });
+                        }).catch(() => { });
+                    }
+                };
+
+                window.addEventListener('scroll', checkAnimationTrigger, { passive: true });
+                window.addEventListener('resize', checkAnimationTrigger, { passive: true });
+                crystalWardenVid.addEventListener('canplay', checkAnimationTrigger);
 
                 crystalWardenVid.src = 'assets/boss_angel_motion.mp4';
+                checkAnimationTrigger();
             }
 
             // Astral Plane Image Video Swap
